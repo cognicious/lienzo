@@ -12,14 +12,14 @@
      {:width "100vw" :height "100vh"}
      {:nodes {"ssh-tunnel" {:position [126 32]}
               "send-telegram"  {:position [134 230]}
-              "sleep-opr" {:position [431 144]}
+              "wait-for-response" {:position [431 144]}
               "snd-message" {:position [594 266]}}
       :connections [{:label "default"
                      :from "ssh-tunnel"
                      :to "send-telegram"}
                     {:label "default"
                      :from "send-telegram"
-                     :to "sleep-opr"}]}
+                     :to "wait-for-response"}]}
 
      :lines []]))
 
