@@ -1,0 +1,90 @@
+.lienzo {
+    background-color: #eeeeee;
+}
+
+.lienzo .l-rect {
+    fill: transparent;
+    stroke-width: 1;
+    stroke: #000000;
+}
+
+.lienzo .l-circle {
+    fill: gold;
+    stroke-width: 4;
+    stroke: gray;
+}
+
+.lienzo .grp:hover .l-circle, .lienzo .grp.selected .l-circle {
+    stroke: black;
+}
+
+@keyframes fadeIn { from { opacity:0; } to { opacity:0.85; } }
+
+.lienzo .grp .circle {
+    opacity: 0;
+    fill: transparent;
+    stroke-width: 40;
+    stroke-dasharray: 20 180;
+}
+
+.lienzo .grp .circle:nth-of-type(2) {
+    cursor: cell;
+    stroke: #fed9d0;
+    stroke-dashoffset: 20;
+}
+.lienzo .grp .circle:nth-of-type(3) {
+    stroke: #fdbfb2;
+    stroke-dashoffset: 40;
+}
+.lienzo .grp .circle:nth-of-type(4) {
+    stroke: #fba592;
+    stroke-dashoffset: 60;
+}
+.lienzo .grp .circle:nth-of-type(5) {
+    stroke: #fb8a72;
+    stroke-dashoffset: 80;
+}
+.lienzo .grp .circle:nth-of-type(6) {
+    stroke: #fb7254;
+    stroke-dashoffset: 100;
+}
+
+
+
+.lienzo .grp:hover .circle, .lienzo .grp.selected .circle {
+    opacity:0;  
+    animation:fadeIn ease-in 1;
+    animation-fill-mode:forwards;
+    animation-duration: 0.5s;
+    animation-delay: 0.01s;
+}
+
+.lienzo .grp .circle-panel {
+    fill: transparent;
+}
+
+.lienzo .grp.selected .circle-panel {
+    opacity: 0.5;
+    fill: transparent;
+    stroke-width: 1;
+    stroke-dasharray: 2 2;
+    stroke-dashoffset: 0;
+    //stroke-linecap: round;
+    stroke: gray;
+}
+
+svg body {
+    margin: 0px;
+    
+}
+
+svg div {
+    text-align: center;
+    transform-origin: left;
+    transform: rotate(45deg);
+    //line-height: 150px;
+}
+
+foreignObject {
+  width: 200px;
+}
