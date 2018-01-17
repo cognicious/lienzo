@@ -11,11 +11,14 @@
     [lienzo/diagram 
      {:width "100vw" :height "100vh"}
      {:nodes {"ssh-tunnel" {:position [126 32]}
-              "send-telegram-1"  {:position [134 230]}
-              "sleep-opr" {:position [431 144]}}
-      :connections [{:from "ssh-tunnel"
+              "send-telegram"  {:position [134 230]}
+              "sleep-opr" {:position [431 144]}
+              "snd-message" {:position [594 266]}}
+      :connections [{:label "default"
+                     :from "ssh-tunnel"
                      :to "send-telegram"}
-                    {:from "send-telegram"
+                    {:label "default"
+                     :from "send-telegram"
                      :to "sleep-opr"}]}
 
      :lines []]))
