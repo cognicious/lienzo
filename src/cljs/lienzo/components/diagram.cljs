@@ -69,7 +69,7 @@
                      :y1 (+ p-offset-y 30)
                      :x2 (+ offset-x 30)
                      :y2 (+ offset-y 30)]]
-        (swap! state-atm update-in [:lines] conj my-edge)
+        (swap! state-atm update-in [:connections] conj {:from prev-id :to id :label "added"})
         
         (swap! state-atm dissoc :draw)))
 
@@ -211,7 +211,15 @@
         state-atm (r/atom (assoc state :id id))]
     (fn [attrs state]
       (let [line (get-in @state-atm [:draw :line])
-            lines (get-in @state-atm [:lines])
+            edges (reduce
+                   (fn [r {:keys [label from to]}]
+                     (let [[x1 y1] (get-in @state-atm [:nodes from :position])
+                           [x2 y2] (get-in @state-atm [:nodes to :position])]
+                       (conj r [edge state-atm :x1 (+  x1 30) :y1 (+ y1 30) :x2 (+ x2 30) :y2 (+ y2 30)])
+                       ;(.log js/console (str {:from [x1 y1] :to [x2 y2]}))
+                       ))
+                   []
+                   (:connections @state-atm))
             ;_ (.log js/console (str (:nodes @state-atm)))
             set (reduce-kv
                  (fn [r k v]
@@ -220,7 +228,7 @@
                  []
 
                  (:nodes @state-atm))
-            things (clojure.set/union lines (cons line set))
+            things (clojure.set/union (cons line set) edges)
             ;_ (.log js/console (str "things:" things))
             ]
         (into  [:svg (assoc attrs :id id :onMouseMove #(move % state-atm) :onClick #(click % state-atm))]
