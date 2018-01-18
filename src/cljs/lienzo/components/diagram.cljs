@@ -9,9 +9,9 @@
             :current {:id "id"}}
  :draw {}}
 
-(defn edge [state-atm & {:keys [id class x1 y1 x2 y2 s]
+(defn edge [state-atm & {:keys [id class x1 y1 x2 y2 label]
                             :as   args}]
-  (fn [state-atm & {:keys [id class x1 y1 x2 y2 s]
+  (fn [state-atm & {:keys [id class x1 y1 x2 y2 label]
                     :as   args}]
     (let [h (- y2 y1)                          ;; height        
           b (- x2 x1)                          ;; base
@@ -48,8 +48,8 @@
            [:filter {:id idc}
             [:feGaussianBlur {:in "SourceGraphic" :stdDeviation 1}]
             ]]
-          [:text {:x x :y y :fill "white" :text-anchor "middle" :alignment-baseline "central" :font-family "Verdana" :font-size "9" :filter (str "url(#" idc ")") :transform (str  "rotate(" (+ d 0) " " x "," y ")")} "default"]
-          [:text {:x x :y y :fill "black" :text-anchor "middle" :alignment-baseline "central" :font-family "Verdana" :font-size "9" :transform (str  "rotate(" (+ d 0) " " x "," y ")")} "default"]])])))
+          [:text {:x x :y y :fill "white" :text-anchor "middle" :alignment-baseline "central" :font-family "Verdana" :font-size "9" :filter (str "url(#" idc ")") :transform (str  "rotate(" (+ d 0) " " x "," y ")")} label]
+          [:text {:x x :y y :fill "black" :text-anchor "middle" :alignment-baseline "central" :font-family "Verdana" :font-size "9" :transform (str  "rotate(" (+ d 0) " " x "," y ")")} label]])])))
 
 (defn on 
   "Takes ev and register "
@@ -215,7 +215,7 @@
                    (fn [r {:keys [label from to]}]
                      (let [[x1 y1] (get-in @state-atm [:nodes from :position])
                            [x2 y2] (get-in @state-atm [:nodes to :position])]
-                       (conj r [edge state-atm :x1 (+  x1 30) :y1 (+ y1 30) :x2 (+ x2 30) :y2 (+ y2 30)])
+                       (conj r [edge state-atm :x1 (+  x1 30) :y1 (+ y1 30) :x2 (+ x2 30) :y2 (+ y2 30) :label label])
                        ;(.log js/console (str {:from [x1 y1] :to [x2 y2]}))
                        ))
                    []
