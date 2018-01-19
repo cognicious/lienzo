@@ -29,29 +29,41 @@
 
 .lienzo .grp .circle:nth-of-type(2) {
     cursor: cell;
-    stroke: #fed9d0;
+    stroke: #00e676;
     stroke-dashoffset: 20;
 }
 .lienzo .grp .circle:nth-of-type(3) {
-    stroke: #fdbfb2;
+    stroke: #ffea00;
     stroke-dashoffset: 40;
 }
 .lienzo .grp .circle:nth-of-type(4) {
-    stroke: #fba592;
+    stroke: #ff1744;
     stroke-dashoffset: 60;
 }
 .lienzo .grp .circle:nth-of-type(5) {
+    display: none;
     stroke: #fb8a72;
     stroke-dashoffset: 80;
 }
 .lienzo .grp .circle:nth-of-type(6) {
+    display: none;
     stroke: #fb7254;
     stroke-dashoffset: 100;
 }
 
-
+.lienzo .title {
+    opacity: 0;
+}
 
 .lienzo .grp:hover .circle, .lienzo .grp.selected .circle {
+    opacity:0;  
+    animation:fadeIn ease-in 1;
+    animation-fill-mode:forwards;
+    animation-duration: 0.5s;
+    animation-delay: 0.01s;
+}
+
+.lienzo .grp .title.selected {
     opacity:0;  
     animation:fadeIn ease-in 1;
     animation-fill-mode:forwards;
