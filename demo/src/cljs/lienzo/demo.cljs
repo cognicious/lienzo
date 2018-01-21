@@ -14,12 +14,14 @@
                  "send-telegram"  {:position [134 230]}
                  "wait-for-response" {:position [431 144]}
                  "okopoko" {:position [594 266]}}
-      :edges [{:label "default"
-               :from "ssh-tunnel"
-               :to "send-telegram"}
-              {:label "default"
-               :from "send-telegram"
-               :to "wait-for-response"}]}]))
+      :edges #{{:label "default"
+                :from "ssh-tunnel"
+                :to "send-telegram"}
+               {:label "default"
+                :from "send-telegram"
+                :to "wait-for-response"}}}
+     (fn [state]
+       (.log js/console (str state)))]))
 
 (defn ^:export run []
   (r/render [app-view]

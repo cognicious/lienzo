@@ -21,10 +21,7 @@
           d (/ (* (Math/atan m) 180) Math/PI)  ;; rads to deg
           o (if (< b 0) 180 0)                 ;; orientation
           p (Math/sqrt (+ (Math/pow h 2) (Math/pow b 2))) ;; hypotenuse
-          id-pat (str "pat-" (random-uuid))
-          _ (.log js/console (str "(- y2 y1) = -(" y2 " " y1 ") = " (- y2 y1) ))
-          _ (.log js/console (str "(- x2 x1) = -(" x2 " " x1 ") = " (- x2 x1) ))
-          _ (.log js/console (str  "m>> " m " g(rad)> " (Math/atan m) " g(deg)> " (/  (* (Math/atan m) 180) Math/PI)))]
+          id-pat (str "pat-" (random-uuid))]
       [:g
        [:defs
         [:pattern {:id id-pat  ;; pattern with arrows
@@ -97,8 +94,7 @@
     
     ;; When dragging a vertex 
     (if-let [drag (get-in @state-atm [:selected :drag])] 
-      (let [_ (.warn js/console (str  "drag whoei! " drag))
-            {:keys [id last]} drag
+      (let [{:keys [id last]} drag
             [last-x last-y] last
             [offset-x offset-y] (get-in @state-atm [:vertices id :position] [0 0])]
         (swap! state-atm assoc-in [:vertices id :position] [(- (+ offset-x page-x) last-x)
@@ -165,7 +161,8 @@
 (defn moveout [ev state-atm id]
   (.stopPropagation ev) 
   (.preventDefault ev)
-  (swap! state-atm dissoc :title-hover))
+  (swap! state-atm dissoc :title-hover)
+  (swap! state-atm dissoc :vertex-hover))
 
 (defn delete [ev state-atm id]
   (.stopPropagation ev) 
@@ -177,8 +174,14 @@
   (swap! state-atm dissoc :draw)
   
   ;; delete edge
-  
-  )
+  (let [edges (reduce 
+               (fn [r {:keys [from to] :as edge}]
+                 (if (or (= from id) (= to id))
+                   r
+                   (conj r edge)))
+               []
+               (get @state-atm :edges))]
+    (swap! state-atm assoc :edges edges)))
 
 (defn vertex
   [state-atm & {:keys [id class x y s]
@@ -198,7 +201,7 @@
                       :onMouseDown #(on % state-atm id)
                       :onMouseUp #(off state-atm)
                       :onMouseOver #(moveover % state-atm id)
-                      ;:onMouseLeave #(off state-atm)
+                      :onMouseOut #(moveout % state-atm nil)
                       :transform (str "translate(" offset-x "," offset-y ")")
                       :class (if current? "grp selected" "grp"))
          
@@ -248,11 +251,12 @@
 
 
 
-(defn diagram [attrs state]
+(defn diagram [attrs state onchange]
   (let [id (str "diagram-" (random-uuid))
         state-atm (r/atom (assoc state :id id))]
-    (fn [attrs state]
-      (let [line (get-in @state-atm [:draw :line])
+    (fn [attrs state onchange]
+      (let [_ (and onchange (onchange @state-atm))
+            line (get-in @state-atm [:draw :line])
             edges (reduce
                    (fn [r {:keys [label from to]}]
                      (let [[x1 y1] (get-in @state-atm [:vertices from :position])
@@ -266,8 +270,7 @@
                  []
 
                  (:vertices @state-atm))
-            things (clojure.set/union (cons line set) edges)
-            ]
+            things (clojure.set/union (cons line set) edges)]
         (into  [:svg (assoc attrs :id id :onMouseMove #(move % state-atm) :onClick #(click % state-atm))]
                things)))))
 
