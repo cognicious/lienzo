@@ -10,16 +10,16 @@
   (let []
     [lienzo/diagram 
      {:width "100vw" :height "100vh"}
-     {:nodes {"ssh-tunnel" {:position [126 32]}
-              "send-telegram"  {:position [134 230]}
-              "wait-for-response" {:position [431 144]}
-              "snd-message" {:position [594 266]}}
-      :connections [{:label "default"
-                     :from "ssh-tunnel"
-                     :to "send-telegram"}
-                    {:label "default"
-                     :from "send-telegram"
-                     :to "wait-for-response"}]}]))
+     {:vertices {"ssh-tunnel" {:position [126 32]}
+                 "send-telegram"  {:position [134 230]}
+                 "wait-for-response" {:position [431 144]}
+                 "okopoko" {:position [594 266]}}
+      :edges [{:label "default"
+               :from "ssh-tunnel"
+               :to "send-telegram"}
+              {:label "default"
+               :from "send-telegram"
+               :to "wait-for-response"}]}]))
 
 (defn ^:export run []
   (r/render [app-view]

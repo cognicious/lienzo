@@ -56,13 +56,13 @@
           [:circle {:cx cx :cy y :r 5 :transform (str  "rotate(" (+ d 0) " " x "," y ")")}]])])))
 
 (defn on 
-  "Fired when MouseDown occurs in a node"
+  "Fired when MouseDown occurs in a vertex"
   [ev state-atm id]
   (let [ne (.-nativeEvent ev)
         page-x (.-pageX ne)
         page-y (.-pageY ne)]
     
-    ;; Takes our node id and replace :selected values
+    ;; Takes our vertex id and replace :selected values
     (swap! state-atm update-in [:selected] assoc :drag {:id id :last [page-x page-y]}
                                                  :current {:id id})
     
@@ -70,22 +70,22 @@
     ;; When a edge is drawed
     (if-let [line (get-in @state-atm [:draw :line])]
       (let [prev-id (get-in @state-atm [:draw :id])
-            [p-offset-x  p-offset-y] (get-in @state-atm [:nodes prev-id :position] [0 0])
-            [offset-x  offset-y] (get-in @state-atm [:nodes id :position] [0 0])
+            [p-offset-x  p-offset-y] (get-in @state-atm [:vertices prev-id :position] [0 0])
+            [offset-x  offset-y] (get-in @state-atm [:vertices id :position] [0 0])
             my-edge [edge state-atm 
                      :x1 (+ p-offset-x 30) 
                      :y1 (+ p-offset-y 30)
                      :x2 (+ offset-x 30)
                      :y2 (+ offset-y 30)]]
-        (swap! state-atm update-in [:connections] conj {:from prev-id :to id :label "added"})
+        (swap! state-atm update-in [:edges] conj {:from prev-id :to id :label "added"})
         (swap! state-atm dissoc :draw)))))
 
 (defn off 
-  "Fired when MouseUp occurs in a node"
+  "Fired when MouseUp occurs in a vertex"
   [state-atm]
   ;(swap! state-atm update-in [:selected :drag] #(get-in @state-atm [:selected :previous]))
   
-  ;; Stop to dragging node
+  ;; Stop to dragging vertex
   (swap! state-atm update-in [:selected] dissoc :drag))
 
 (defn move 
@@ -95,37 +95,31 @@
         page-x (.-pageX ne)
         page-y (.-pageY ne)]
     
-    (.log js/console (str "move0> " (get-in @state-atm [:selected])))
-    ;; When dragging a node 
+    ;; When dragging a vertex 
     (if-let [drag (get-in @state-atm [:selected :drag])] 
       (let [_ (.warn js/console (str  "drag whoei! " drag))
             {:keys [id last]} drag
             [last-x last-y] last
-            [offset-x offset-y] (get-in @state-atm [:nodes id :position] [0 0])]
-        (swap! state-atm assoc-in [:nodes id :position] [(- (+ offset-x page-x) last-x)
+            [offset-x offset-y] (get-in @state-atm [:vertices id :position] [0 0])]
+        (swap! state-atm assoc-in [:vertices id :position] [(- (+ offset-x page-x) last-x)
                                                          (- (+ offset-y page-y) last-y)])
         (swap! state-atm update-in [:selected] assoc :drag {:id id :last [page-x page-y]})))
-
-    (.log js/console (str "move-node> " (get-in @state-atm [:nodes])))
-    (.log js/console (str "move-node> " (get-in @state-atm [:selected])))
 
     ;; When drawing a line
     (if-let [line (get-in @state-atm [:draw :line])]
       (let [id (get-in @state-atm [:draw :id])
-            [offset-x offset-y] (get-in @state-atm [:nodes id :position] [0 0])]
+            [offset-x offset-y] (get-in @state-atm [:vertices id :position] [0 0])]
         (swap! state-atm update-in [:draw] assoc :line [edge state-atm
                                                         :x1 (+ offset-x 30)
                                                         :y1 (+ offset-y 30)
                                                         :x2 page-x
-                                                        :y2 page-y])))
-    ;(.log js/console (str "move2> " (get-in @state-atm [:nodes])))
-    ))
+                                                        :y2 page-y])))))
 
 (defn click 
   "Fired when onClick occurs over svg"
   [ev state-atm]
   (let [ne (-> ev .-nativeEvent)
-        source-tag (-> ne .-srcElement .-nodeName)
+        source-tag (-> ne .-srcElement .-vertexName)
         page-x (.-pageX ne)
         page-y (.-pageY ne)]
 
@@ -142,9 +136,9 @@
   (let [ne (.-nativeEvent ev)
         page-x (.-pageX ne)
         page-y (.-pageY ne)
-        [offset-x offset-y] (get-in @state-atm [:nodes id :position] [0 0])
+        [offset-x offset-y] (get-in @state-atm [:vertices id :position] [0 0])
         prev-id (get-in @state-atm [:draw :id])]
-    ;(.log js/console (str {:id id :prev-id prev-id}))
+    
     (if (= id prev-id)
       (swap! state-atm dissoc :draw)
       (do
@@ -155,9 +149,7 @@
                                                                :x2 page-x
                                                                :y2 page-y
                                                                :style {:stroke "rgb(255,0,0)"
-                                                                       :stroke-width 2}}])))
-    ;(.log js/console (str "draw-on " @state-atm))
-    ))
+                                                                       :stroke-width 2}}])))))
 
 (defn moveover [ev state-atm id]
   (.stopPropagation ev) 
@@ -168,7 +160,7 @@
     (cond (= class-tag "circle")
           (swap! state-atm update-in [:title-hover] assoc :type id)
           (= class-tag "l-circle")
-          (swap! state-atm update-in [:node-hover] assoc :type id))))
+          (swap! state-atm update-in [:vertex-hover] assoc :type id))))
 
 (defn moveout [ev state-atm id]
   (.stopPropagation ev) 
@@ -179,12 +171,16 @@
   (.stopPropagation ev) 
   (.preventDefault ev)
 
-  (swap! state-atm update-in [:nodes] dissoc id)
+  ;; delete vertex
+  (swap! state-atm update-in [:vertices] dissoc id)  
   (swap! state-atm dissoc :selected)
   (swap! state-atm dissoc :draw)
-  (.log js/console (str "delete> " (get-in @state-atm [:selected]))))
+  
+  ;; delete edge
+  
+  )
 
-(defn node
+(defn vertex
   [state-atm & {:keys [id class x y s]
                 :as   args}]
   (let [id (or id (str "rect-" (random-uuid)))
@@ -192,12 +188,9 @@
     (fn [state-atm & {:keys [id class x y s]
                       :or {id id class class}
                       :as args}]
-      ;(.log js/console (str @state-atm))
-      (let [;_ (.log js/console (str {:id id}))
-            [offset-x offset-y] (get-in @state-atm [:nodes id :position] [0 0])
-            ;_ (.log js/console (str {:id id :position [offset-x offset-y]}))
+      (let [[offset-x offset-y] (get-in @state-atm [:vertices id :position] [0 0])
             current? (= id (get-in @state-atm [:selected :current :id]))
-            hover? (= id (get-in @state-atm [:node-hover :type]))
+            hover? (= id (get-in @state-atm [:vertex-hover :type]))
             type (get-in @state-atm [:title-hover :type])
             radius (* 2  15.91549430918954)]
         [:g (assoc args 
@@ -257,27 +250,23 @@
 
 (defn diagram [attrs state]
   (let [id (str "diagram-" (random-uuid))
-        state-atm (r/atom (assoc state :id id))
-        _ (.log js/console "como?")]
+        state-atm (r/atom (assoc state :id id))]
     (fn [attrs state]
-      (let [_ (.log js/console (str "diagram!> " (get-in @state-atm [:selected])))
-            line (get-in @state-atm [:draw :line])
+      (let [line (get-in @state-atm [:draw :line])
             edges (reduce
                    (fn [r {:keys [label from to]}]
-                     (let [[x1 y1] (get-in @state-atm [:nodes from :position])
-                           [x2 y2] (get-in @state-atm [:nodes to :position])]
+                     (let [[x1 y1] (get-in @state-atm [:vertices from :position])
+                           [x2 y2] (get-in @state-atm [:vertices to :position])]
                        (conj r [edge state-atm :x1 (+  x1 30) :y1 (+ y1 30) :x2 (+ x2 30) :y2 (+ y2 30) :label label])))
                    []
-                   (:connections @state-atm))                                        
+                   (:edges @state-atm))                                        
             set (reduce-kv
                  (fn [r k v]
-                   ;(.log js/console (str "reduce: " [k v]))
-                   (conj r [node state-atm :id k]))
+                   (conj r [vertex state-atm :id k]))
                  []
 
-                 (:nodes @state-atm))
+                 (:vertices @state-atm))
             things (clojure.set/union (cons line set) edges)
-            ;_ (.log js/console (str "things:" things))
             ]
         (into  [:svg (assoc attrs :id id :onMouseMove #(move % state-atm) :onClick #(click % state-atm))]
                things)))))
