@@ -19,9 +19,7 @@
                      :to "send-telegram"}
                     {:label "default"
                      :from "send-telegram"
-                     :to "wait-for-response"}]}
-
-     :lines []]))
+                     :to "wait-for-response"}]}]))
 
 (defn ^:export run []
   (r/render [app-view]

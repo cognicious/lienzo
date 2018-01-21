@@ -65,6 +65,7 @@
     ;; Takes our node id and replace :selected values
     (swap! state-atm update-in [:selected] assoc :drag {:id id :last [page-x page-y]}
                                                  :current {:id id})
+    
 
     ;; When a edge is drawed
     (if-let [line (get-in @state-atm [:draw :line])]
@@ -94,14 +95,19 @@
         page-x (.-pageX ne)
         page-y (.-pageY ne)]
     
+    (.log js/console (str "move0> " (get-in @state-atm [:selected])))
     ;; When dragging a node 
     (if-let [drag (get-in @state-atm [:selected :drag])] 
-      (let [{:keys [id last]} drag
+      (let [_ (.warn js/console (str  "drag whoei! " drag))
+            {:keys [id last]} drag
             [last-x last-y] last
             [offset-x offset-y] (get-in @state-atm [:nodes id :position] [0 0])]
         (swap! state-atm assoc-in [:nodes id :position] [(- (+ offset-x page-x) last-x)
-                                                  (- (+ offset-y page-y) last-y)])
+                                                         (- (+ offset-y page-y) last-y)])
         (swap! state-atm update-in [:selected] assoc :drag {:id id :last [page-x page-y]})))
+
+    (.log js/console (str "move-node> " (get-in @state-atm [:nodes])))
+    (.log js/console (str "move-node> " (get-in @state-atm [:selected])))
 
     ;; When drawing a line
     (if-let [line (get-in @state-atm [:draw :line])]
@@ -111,7 +117,9 @@
                                                         :x1 (+ offset-x 30)
                                                         :y1 (+ offset-y 30)
                                                         :x2 page-x
-                                                        :y2 page-y])))))
+                                                        :y2 page-y])))
+    ;(.log js/console (str "move2> " (get-in @state-atm [:nodes])))
+    ))
 
 (defn click 
   "Fired when onClick occurs over svg"
@@ -168,13 +176,13 @@
   (swap! state-atm dissoc :title-hover))
 
 (defn delete [ev state-atm id]
-  
+  (.stopPropagation ev) 
+  (.preventDefault ev)
+
   (swap! state-atm update-in [:nodes] dissoc id)
-  (swap! state-atm update-in [:selected] dissoc :drag)
-  (swap! state-atm update-in [:selected] dissoc :current)
+  (swap! state-atm dissoc :selected)
   (swap! state-atm dissoc :draw)
-  
-  )
+  (.log js/console (str "delete> " (get-in @state-atm [:selected]))))
 
 (defn node
   [state-atm & {:keys [id class x y s]
@@ -184,7 +192,7 @@
     (fn [state-atm & {:keys [id class x y s]
                       :or {id id class class}
                       :as args}]
-      (.log js/console (str @state-atm))
+      ;(.log js/console (str @state-atm))
       (let [;_ (.log js/console (str {:id id}))
             [offset-x offset-y] (get-in @state-atm [:nodes id :position] [0 0])
             ;_ (.log js/console (str {:id id :position [offset-x offset-y]}))
@@ -249,9 +257,11 @@
 
 (defn diagram [attrs state]
   (let [id (str "diagram-" (random-uuid))
-        state-atm (r/atom (assoc state :id id))]
+        state-atm (r/atom (assoc state :id id))
+        _ (.log js/console "como?")]
     (fn [attrs state]
-      (let [line (get-in @state-atm [:draw :line])
+      (let [_ (.log js/console (str "diagram!> " (get-in @state-atm [:selected])))
+            line (get-in @state-atm [:draw :line])
             edges (reduce
                    (fn [r {:keys [label from to]}]
                      (let [[x1 y1] (get-in @state-atm [:nodes from :position])
