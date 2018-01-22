@@ -13,44 +13,47 @@
   "Draw an edge from x1 y1 to x2 y2 and put label as text inside"
   [state-atm & {:keys [id class x1 y1 x2 y2 label]
                 :as   args}]
-  (fn [state-atm & {:keys [id class x1 y1 x2 y2 label]
-                    :as   args}]
-    (let [h (- y2 y1)                          ;; height        
-          b (- x2 x1)                          ;; base
-          m (/ (- y2 y1) (- x2 x1))            ;; slope 
-          d (/ (* (Math/atan m) 180) Math/PI)  ;; rads to deg
-          o (if (< b 0) 180 0)                 ;; orientation
-          p (Math/sqrt (+ (Math/pow h 2) (Math/pow b 2))) ;; hypotenuse
-          id-pat (str "pat-" (random-uuid))]
-      [:g
-       [:defs
-        [:pattern {:id id-pat  ;; pattern with arrows
-                   :patternUnits "userSpaceOnUse" 
-                   :x 0 
-                   :y (+ y1 5) ;; tricky background offset
-                   :width 14 
-                   :height 30}
-         [:rect {:x 0 :y 0 :width 14 :height 40 :style {:fill "rgba(128,128,128,0.5)"}}] 
-         [:line {:x1 5 :y1 5 :x2 13 :y2 13 :style {:stroke "#eee" :stroke-width "1"} }]
-         [:line {:x1 13 :y1 13 :x2 5 :y2 20 :style {:stroke "rgba(255,255,255,0.5)" :stroke-width "1"} }]]]
-       [:rect {:x x1
-               :y y1
-               :width p
-               :height 34               
-               :transform (str  "rotate(" (+ d o) " " x1 "," y1 ")")
-               :style {:fill (str "url(#" id-pat ")")}}]
-       (let [x  (+ x1 (/ b 2) (if (< h 0) 13 -13))
-             y  (+ y1 (/ h 2) (if (< b 0) -13 13))
-             idc (str "connector-" id-pat)
-             cx  (- x (* (count label) 4))]         
-         [:g
-          [:defs
-           [:filter {:id idc}
-            [:feGaussianBlur {:in "SourceGraphic" :stdDeviation 1}]
-            ]]
-          [:text {:x x :y y :fill "white" :text-anchor "middle" :alignment-baseline "central" :font-family "Verdana" :font-size "9" :filter (str "url(#" idc ")") :transform (str  "rotate(" (+ d 0) " " x "," y ")")} label]
-          [:text {:x x :y y :fill "black" :text-anchor "middle" :alignment-baseline "central" :font-family "Verdana" :font-size "9" :transform (str  "rotate(" (+ d 0) " " x "," y ")")} label]
-          [:circle {:cx cx :cy y :r 5 :transform (str  "rotate(" (+ d 0) " " x "," y ")")}]])])))
+  (let [id (or id (str "edge-" (random-uuid)))
+        class (if class (str class " l-edge") "l-edge")]
+    (fn [state-atm & {:keys [id class x1 y1 x2 y2 label]
+                      :or {id id class class}
+                      :as   args}]
+      (let [h (- y2 y1)                          ;; height
+            b (- x2 x1)                          ;; base
+            m (/ (- y2 y1) (- x2 x1))            ;; slope
+            d (/ (* (Math/atan m) 180) Math/PI)  ;; rads to deg
+            o (if (< b 0) 180 0)                 ;; orientation
+            p (Math/sqrt (+ (Math/pow h 2) (Math/pow b 2))) ;; hypotenuse
+            id-pat (str "pat-" id)
+            id-flt (str "flt-" id)]
+        [:g {:id id :class class}
+         [:defs
+          [:pattern {:id id-pat  ;; pattern with arrows
+                     :class "pattern"
+                     :patternUnits "userSpaceOnUse"
+                     :x 0
+                     :y (+ y1 5) ;; tricky background offset
+                     :width 14
+                     :height 30}
+           [:rect {:class "background" :x 0 :y 0 :width 14 :height 40}]
+           [:line {:class "arrow-top" :x1 5 :y1 5 :x2 13 :y2 13}]
+           [:line {:class "arrow-bottom" :x1 13 :y1 13 :x2 5 :y2 20}]]
+          [:filter {:id id-flt}
+           [:feGaussianBlur {:in "SourceGraphic" :stdDeviation 1}]]]
+         [:rect {:x x1
+                 :y y1
+                 :width p
+                 :height 34
+                 :transform (str  "rotate(" (+ d o) " " x1 "," y1 ")")
+                 :style {:fill (str "url(#" id-pat ")")}}]
+         (let [x  (+ x1 (/ b 2) (if (< h 0) 13 -13))
+               y  (+ y1 (/ h 2) (if (< b 0) -13 13))
+               cx (- x (* (count label) 4))
+               tr (str "rotate(" (+ d 0) " " x "," y ")")]
+           [:g
+            [:text {:class "shadow" :x x :y y :filter (str "url(#" id-flt ")") :transform tr} label]
+            [:text {:class "label" :x x :y y :transform tr} label]
+            [:circle {:cx cx :cy y :r 5 :transform tr}]])]))))
 
 (defn on 
   "Fired when MouseDown occurs in a vertex"
@@ -248,8 +251,6 @@
             [:text {:x (+ -2 (- 60 (min 60 (* 5 (count id))))) :y 78 
                     :textLength (min 60 (* 4.5 (count id))) 
                     :font-family "Verdana" :font-size "9" :lengthAdjust "spacingAndGlyphs"} id]])]))))
-
-
 
 (defn diagram [attrs state onchange]
   (let [id (str "diagram-" (random-uuid))

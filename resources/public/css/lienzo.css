@@ -2,6 +2,36 @@
     background-color: #eeeeee;
 }
 
+.lienzo .l-edge .pattern .background {
+    fill: rgba(128,128,128,0.5);
+}
+
+.lienzo .l-edge .pattern .arrow-top {
+    stroke: #eee;
+    stroke-width: 1
+}
+
+.lienzo .l-edge .pattern .arrow-bottom {
+    stroke: #ddd;
+    stroke-width: 1
+}
+
+.lienzo .l-edge .shadow {
+    fill: white;
+    text-anchor: middle;
+    alignment-baseline: central;
+    font-family: Verdana;
+    font-size: 9px;
+}
+
+.lienzo .l-edge .label {
+    fill: black;
+    text-anchor: middle;
+    alignment-baseline: central;
+    font-family: Verdana;
+    font-size: 9px;
+}
+
 .lienzo .l-rect {
     fill: transparent;
     stroke-width: 1;
@@ -85,16 +115,16 @@
     stroke: gray;
 }
 
+
+
 svg body {
     margin: 0px;
-    
 }
 
 svg div {
     text-align: center;
     transform-origin: left;
     transform: rotate(45deg);
-    //line-height: 150px;
 }
 
 foreignObject {

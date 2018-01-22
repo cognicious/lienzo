@@ -21,7 +21,8 @@
                 :from "send-telegram"
                 :to "wait-for-response"}}}
      (fn [state]
-       (.log js/console (str state)))]))
+       ;(.log js/console (str state))
+       )]))
 
 (defn ^:export run []
   (r/render [app-view]
