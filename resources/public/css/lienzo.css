@@ -16,7 +16,7 @@
     stroke-width: 1;
 }
 
-.lienzo .l-edge .shadow {
+.lienzo .l-edge .shadow, .lienzo .grp .shadow {
     fill: white;
     text-anchor: middle;
     alignment-baseline: central;
@@ -24,7 +24,7 @@
     font-size: 9px;
 }
 
-.lienzo .l-edge .label {
+.lienzo .l-edge .label, .lienzo .grp .label {
     fill: black;
     text-anchor: middle;
     alignment-baseline: central;

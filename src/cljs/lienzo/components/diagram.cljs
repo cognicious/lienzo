@@ -244,19 +244,16 @@
          [:circle {:cx 30 :cy  30 :r radius :class "circle" :shape-rendering "optimizeQuality"}]
          [:circle {:cx 30 :cy  30 :r radius :class "l-circle" :shape-rendering "optimizeQuality"}]
          
-         (let [idc (str "connector-" id)]
+         (let [idc (str "filter-" id)
+               x (- radius 3)
+               y 78]
            [:g
             [:defs
              [:filter {:id idc}
               [:feGaussianBlur {:in "SourceGraphic" :stdDeviation 1}]
               ]]
-            [:text {:x (+ -2 (- 60 (min 60 (* 5 (count id))))) :y 78 
-                    :textLength (min 60 (* 4.5 (count id)))
-                    :fill "white"
-                    :font-family "Verdana" :font-size "9" :filter (str "url(#" idc ")") :lengthAdjust "spacingAndGlyphs" } id]
-            [:text {:x (+ -2 (- 60 (min 60 (* 5 (count id))))) :y 78 
-                    :textLength (min 60 (* 4.5 (count id))) 
-                    :font-family "Verdana" :font-size "9" :lengthAdjust "spacingAndGlyphs"} id]])]))))
+            [:text {:x x :y y :class "shadow" :filter (str "url(#" idc ")") } id]
+            [:text {:x x :y y :class "label" } id]])]))))
 
 (defn diagram [attrs state onchange]
   (let [id (str "diagram-" (random-uuid))

@@ -13,7 +13,8 @@
      {:vertices {"ssh-tunnel" {:position [126 32]}
                  "send-telegram"  {:position [134 230]}
                  "wait-for-response" {:position [431 144]}
-                 "okopoko" {:position [594 266]}}
+                 "lorem ipsum dolor sit amet" {:position [594 266]}
+                 "a1" {:position [671 26]}}
       :edges #{{:label "default"
                 :from "ssh-tunnel"
                 :to "send-telegram"}
