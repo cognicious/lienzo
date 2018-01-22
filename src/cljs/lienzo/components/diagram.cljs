@@ -46,14 +46,15 @@
                  :height 34
                  :transform (str  "rotate(" (+ d o) " " x1 "," y1 ")")
                  :style {:fill (str "url(#" id-pat ")")}}]
-         (let [x  (+ x1 (/ b 2) (if (< h 0) 13 -13))
-               y  (+ y1 (/ h 2) (if (< b 0) -13 13))
-               cx (- x (* (count label) 4))
+         (let [x  (+ x1 (/ b 2.5) (if (< h 0) 13 -13))
+               y  (+ y1 (/ h 2.5) (if (< b 0) -13 13))
+               cx (+ x (* (count label) 4))
                tr (str "rotate(" (+ d 0) " " x "," y ")")]
            [:g
             [:text {:class "shadow" :x x :y y :filter (str "url(#" id-flt ")") :transform tr} label]
             [:text {:class "label" :x x :y y :transform tr} label]
-            [:circle {:cx cx :cy y :r 5 :transform tr}]])]))))
+            [:circle {:cx cx :cy y :r 5 :transform tr}]
+            ])]))))
 
 (defn on 
   "Fired when MouseDown occurs in a vertex"
@@ -91,9 +92,12 @@
 (defn move 
   "Fired when MouseMove occurs over svg"
   [ev state-atm]
-  (let [ne (.-nativeEvent ev)        
-        page-x (.-pageX ne)
-        page-y (.-pageY ne)]
+  (.stopPropagation ev)
+  (.preventDefault ev)
+  (let [ne (-> ev .-nativeEvent)
+        page-x (-> ne .-pageX)
+        page-y (-> ne .-pageY)
+        source-tag (-> ne .-srcElement .-nodeName)]
     
     ;; When dragging a vertex 
     (if-let [drag (get-in @state-atm [:selected :drag])] 
@@ -112,13 +116,17 @@
                                                         :x1 (+ offset-x 30)
                                                         :y1 (+ offset-y 30)
                                                         :x2 page-x
-                                                        :y2 page-y])))))
+                                                        :y2 page-y])))
+
+    ;; When move outside a vertex
+    (if (= source-tag "svg")
+      (swap! state-atm dissoc :vertex-hover))))
 
 (defn click 
   "Fired when onClick occurs over svg"
   [ev state-atm]
   (let [ne (-> ev .-nativeEvent)
-        source-tag (-> ne .-srcElement .-vertexName)
+        source-tag (-> ne .-srcElement .-nodeName)
         page-x (.-pageX ne)
         page-y (.-pageY ne)]
 
@@ -153,19 +161,17 @@
 (defn moveover [ev state-atm id]
   (.stopPropagation ev) 
   (.preventDefault ev)
-  
   (let [ne (-> ev .-nativeEvent)
         class-tag (-> ne .-srcElement .-className .-baseVal)]
     (cond (= class-tag "circle")
           (swap! state-atm update-in [:title-hover] assoc :type id)
-          (= class-tag "l-circle")
+          (or (= class-tag "l-circle") (= class-tag "circle-panel"))
           (swap! state-atm update-in [:vertex-hover] assoc :type id))))
 
 (defn moveout [ev state-atm id]
   (.stopPropagation ev) 
   (.preventDefault ev)
-  (swap! state-atm dissoc :title-hover)
-  (swap! state-atm dissoc :vertex-hover))
+  (swap! state-atm dissoc :title-hover))
 
 (defn delete [ev state-atm id]
   (.stopPropagation ev) 

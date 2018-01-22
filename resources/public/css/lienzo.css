@@ -8,12 +8,12 @@
 
 .lienzo .l-edge .pattern .arrow-top {
     stroke: #eee;
-    stroke-width: 1
+    stroke-width: 1;
 }
 
 .lienzo .l-edge .pattern .arrow-bottom {
     stroke: #ddd;
-    stroke-width: 1
+    stroke-width: 1;
 }
 
 .lienzo .l-edge .shadow {
@@ -114,8 +114,6 @@
     //stroke-linecap: round;
     stroke: gray;
 }
-
-
 
 svg body {
     margin: 0px;
