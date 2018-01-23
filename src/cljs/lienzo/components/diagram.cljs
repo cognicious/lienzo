@@ -163,6 +163,7 @@
   (.preventDefault ev)
   (let [ne (-> ev .-nativeEvent)
         class-tag (-> ne .-srcElement .-className .-baseVal)]
+    (.log js/console class-tag)
     (cond (= class-tag "circle")
           (swap! state-atm update-in [:title-hover] assoc :type id)
           (or (= class-tag "l-circle") (= class-tag "circle-panel"))
@@ -192,6 +193,16 @@
                (get @state-atm :edges))]
     (swap! state-atm assoc :edges edges)))
 
+(defn v-control [state-atm {:keys [cx cy cr cclass tx ty tr tclass action-label onMouseDown onMouseOver onMouseOut]}]
+  [:g {:class "v-control"}
+   [:circle {:cx cx :cy cy :r cr :class cclass :shape-rendering "optimizeQuality"
+             :onMouseDown onMouseDown
+             :onMouseOver onMouseOver
+             :onMouseOut  onMouseOut}]
+   [:text {:class tclass
+           :x tx :y ty :fill "black" :font-family "Verdana" :font-weight "lighter" :font-size "8"
+           :transform (str "rotate(" tr " " tx "," ty ")") } action-label]])
+
 (defn vertex
   [state-atm & {:keys [id class x y s]
                 :as   args}]
@@ -203,6 +214,7 @@
       (let [[offset-x offset-y] (get-in @state-atm [:vertices id :position] [0 0])
             current? (= id (get-in @state-atm [:selected :current :id]))
             hover? (= id (get-in @state-atm [:vertex-hover :type]))
+            _ (.log js/console (str ">> hover? " hover?))
             type (get-in @state-atm [:title-hover :type])
             radius (* 2  15.91549430918954)]
         [:g (assoc args 
@@ -214,44 +226,44 @@
                       :transform (str "translate(" offset-x "," offset-y ")")
                       :class (if current? "grp selected" "grp"))
          
+         ;; Circle dotted
          [:circle {:cx 30 :cy  30 :r (* 2 radius) :class "circle-panel" :shape-rendering "optimizeQuality"}]
          
-         [:circle {:cx 30 :cy  30 :r radius :class "circle" :shape-rendering "optimizeQuality" 
-                   :onMouseDown #(draw-on % state-atm id) 
-                   :onMouseOver #(moveover % state-atm "connect") 
-                   :onMouseOut #(moveout % state-atm nil) }]
-         [:text {:class (if (and hover? (= type "connect")) "title selected" "title") 
-                 :x 82 :y 18 :fill "black" :font-family "Verdana" :font-weight "lighter" :font-size "8" 
-                 :transform "rotate(-18 80,18)"} "connect"]
+         ;; Control connect
+         [v-control state-atm {:cx 30 :cy 30 :cr radius :cclass "circle"
+                               :tx 82 :ty 18 :tr -18 :tclass (if (and hover? (= type "connect")) "title selected" "title")
+                               :action-label "connect"
+                               :onMouseDown #(draw-on % state-atm id)
+                               :onMouseOver #(moveover % state-atm "connect")
+                               :onMouseOut  #(moveout % state-atm nil)
+                               }]
+         ;; Control edit
+         [v-control state-atm {:cx 30 :cy 30 :cr radius :cclass "circle"
+                               :tx 63 :ty -12 :tr -54 :tclass (if (and hover? (= type "edit")) "title selected" "title")
+                               :action-label "edit"
+                               :onMouseOver #(moveover % state-atm "edit")
+                               :onMouseOut  #(moveout % state-atm nil)
+                               }]
          
-         [:circle {:cx 30 :cy  30 :r radius :class "circle" :shape-rendering "optimizeQuality"
-                   ;:onMouseDown #(draw-on % state-atm id) 
-                   :onMouseOver #(moveover % state-atm "edit") 
-                   :onMouseOut #(moveout % state-atm nil) }]
-         [:text {:class (if (and hover? (= type "edit")) "title selected" "title") 
-                 :x 63 :y -12 :fill "black" :font-family "Verdana" :font-weight "lighter" :font-size "8" 
-                 :transform "rotate(-54 63,-12)"} "edit"]
-         
-         [:circle {:cx 30 :cy  30 :r radius :class "circle" :shape-rendering "optimizeQuality"
-                   :onMouseDown #(delete % state-atm id)
-                   :onMouseOver #(moveover % state-atm "delete") 
-                   :onMouseOut #(moveout % state-atm nil) }]
-         [:text {:class (if (and hover? (= type "delete")) "title selected" "title") 
-                 :x 32 :y -24 :fill "black" :font-family "Verdana" :font-weight "lighter" :font-size "8" 
-                 :transform "rotate(-90 32,-24)"} "delete"]
-
-         [:circle {:cx 30 :cy  30 :r radius :class "circle" :shape-rendering "optimizeQuality"}]
-         [:circle {:cx 30 :cy  30 :r radius :class "circle" :shape-rendering "optimizeQuality"}]
+         ;; Control delete
+         [v-control state-atm {:cx 30 :cy 30 :cr radius :cclass "circle"
+                               :tx 32 :ty -24 :tr -90 :tclass (if (and hover? (= type "delete")) "title selected" "title")
+                               :action-label "delete"
+                               :onMouseDown #(delete % state-atm id)
+                               :onMouseOver #(moveover % state-atm "delete")
+                               :onMouseOut  #(moveout % state-atm nil)
+                               }]
+         ;; Node
          [:circle {:cx 30 :cy  30 :r radius :class "l-circle" :shape-rendering "optimizeQuality"}]
          
+         ;; Label
          (let [idc (str "filter-" id)
                x (- radius 3)
                y 78]
            [:g
             [:defs
              [:filter {:id idc}
-              [:feGaussianBlur {:in "SourceGraphic" :stdDeviation 1}]
-              ]]
+              [:feGaussianBlur {:in "SourceGraphic" :stdDeviation 1}]]]
             [:text {:x x :y y :class "shadow" :filter (str "url(#" idc ")") } id]
             [:text {:x x :y y :class "label" } id]])]))))
 
