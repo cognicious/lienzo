@@ -40,21 +40,29 @@
            [:line {:class "arrow-bottom" :x1 13 :y1 13 :x2 5 :y2 20}]]
           [:filter {:id id-flt}
            [:feGaussianBlur {:in "SourceGraphic" :stdDeviation 1}]]]
-         [:rect {:x x1
-                 :y y1
-                 :width p
-                 :height 34
-                 :transform (str  "rotate(" (+ d o) " " x1 "," y1 ")")
-                 :style {:fill (str "url(#" id-pat ")")}}]
-         (let [x  (+ x1 (/ b 2.5) (if (< h 0) 13 -13))
-               y  (+ y1 (/ h 2.5) (if (< b 0) -13 13))
-               cx (+ x (* (count label) 4))
-               tr (str "rotate(" (+ d 0) " " x "," y ")")]
-           [:g
-            [:text {:class "shadow" :x x :y y :filter (str "url(#" id-flt ")") :transform tr} label]
-            [:text {:class "label" :x x :y y :transform tr} label]
-            [:circle {:cx cx :cy y :r 5 :transform tr}]
-            ])]))))
+         (let [x (+ x1 (/ p 2))
+               y (+ y1 (/ 34 2))]
+           [:g {:transform (str  "rotate(" (+ d o) " " x1 "," y1 ")")}
+            [:rect {:x x1
+                    :y y1
+                    :width p
+                    :height 34                                        ;
+                    :style {:fill (str "url(#" id-pat ")")}}]
+            ;; Control
+            [:rect {:x (+ x1 (- p (* 4 15.91549430918954)) -10)
+                    :y (- y1 1)
+                    :width (+ 10 0)
+                    :height (+ 34 2)
+                    :style {:fill (str "rgba(0,0,255,0.65)")}
+                    :onMouseOver #(.warn js/console "control-1")}]
+            [:rect {:x (+ x1 (- p (* 4 15.91549430918954)) -21)
+                    :y (- y1 1)
+                    :width (+ 10 0)
+                    :height (+ 34 2)
+                    :style {:fill (str "rgba(255,0,0,0.65)")}
+                    :onMouseOver #(.warn js/console "control-2")}]
+            [:text {:class "shadow" :x x :y y :filter (str "url(#" id-flt ")")} label]
+            [:text {:class "label" :x x :y y } label]])]))))
 
 (defn v-mouse-down
   "Fired when MouseDown occurs in a vertex"
@@ -214,7 +222,7 @@
             current? (= id (get-in @state-atm [:selected :current :id]))
             hover? (= id (get-in @state-atm [:vertex-hover :type]))
             type (get-in @state-atm [:title-hover :type])
-            radius (* 2  15.91549430918954)]
+            radius (* 2 15.91549430918954)]
         [:g (assoc args 
                       :id id :class class 
                       :onMouseDown #(v-mouse-down % state-atm id)
