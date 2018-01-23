@@ -56,7 +56,7 @@
             [:circle {:cx cx :cy y :r 5 :transform tr}]
             ])]))))
 
-(defn on 
+(defn v-mouse-down
   "Fired when MouseDown occurs in a vertex"
   [ev state-atm id]
   (let [ne (.-nativeEvent ev)
@@ -67,7 +67,6 @@
     (swap! state-atm update-in [:selected] assoc :drag {:id id :last [page-x page-y]}
                                                  :current {:id id})
     
-
     ;; When a edge is drawed
     (if-let [line (get-in @state-atm [:draw :line])]
       (let [prev-id (get-in @state-atm [:draw :id])
@@ -81,7 +80,7 @@
         (swap! state-atm update-in [:edges] conj {:from prev-id :to id :label "added"})
         (swap! state-atm dissoc :draw)))))
 
-(defn off 
+(defn v-mouse-up
   "Fired when MouseUp occurs in a vertex"
   [state-atm]
   ;(swap! state-atm update-in [:selected :drag] #(get-in @state-atm [:selected :previous]))
@@ -89,7 +88,7 @@
   ;; Stop to dragging vertex
   (swap! state-atm update-in [:selected] dissoc :drag))
 
-(defn move 
+(defn d-move
   "Fired when MouseMove occurs over svg"
   [ev state-atm]
   (.stopPropagation ev)
@@ -122,7 +121,7 @@
     (if (= source-tag "svg")
       (swap! state-atm dissoc :vertex-hover))))
 
-(defn click 
+(defn d-click
   "Fired when onClick occurs over svg"
   [ev state-atm]
   (let [ne (-> ev .-nativeEvent)
@@ -135,7 +134,7 @@
           (do (swap! state-atm update-in [:selected] dissoc :current)
               (swap! state-atm dissoc :draw)))))
 
-(defn draw-on 
+(defn v-control-connect
   "Fired when OnMouseDown in Connect"
   [ev state-atm id]
   (.stopPropagation ev) 
@@ -158,23 +157,22 @@
                                                                :style {:stroke "rgb(255,0,0)"
                                                                        :stroke-width 2}}])))))
 
-(defn moveover [ev state-atm id]
+(defn v-control-move-over [ev state-atm id]
   (.stopPropagation ev) 
   (.preventDefault ev)
   (let [ne (-> ev .-nativeEvent)
         class-tag (-> ne .-srcElement .-className .-baseVal)]
-    (.log js/console class-tag)
     (cond (= class-tag "circle")
           (swap! state-atm update-in [:title-hover] assoc :type id)
           (or (= class-tag "l-circle") (= class-tag "circle-panel"))
           (swap! state-atm update-in [:vertex-hover] assoc :type id))))
 
-(defn moveout [ev state-atm id]
+(defn v-control-move-out [ev state-atm id]
   (.stopPropagation ev) 
   (.preventDefault ev)
   (swap! state-atm dissoc :title-hover))
 
-(defn delete [ev state-atm id]
+(defn v-control-delete [ev state-atm id]
   (.stopPropagation ev) 
   (.preventDefault ev)
 
@@ -193,9 +191,10 @@
                (get @state-atm :edges))]
     (swap! state-atm assoc :edges edges)))
 
-(defn v-control [state-atm {:keys [cx cy cr cclass tx ty tr tclass action-label onMouseDown onMouseOver onMouseOut]}]
+(defn v-control [state-atm {:keys [cx cy cr cclass tx ty tr tclass action-label onMouseUp onMouseDown onMouseOver onMouseOut]}]
   [:g {:class "v-control"}
    [:circle {:cx cx :cy cy :r cr :class cclass :shape-rendering "optimizeQuality"
+             :onMouseUp   onMouseUp
              :onMouseDown onMouseDown
              :onMouseOver onMouseOver
              :onMouseOut  onMouseOut}]
@@ -214,15 +213,14 @@
       (let [[offset-x offset-y] (get-in @state-atm [:vertices id :position] [0 0])
             current? (= id (get-in @state-atm [:selected :current :id]))
             hover? (= id (get-in @state-atm [:vertex-hover :type]))
-            _ (.log js/console (str ">> hover? " hover?))
             type (get-in @state-atm [:title-hover :type])
             radius (* 2  15.91549430918954)]
         [:g (assoc args 
                       :id id :class class 
-                      :onMouseDown #(on % state-atm id)
-                      :onMouseUp #(off state-atm)
-                      :onMouseOver #(moveover % state-atm id)
-                      :onMouseOut #(moveout % state-atm nil)
+                      :onMouseDown #(v-mouse-down % state-atm id)
+                      :onMouseUp #(v-mouse-up state-atm)
+                      :onMouseOver #(v-control-move-over % state-atm id)
+                      :onMouseOut #(v-control-move-out % state-atm nil)
                       :transform (str "translate(" offset-x "," offset-y ")")
                       :class (if current? "grp selected" "grp"))
          
@@ -233,25 +231,25 @@
          [v-control state-atm {:cx 30 :cy 30 :cr radius :cclass "circle"
                                :tx 82 :ty 18 :tr -18 :tclass (if (and hover? (= type "connect")) "title selected" "title")
                                :action-label "connect"
-                               :onMouseDown #(draw-on % state-atm id)
-                               :onMouseOver #(moveover % state-atm "connect")
-                               :onMouseOut  #(moveout % state-atm nil)
+                               :onMouseDown #(v-control-connect % state-atm id)
+                               :onMouseOver #(v-control-move-over % state-atm "connect")
+                               :onMouseOut  #(v-control-move-out % state-atm nil)
                                }]
          ;; Control edit
          [v-control state-atm {:cx 30 :cy 30 :cr radius :cclass "circle"
                                :tx 63 :ty -12 :tr -54 :tclass (if (and hover? (= type "edit")) "title selected" "title")
                                :action-label "edit"
-                               :onMouseOver #(moveover % state-atm "edit")
-                               :onMouseOut  #(moveout % state-atm nil)
+                               :onMouseOver #(v-control-move-over % state-atm "edit")
+                               :onMouseOut  #(v-control-move-out % state-atm nil)
                                }]
          
          ;; Control delete
          [v-control state-atm {:cx 30 :cy 30 :cr radius :cclass "circle"
                                :tx 32 :ty -24 :tr -90 :tclass (if (and hover? (= type "delete")) "title selected" "title")
                                :action-label "delete"
-                               :onMouseDown #(delete % state-atm id)
-                               :onMouseOver #(moveover % state-atm "delete")
-                               :onMouseOut  #(moveout % state-atm nil)
+                               :onMouseDown #(v-control-delete % state-atm id)
+                               :onMouseOver #(v-control-move-over % state-atm "delete")
+                               :onMouseOut  #(v-control-move-out % state-atm nil)
                                }]
          ;; Node
          [:circle {:cx 30 :cy  30 :r radius :class "l-circle" :shape-rendering "optimizeQuality"}]
@@ -287,7 +285,7 @@
 
                  (:vertices @state-atm))
             things (clojure.set/union (cons line set) edges)]
-        (into  [:svg (assoc attrs :id id :onMouseMove #(move % state-atm) :onClick #(click % state-atm))]
+        (into  [:svg (assoc attrs :id id :onMouseMove #(d-move % state-atm) :onClick #(d-click % state-atm))]
                things)))))
 
 
