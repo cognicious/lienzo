@@ -171,14 +171,14 @@
   (let [ne (-> ev .-nativeEvent)
         class-tag (-> ne .-srcElement .-className .-baseVal)]
     (cond (= class-tag "circle")
-          (swap! state-atm update-in [:title-hover] assoc :type id)
+          (swap! state-atm update-in [:vertex-title-hover] assoc :type id)
           (or (= class-tag "l-circle") (= class-tag "circle-panel"))
           (swap! state-atm update-in [:vertex-hover] assoc :type id))))
 
 (defn v-control-move-out [ev state-atm id]
   (.stopPropagation ev) 
   (.preventDefault ev)
-  (swap! state-atm dissoc :title-hover))
+  (swap! state-atm dissoc :vertex-title-hover))
 
 (defn v-control-delete [ev state-atm id]
   (.stopPropagation ev) 
@@ -221,7 +221,7 @@
       (let [[offset-x offset-y] (get-in @state-atm [:vertices id :position] [0 0])
             current? (= id (get-in @state-atm [:selected :current :id]))
             hover? (= id (get-in @state-atm [:vertex-hover :type]))
-            type (get-in @state-atm [:title-hover :type])
+            type (get-in @state-atm [:vertex-title-hover :type])
             radius (* 2 15.91549430918954)]
         [:g (assoc args 
                       :id id :class class 
