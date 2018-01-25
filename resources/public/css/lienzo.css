@@ -85,7 +85,7 @@
     opacity: 0;
 }
 
-.lienzo .grp:hover .circle, .lienzo .grp.selected .circle {
+.lienzo .grp:hover .circle, .lienzo .grp.selected .circle, .lienzo .l-edge .title.selected {
     opacity:0;  
     animation:fadeIn ease-in 1;
     animation-fill-mode:forwards;

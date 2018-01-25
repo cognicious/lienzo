@@ -9,6 +9,24 @@
             :current {:id "id"}}
  :draw {}}
 
+(defn e-control-move-over [ev state-atm id]
+  (.stopPropagation ev) 
+  (.preventDefault ev)
+  (let [ne (-> ev .-nativeEvent)
+        class-tag (-> ne .-srcElement .-className .-baseVal)]
+    (cond (= class-tag "l-edge")
+          (swap! state-atm update-in [:edge-title-hover] assoc :type id)
+          (= class-tag "edge")
+          (swap! state-atm update-in [:edge-hover] assoc :type id))))
+
+(defn e-control-move-out [ev state-atm id]
+  (.stopPropagation ev) 
+  (.preventDefault ev)
+  (swap! state-atm dissoc :edge-title-hover))
+
+(defn e-control [state-atm {:keys [x y]}]
+  [:g {:class "e-control"}])
+
 (defn edge 
   "Draw an edge from x1 y1 to x2 y2 and put label as text inside"
   [state-atm & {:keys [id class x1 y1 x2 y2 label]
@@ -25,7 +43,8 @@
             o (if (< b 0) 180 0)                 ;; orientation
             p (Math/sqrt (+ (Math/pow h 2) (Math/pow b 2))) ;; hypotenuse
             id-pat (str "pat-" id)
-            id-flt (str "flt-" id)]
+            id-flt (str "flt-" id)
+            ]
         [:g {:id id :class class}
          [:defs
           [:pattern {:id id-pat  ;; pattern with arrows
@@ -41,26 +60,41 @@
           [:filter {:id id-flt}
            [:feGaussianBlur {:in "SourceGraphic" :stdDeviation 1}]]]
          (let [x (+ x1 (/ p 2))
-               y (+ y1 (/ 34 2))]
+               y (+ y1 (/ 34 2))
+               hover? (= id (get-in @state-atm [:edge-hover :type]))
+               type (get-in @state-atm [:edge-title-hover :type])]
            [:g {:transform (str  "rotate(" (+ d o) " " x1 "," y1 ")")}
             [:rect {:x x1
                     :y y1
                     :width p
                     :height 34                                        ;
-                    :style {:fill (str "url(#" id-pat ")")}}]
+                    :style {:fill (str "url(#" id-pat ")")}
+                    :class "edge"
+                    :onMouseOver #(e-control-move-over % state-atm id)}]
             ;; Control
             [:rect {:x (+ x1 (- p (* 4 15.91549430918954)) -10)
                     :y (- y1 1)
                     :width (+ 10 0)
                     :height (+ 34 2)
                     :style {:fill (str "rgba(0,0,255,0.65)")}
-                    :onMouseOver #(.warn js/console "control-1")}]
+                    :class (if (and hover?) "title selected" "title")
+                    :onMouseOver #(e-control-move-over % state-atm label)
+                    :onMouseOut #(e-control-move-out % state-atm nil)
+                    }]
+            [:text {:class (if (and hover?) "title selected" "title")
+                    :x (+ x1 (- p (* 4 15.91549430918954)) -10)
+                    :y (- y1 1)
+                    :fill "black" :font-family "Verdana" :font-weight "lighter" :font-size "8"
+                    :transform (str "rotate(90 " (+ x1 (- p (* 4 15.91549430918954)) -10) "," (- y1 1) ")") } "unlock"]
             [:rect {:x (+ x1 (- p (* 4 15.91549430918954)) -21)
                     :y (- y1 1)
                     :width (+ 10 0)
                     :height (+ 34 2)
                     :style {:fill (str "rgba(255,0,0,0.65)")}
-                    :onMouseOver #(.warn js/console "control-2")}]
+                    :class (if (and hover?) "title selected" "title")
+                    :onMouseOver #(e-control-move-over % state-atm label)
+                    :onMouseOut #(e-control-move-out % state-atm nil)
+                    }]
             [:text {:class "shadow" :x x :y y :filter (str "url(#" id-flt ")")} label]
             [:text {:class "label" :x x :y y } label]])]))))
 
@@ -112,7 +146,7 @@
             [last-x last-y] last
             [offset-x offset-y] (get-in @state-atm [:vertices id :position] [0 0])]
         (swap! state-atm assoc-in [:vertices id :position] [(- (+ offset-x page-x) last-x)
-                                                         (- (+ offset-y page-y) last-y)])
+                                                            (- (+ offset-y page-y) last-y)])
         (swap! state-atm update-in [:selected] assoc :drag {:id id :last [page-x page-y]})))
 
     ;; When drawing a line
@@ -126,8 +160,9 @@
                                                         :y2 page-y])))
 
     ;; When move outside a vertex
-    (if (= source-tag "svg")
-      (swap! state-atm dissoc :vertex-hover))))
+    (when (= source-tag "svg")
+      (swap! state-atm dissoc :vertex-hover)
+      (swap! state-atm dissoc :edge-hover))))
 
 (defn d-click
   "Fired when onClick occurs over svg"
