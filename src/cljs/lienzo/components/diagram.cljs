@@ -105,8 +105,8 @@
                     :onMouseOut #(e-control-move-out % state-atm nil)
                     }]
             (let [rotation (+ d o)
-                  text-transform (if (<= 90 rotation 270) (do (.log js/console "ok") 180) 0)] 
-              [:text {:class "shadow" :x x :y y :filter (str "url(#" id-flt ")")} label]
+                  text-transform (if (<= 90 rotation 270) 180 0)] 
+              [:text {:class "shadow" :x x :y y :filter (str "url(#" id-flt ")") :transform (str  "rotate(" text-transform " " x "," y ")")} label]
               [:text {:class "label" :x x :y y :transform (str  "rotate(" text-transform " " x "," y ")")} label])])]))))
 
 (defn v-mouse-down
