@@ -71,6 +71,15 @@
                     :style {:fill (str "url(#" id-pat ")")}
                     :class "edge"
                     :onMouseOver #(e-control-move-over % state-atm id)}]
+            #_[:rect {:x x1
+                    :y (-  y1 10)
+                    :width p
+                    :height (+ 34 20)       ;
+                    :class "background-sel"
+                    }]
+            ;[:line {:x1 x1 :y1 y1 :x2 (+ x1 p) :y2 y1 :transform "translate(0, -10)" :class "background-sel" :shape-rendering "optimizeQuality"}]
+            ;[:line {:x1 x1 :y1 y1 :x2 (+ x1 p) :y2 y1 :transform "translate(0, 44)" :class "background-sel" :shape-rendering "optimizeQuality"}]
+            
             ;; Control
             [:rect {:x (+ x1 (- p (* 4 15.91549430918954)) -10)
                     :y (- y1 1)
@@ -95,8 +104,10 @@
                     :onMouseOver #(e-control-move-over % state-atm label)
                     :onMouseOut #(e-control-move-out % state-atm nil)
                     }]
-            [:text {:class "shadow" :x x :y y :filter (str "url(#" id-flt ")")} label]
-            [:text {:class "label" :x x :y y } label]])]))))
+            (let [rotation (+ d o)
+                  text-transform (if (<= 90 rotation 270) (do (.log js/console "ok") 180) 0)] 
+              [:text {:class "shadow" :x x :y y :filter (str "url(#" id-flt ")")} label]
+              [:text {:class "label" :x x :y y :transform (str  "rotate(" text-transform " " x "," y ")")} label])])]))))
 
 (defn v-mouse-down
   "Fired when MouseDown occurs in a vertex"
@@ -325,7 +336,6 @@
                  (fn [r k v]
                    (conj r [vertex state-atm :id k]))
                  []
-
                  (:vertices @state-atm))
             things (clojure.set/union (cons line set) edges)]
         (into  [:svg (assoc attrs :id id :onMouseMove #(d-move % state-atm) :onClick #(d-click % state-atm))]

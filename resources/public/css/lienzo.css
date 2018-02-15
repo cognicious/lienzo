@@ -6,6 +6,15 @@
     fill: rgba(128,128,128,0.5);
 }
 
+.lienzo .l-edge .background-sel {
+    //opacity: 0.6;
+    fill: transparent;
+    stroke-width: 1;
+    stroke-dasharray: 2 2;
+    stroke-dashoffset: 0;
+    stroke: gray;
+}
+
 .lienzo .l-edge .pattern .arrow-top {
     stroke: #eee;
     stroke-width: 1;
@@ -106,7 +115,7 @@
 }
 
 .lienzo .grp.selected .circle-panel {
-    opacity: 0.5;
+    // opacity: 0.5;
     fill: transparent;
     stroke-width: 1;
     stroke-dasharray: 2 2;
