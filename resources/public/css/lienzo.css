@@ -6,7 +6,7 @@
     fill: rgba(128,128,128,0.5);
 }
 
-.lienzo .l-edge .background-sel {
+.lienzo .l-edge .rect-panel {
     //opacity: 0.6;
     fill: transparent;
     stroke-width: 1;
