@@ -8,7 +8,7 @@
 
 (defn app-view []
   (let []
-    [lienzo/diagram 
+    [lienzo/diagram
      {:width "100vw" :height "100vh"}
      {:vertices {"ssh-tunnel" {:position [126 32]}
                  "send-telegram"  {:position [134 230]}

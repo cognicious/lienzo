@@ -3,4 +3,4 @@
 
 (def myvar "bar")
 
-(def diagram diagram/diagram)
+(def diagram diagram/diagrama)

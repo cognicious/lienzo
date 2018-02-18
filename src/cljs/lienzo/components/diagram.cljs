@@ -344,5 +344,39 @@
                things)))))
 
 
-
+(defn diagrama [attrs state onchange]
+  (let [id (str "diagram-" (random-uuid))
+        state-atm (r/atom (assoc state :id id))]
+    (r/create-class {:reagent-render (fn [attrs state onchange]
+                                       (let [_ (and onchange (onchange @state-atm))
+                                             line (get-in @state-atm [:draw :line])
+                                             edges (reduce
+                                                    (fn [r {:keys [label from to]}]
+                                                      (let [[x1 y1] (get-in @state-atm [:vertices from :position])
+                                                            [x2 y2] (get-in @state-atm [:vertices to :position])]
+                                                        (conj r [edge state-atm :x1 (+  x1 30) :y1 (+ y1 30) :x2 (+ x2 30) :y2 (+ y2 30) :label label])))
+                                                    []
+                                                    (:edges @state-atm))
+                                             set (reduce-kv
+                                                  (fn [r k v]
+                                                    (conj r [vertex state-atm :id k]))
+                                                  []
+                                                  (:vertices @state-atm))
+                                             things (clojure.set/union (cons line set) edges)]
+                                         (into  [:svg (assoc attrs :id id :onMouseMove #(d-move % state-atm) :onClick #(d-click % state-atm))]
+                                                things)))
+                     :component-did-mount (fn [comp]
+                                            (.log js/console "did-mount!" comp)
+                                            (let [elem (r/dom-node comp)
+                                                  _ (.log js/console elem)]
+                                              (doto elem
+                                                (.addEventListener "contextmenu" (fn [e]
+                                                                                   (.stopPropagation e)
+                                                                                   (.preventDefault e)
+                                                                                   (.warn js/console e)) false)
+                                                (.addEventListener "dblclick" (fn [e]
+                                                                                (.stopPropagation e)
+                                                                                (.preventDefault e)
+                                                                                (.error js/console e)) false)
+                                                )))})))
 
