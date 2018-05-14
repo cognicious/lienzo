@@ -12,15 +12,15 @@
      {:width "100vw" :height "100vh"}
      {:vertices {"ssh-tunnel" {:position [126 32]}
                  "send-telegram"  {:position [134 230]}
-                 "wait-for-response" {:position [431 144]}
-                 "lorem ipsum dolor sit amet" {:position [594 266]}
+                 "wait" {:position [431 144]}
+                 "lorem ipsum dolor sit amet shshshshshshshshshshshshshshshshshshsh  hshshshsh shshshs" {:position [594 266]}
                  "a1" {:position [671 26]}}
       :edges #{{:label "default"
                 :from "ssh-tunnel"
                 :to "send-telegram"}
                {:label "default"
                 :from "send-telegram"
-                :to "wait-for-response"}}}
+                :to "wait"}}}
      (fn [state]
        ;(.log js/console (str state))
        )]))

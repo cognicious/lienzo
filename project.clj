@@ -7,11 +7,15 @@
   :dependencies [[cljsjs/material "1.3.0-0"]
                  [cljsjs/dialog-polyfill "0.4.3-0"]
                  [reagent "0.6.0-rc" :exclusions [cljsjs/react]]
-                 [cljsjs/react-with-addons "15.2.1-1"]]
+                 [cljsjs/react-with-addons "15.2.1-1"]
+                 
+                 
+                 [lein-doo "0.1.10"]
+                 [devcards "0.2.4"]]
   
-  :plugins [[lein-cljsbuild "1.1.3"]
-            [lein-figwheel "0.5.4-7"]
-            [lein-doo "0.1.7"]]
+  :plugins [[lein-cljsbuild "1.1.7"]
+            [lein-figwheel "0.5.15"]
+            [lein-doo "0.1.10"]]
   
   :profiles {:dev {:dependencies [[prismatic/dommy "1.1.0"]
                                   [cljs-react-test "0.1.4-SNAPSHOT"
@@ -44,6 +48,16 @@
                                    :output-to "resources/public/js/compiled/lienzo.js"
                                    :optimizations :advanced
                                    :pretty-print false}}
+
+                       {:id "devcards-test"
+                        :source-paths ["src/cljs" "test/cljs"]
+                        :figwheel {:devcards true}
+                        :compiler {:main lienzo.tests
+                                   :optimizations :none
+                                   :asset-path "js/tests/out"
+                                   :output-to "resources/public/js/tests/all-tests.js"
+                                   :output-dir "resources/public/js/tests/out"
+                                   :source-map-timestamp true}}
                        
                        #_{:id "min"
                         :source-paths ["src/cljc"]
@@ -88,4 +102,5 @@
 
              ;; to configure a different figwheel logfile path
              ;; :server-logfile "tmp/logs/figwheel-logfile.log"
+             :readline false
              })
