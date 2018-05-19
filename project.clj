@@ -15,7 +15,8 @@
   
   :plugins [[lein-cljsbuild "1.1.7"]
             [lein-figwheel "0.5.15"]
-            [lein-doo "0.1.10"]]
+            [lein-doo "0.1.10"]
+            [lein-sass "0.5.0"]]
   
   :profiles {:dev {:dependencies [[prismatic/dommy "1.1.0"]
                                   [cljs-react-test "0.1.4-SNAPSHOT"
@@ -31,6 +32,9 @@
   
   :clean-targets ^{:protect false} ["resources/public/js/compiled" "target" "out"]
   
+  :sass {:src "src/sass"
+         :output-directory "resources/public/css"}
+
   :cljsbuild {
               :builds [{:id "dev"
                         :source-paths ["src/cljs" "demo/src/cljs"]
