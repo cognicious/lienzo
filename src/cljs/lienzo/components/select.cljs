@@ -5,11 +5,12 @@
 
 (defn input-box []
   (r/create-class {:reagent-render (fn []
-                                     [:input])
+                                     [:button "oko"])
                    :component-did-mount (fn [component]
                                           (let [element (r/dom-node component)]
                                             (-> element
-                                                (util-js/add-event-listener "focusin" (util-js/class-changer-generator element)))))}))
+                                                ;(util-js/event-add-remove "selected" "focusin" "focusout")
+                                                (util-js/event-add-remove "active" "mousedown" "mouseup"))))}))
 
 (defn pseudo-menu [& attrs]
   [:div (first attrs)
