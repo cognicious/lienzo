@@ -24,7 +24,9 @@
    (let [[type-add vals-add] (first map)
          [type-rem vals-rem] (second map)
          type-add (-> type-add name)
-         type-rem (-> type-rem name)]
+         type-rem (-> type-rem name)
+         vals-add (reduce #(conj %1 (type->class %2)) [] vals-add)
+         vals-rem (reduce #(conj %1 (type->class %2)) [] vals-rem)]
      (-> element
          (add-event-listener type-add (fn [event]
                                         (gclasses/addAll element (clj->js vals-add))))
