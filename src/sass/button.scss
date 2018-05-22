@@ -1,0 +1,78 @@
+$lnz-primary-color: hsl(214, 90%, 52%);
+$lnz-font-family: "Roboto", Helvetica, Arial, sans-serif;
+$lnz-font-size-m: 1rem;
+$lnz-size-m: 2.25rem;
+$lnz-button-size: $lnz-size-m;
+$lnz-border-radius: 0.25em;
+$lnz-space-xs: 0.25rem;
+
+button.lnz {
+    background-color: hsla(214, 61%, 25%, 0.05);
+    border-radius: 0.25em;
+    border-width: 0px;
+    box-sizing: border-box;
+    color: $lnz-primary-color;
+    cursor: pointer;
+    display: inline-block;
+    font-family: $lnz-font-family;
+    font-size: $lnz-font-size-m;
+    font-weight: 500;
+    height: $lnz-button-size;
+    letter-spacing: .025em;
+    margin: $lnz-space-xs 0;
+    min-width: calc(#{$lnz-button-size} * 2);
+    padding: 0 calc(#{$lnz-button-size} / 3 + #{$lnz-border-radius} / 2);
+    position: relative;
+    outline: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    white-space: nowrap;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    &.lnz-over {
+        background-color: hsla(217, 42%, 94%, 0.85);
+    }
+    &.lnz-active {
+        animation: pulse 0.4s;
+        animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    &[disabled] {
+        animation: none !important;
+        color: hsla(214, 50%, 22%, 0.26);
+        cursor: not-allowed;
+    }
+    span {
+        span {
+            margin-left: $lnz-space-xs;
+        }
+    }
+}
+
+@-webkit-keyframes pulse {
+  0% {
+    -webkit-box-shadow: 0 0 0 0  hsla(217, 42%, 94%, 0.85);
+  }
+  70% {
+      -webkit-box-shadow: 0 0 0 10px  hsla(217, 42%, 94%, 0.0);
+  }
+  100% {
+      -webkit-box-shadow: 0 0 0 0  hsla(217, 42%, 94%, 0.0);
+  }
+}
+@keyframes pulse {
+  0% {
+    -moz-box-shadow: 0 0 0 0  hsla(217, 42%, 94%, 0.85);
+    box-shadow: 0 0 0 0  hsla(217, 42%, 94%, 0.85);
+  }
+  70% {
+      -moz-box-shadow: 0 0 0 10px  hsla(217, 42%, 94%, 0.0);
+      box-shadow: 0 0 0 10px  hsla(217, 42%, 94%, 0.0);
+  }
+  100% {
+      -moz-box-shadow: 0 0 0 0 rgba(204,169,44, 0);
+      box-shadow: 0 0 0 0  hsla(217, 42%, 94%, 0.0);
+  }
+}
+
