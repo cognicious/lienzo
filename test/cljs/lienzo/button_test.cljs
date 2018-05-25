@@ -17,7 +17,7 @@
   (str "# Button \n"
        "This namespace defines some functions about button component"))
 
-(defcard-rg test-button-arity-zero
+(defcard-rg card-button-arity-zero
   "
   Arity 0 puts creates a simple button
   ```
@@ -25,6 +25,15 @@
   ```
   "
   [button])
+
+(deftest test-button-arity-zero
+  (let [element (-> js/document
+                    (.getElementsByClassName "lnz")
+                    (aget 0))]
+    (testing "Is a button?" 
+      (is (= (.-tagName element) "BUTTON")))
+    (testing "Contains 'Button' as textContent?"
+      (is (= (.-textContent element) "Button")))))
 
 (defcard-rg test-button-arity-one-text
   "
