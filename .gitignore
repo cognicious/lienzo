@@ -1,1 +1,8 @@
+# Log Figwheel
 figwheel_server.log
+
+# Target 
+target/**
+
+# Generated CSS
+resources/public/css/**
