@@ -123,7 +123,7 @@
     (testing "First child of child has fa class?"
       (is (clojure.string/starts-with? (-> element .-firstChild .-firstChild .-className) "fa")))
     (testing "Last child contains 'cloud' as textContent"
-      (is (= (-> element .-firstChild .-lastChild .-textContent) "cloud")))))
+      (is (= (-> element .-textContent) "cloud")))))
 
 
 (defcard-rg card-button-icon-without-text
@@ -148,4 +148,4 @@
     (testing "First child of child has fa class?"
       (is (clojure.string/starts-with? (-> element .-firstChild .-firstChild .-className) "fa")))
     (testing "Last child contains empty string '' as textContent"
-      (is (= (-> element .-firstChild .-lastChild .-textContent) "")))))
+      (is (= (-> element .-textContent) "")))))

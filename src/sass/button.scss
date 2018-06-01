@@ -8,6 +8,13 @@ $lnz-border-radius: 0.25em;
 $lnz-space-xs: 0.25rem;
 
 button.lnz {
+    
+    i {
+        &.fa:before,&.fab:before,&.fal:before,&.far:before,&.fas:before {
+            margin: $lnz-border-radius calc( #{$lnz-border-radius} * 1 ) 0 0;
+        }
+    }
+
     background-color: $lnz-background-color;
     border-radius: 0.25em;
     border-width: 0px;
