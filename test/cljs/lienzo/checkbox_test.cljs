@@ -3,11 +3,13 @@
             [cljs-react-test.utils :as tu]
             [devcards.core :refer-macros [deftest defcard defcard-rg reagent]]
             [reagent.core :as r]
+            [lienzo.components.button :refer [button]]
             [lienzo.components.checkbox :refer [checkbox]]))
 
 (defcard
   (str "# Checkbox \n"
-       "This namespace defines some functions about checkbox component"))
+       "This namespace defines some functions about checkbox component\n\n"
+       "A Checkbox is a `<label>` and contains an icon `<i>`, a real checkbox `<input>` and optionally a `<span>` or a simple text."))
 
 (defcard-rg card-checkbox-arity-zero
   "
@@ -15,20 +17,32 @@
   ```
   [checkbox]
   ```
+  produces in hiccup:
+  ```
+  [:label.lnz {:for \"random-uuid\"}                ;; Label wrapper
+    [:i.lnz {:tab-index 0}]                       ;; Stylized Pseudo INPUT
+    [:input {:id \"random-uuid\" :type \"checkbox\"}] ;; Real INPUT 
+    \"\"]
+     
   "
   [checkbox])
 
 (deftest test-checkbox-arity-zero
-  (let [element (-> js/document
-                    (.getElementsByClassName "lnz")
-                    (aget 0))]
-    (.log js/console element)
-    (testing "Is an input?" 
-      (is (= (-> element .-firstChild .-tagName) "INPUT")))
-    (testing "Is of type 'checkbox'" 
-      (is (= (-> element .-firstChild .-type) "checkbox")))
-    (testing "Contains '' as textContent?"
-      (is (= (-> element .-textContent) "")))))
+  (let [label (-> js/document
+                  (.getElementsByClassName "lnz")
+                  (aget 0))
+        pseudo-input (-> label .-firstChild)
+        input (-> pseudo-input .-nextSibling)]
+    (testing "Wrapper is a `<label>`?"
+      (is (= (-> label .-tagName) "LABEL")))
+    (testing "First child of label is an `<i>`?"
+      (is (= (-> pseudo-input .-tagName) "I")))
+    (testing "Real input is an `<input>`?" 
+      (is (= (-> input .-tagName) "INPUT")))
+    (testing "And input is of type `checkbox`" 
+      (is (= (-> input .-type) "checkbox")))
+    (testing "`<label>` contains '' as textContent?"
+      (is (= (-> label .-textContent) "")))))
 
 (defcard-rg card-checkbox-arity-one-text
   "
@@ -40,35 +54,49 @@
   [checkbox "Checkbox Arity One"])
 
 (deftest test-checkbox-arity-one-text
-  (let [element (-> js/document
-                    (.getElementsByClassName "lnz")
-                    (aget 1))]
-    (testing "Is an input?"
-      (is (= (-> element .-firstChild .-tagName) "INPUT")))
-    (testing "Is of type 'checkbox'" 
-      (is (= (-> element .-firstChild .-type) "checkbox")))
-    (testing "Contains 'Checkbox Arity One' as textContent?"
-      (is (= (-> element .-textContent) "Checkbox Arity One")))))
+  (let [label (-> js/document
+                  (.getElementsByClassName "lnz")
+                  (aget 2))
+        pseudo-input (-> label .-firstChild)
+        input (-> pseudo-input .-nextSibling)]
+    (testing "Wrapper is a `<label>`?"
+      (is (= (-> label .-tagName) "LABEL")))
+    (testing "First child of label is an `<i>`?"
+      (is (= (-> pseudo-input .-tagName) "I")))
+    (testing "Real input is an `<input>`?" 
+      (is (= (-> input .-tagName) "INPUT")))
+    (testing "And input is of type `checkbox`" 
+      (is (= (-> input .-type) "checkbox")))
+    (testing "`<label>` contains 'Checkbox Arity One' as textContent?"
+      (is (= (-> label .-textContent) "Checkbox Arity One")))))
 
 (defcard-rg card-checkbox-arity-one-attrs
   "
   ## Or attributes
   ```
-  [checkbox {:style {:background-color \"red\"}}]
+  [checkbox {:defaultChecked true}}]
   ```
   "
-  [checkbox {:style {:background-color "red"}}])
+  [checkbox {:defaultChecked true}])
 
 (deftest test-checkbox-arity-one-attrs
-  (let [element (-> js/document
-                    (.getElementsByClassName "lnz")
-                    (aget 2))]
-    (testing "Is an input?"
-      (is (= (-> element .-firstChild .-tagName) "INPUT")))
-    (testing "Is of type 'checkbox'" 
-      (is (= (-> element .-firstChild .-type) "checkbox")))
-    (testing "Contains 'red' as backgroundColor?"
-      (is (clojure.string/starts-with? (-> element .-firstChild .-style .-backgroundColor) "red")))))
+  (let [label (-> js/document
+                  (.getElementsByClassName "lnz")
+                  (aget 4))
+        pseudo-input (-> label .-firstChild)
+        input (-> pseudo-input .-nextSibling)]
+    (testing "Wrapper is a `<label>`?"
+      (is (= (-> label .-tagName) "LABEL")))
+    (testing "First child of label is an `<i>`?"
+      (is (= (-> pseudo-input .-tagName) "I")))
+    (testing "Real input is an `<input>`?" 
+      (is (= (-> input .-tagName) "INPUT")))
+    (testing "And input is of type `checkbox`" 
+      (is (= (-> input .-type) "checkbox")))
+    (testing "`<label>` contains '' as textContent?"
+      (is (= (-> label .-textContent) "")))
+    (testing "`<input>` are checked?"
+      (is (-> input .-checked)))))
 
 (defcard-rg card-checkbox-arity-two
   "
@@ -81,15 +109,21 @@
   [checkbox {:on-click #(js/alert "oh!")} "Checkbox Arity Two"])
 
 (deftest test-checkbox-arity-two
-  (let [element (-> js/document
-                    (.getElementsByClassName "lnz")
-                    (aget 3))]
-    (testing "Is an input?"
-      (is (= (-> element .-firstChild .-tagName) "INPUT")))
-    (testing "Is of type 'checkbox'" 
-      (is (= (-> element .-firstChild .-type) "checkbox")))
-    (testing "Contains 'Checkbox Arity Two' as textContent?"
-      (is (clojure.string/starts-with? (.-textContent element) "Checkbox Arity Two")))))
+  (let [label (-> js/document
+                  (.getElementsByClassName "lnz")
+                  (aget 6))
+        pseudo-input (-> label .-firstChild)
+        input (-> pseudo-input .-nextSibling)]
+    (testing "Wrapper is a `<label>`?"
+      (is (= (-> label .-tagName) "LABEL")))
+    (testing "First child of label is an `<i>`?"
+      (is (= (-> pseudo-input .-tagName) "I")))
+    (testing "Real input is an `<input>`?" 
+      (is (= (-> input .-tagName) "INPUT")))
+    (testing "And input is of type `checkbox`" 
+      (is (= (-> input .-type) "checkbox")))
+    (testing "`<label>` contains 'Checkbox Arity Two' as textContent?"
+      (is (= (-> label .-textContent) "Checkbox Arity Two")))))
 
 (defcard-rg card-checkbox-disabled
   "
@@ -101,65 +135,91 @@
   [checkbox {:disabled "disabled"} "Checkbox Disabled"])
 
 (deftest test-checkbox-disabled
-  (let [element (-> js/document
-                    (.getElementsByClassName "lnz")
-                    (aget 4))]
-    (testing "Is an input?"
-      (is (= (-> element .-firstChild .-tagName) "INPUT")))
-    (testing "Is of type 'checkbox'?" 
-      (is (= (-> element .-firstChild .-type) "checkbox")))
-    (testing "Is disabled?"
-      (is (-> element .-firstChild .-disabled)))))
+  (let [label (-> js/document
+                  (.getElementsByClassName "lnz")
+                  (aget 8))
+        pseudo-input (-> label .-firstChild)
+        input (-> pseudo-input .-nextSibling)]
+    (testing "Wrapper is a `<label>`?"
+      (is (= (-> label .-tagName) "LABEL")))
+    (testing "First child of label is an `<i>`?"
+      (is (= (-> pseudo-input .-tagName) "I")))
+    (testing "Real input is an `<input>`?" 
+      (is (= (-> input .-tagName) "INPUT")))
+    (testing "And input is of type `checkbox`" 
+      (is (= (-> input .-type) "checkbox")))
+    (testing "`<label>` contains 'Checkbox Disabled' as textContent?"
+      (is (= (-> label .-textContent) "Checkbox Disabled")))
+    (testing "`<input>` are disabled?"
+      (is (-> input .-disabled)))))
 
 (defcard-rg card-checkbox-icon-with-text
   "
-  ## Icon special attribute to add an icon (FontAwesome5) with text
+  ## Icon special attribute to add an icon (FontAwesome5)
   ```
-  [checkbox {:icon :i.fas.fa-cloud} \"cloud\"]
+  [checkbox {:icon :i.fas.fa-cloud}]
   ```
+  produces in hiccup:
+  ```
+  [:label.lnz {:for \"random-uuid\"}                ;; Label wrapper
+    [:i.lnz {:tab-index 0}]                       ;; Stylized Pseudo INPUT
+    [:input {:id \"random-uuid\" :type \"checkbox\"}] ;; Real INPUT 
+    [:span [:icon :i.fas.fa-cloud]]]              ;; Icon!
   "
-  [checkbox {:icon :i.fas.fa-cloud} "cloud"])
+  [checkbox {:icon :i.fas.fa-cloud}])
 
 (deftest test-checkbox-icon-with-text
-  (let [element (-> js/document
-                    (.getElementsByClassName "lnz")
-                    (aget 5))]
-    (testing "Is an input?"
-      (is (= (-> element .-firstChild .-tagName) "INPUT")))
-    (testing "Is of type 'checkbox'?" 
-      (is (= (-> element .-firstChild .-type) "checkbox")))
-    (testing "First child span?"
-      (is (= (-> element .-firstChild .-nextSibling .-tagName) "SPAN")))
-    (testing "First child of child is i?"
-      (is (= (-> element .-firstChild .-nextSibling .-firstChild .-tagName) "I")))
-    (testing "First child of child has fa class?"
-      (is (clojure.string/starts-with? (-> element .-firstChild .-nextSibling .-firstChild .-className) "fa")))
-    (testing "Last child contains 'cloud' as textContent"
-      (is (= (-> element .-lastChild .-textContent) "cloud")))))
+  (let [label (-> js/document
+                  (.getElementsByClassName "lnz")
+                  (aget 10))
+        pseudo-input (-> label .-firstChild)
+        input (-> pseudo-input .-nextSibling)
+        span  (-> input .-nextSibling)
+        icon  (-> span .-firstChild)]
+    (testing "Wrapper is a `<label>`?"
+      (is (= (-> label .-tagName) "LABEL")))
+    (testing "First child of label is an `<i>`?"
+      (is (= (-> pseudo-input .-tagName) "I")))
+    (testing "Real input is an `<input>`?" 
+      (is (= (-> input .-tagName) "INPUT")))
+    (testing "And input is of type `checkbox`" 
+      (is (= (-> input .-type) "checkbox")))
+    (testing "`<label>` contains `<span>` as last child"
+      (is (= (-> span .-tagName) "SPAN")))
+    (testing "`<span>` contains an `<i>`"
+      (is (= (-> icon .-tagName) "I")))
+    (testing "`<label>` contains '' as textContent?"
+      (is (= (-> label .-textContent) "")))))
 
 
 (defcard-rg card-checkbox-icon-without-text
   "
-  ## And without text
+  ## And with text
   ```
   [checkbox {:icon :i.fab.fa-react}]
   ```
   "
-  [checkbox {:icon :i.fas.fa-cloud}])
+  [checkbox {:icon :i.fab.fa-react} "React!"])
 
 (deftest test-checkbox-icon-without-text
-  (let [element (-> js/document
-                    (.getElementsByClassName "lnz")
-                    (aget 6))]
-    (testing "Is an input?"
-      (is (= (-> element .-firstChild .-tagName) "INPUT")))
-    (testing "Is of type 'checkbox'?" 
-      (is (= (-> element .-firstChild .-type) "checkbox")))
-    (testing "First child span?"
-      (is (= (-> element .-firstChild .-nextSibling .-tagName) "SPAN")))
-    (testing "First child of child is i?"
-      (is (= (-> element .-firstChild .-nextSibling .-firstChild .-tagName) "I")))
-    (testing "First child of child has fa class?"
-      (is (clojure.string/starts-with? (-> element .-firstChild .-nextSibling .-firstChild .-className) "fa")))
-    (testing "Last child contains empty string '' as textContent"
-      (is (= (-> element .-lastChild .-lastChild .-textContent) "")))))
+  (let [label (-> js/document
+                  (.getElementsByClassName "lnz")
+                  (aget 12))
+        pseudo-input (-> label .-firstChild)
+        input (-> pseudo-input .-nextSibling)
+        span  (-> input .-nextSibling)
+        icon  (-> span .-firstChild)]
+    (testing "Wrapper is a `<label>`?"
+      (is (= (-> label .-tagName) "LABEL")))
+    (testing "First child of label is an `<i>`?"
+      (is (= (-> pseudo-input .-tagName) "I")))
+    (testing "Real input is an `<input>`?" 
+      (is (= (-> input .-tagName) "INPUT")))
+    (testing "And input is of type `checkbox`" 
+      (is (= (-> input .-type) "checkbox")))
+    (testing "`<label>` contains `<span>` as last child"
+      (is (= (-> span .-tagName) "SPAN")))
+    (testing "`<span>` contains an `<i>`"
+      (is (= (-> icon .-tagName) "I")))
+    (testing "`<label>` contains 'cloud' as textContent?"
+      (is (= (-> label .-textContent) "React!")))))

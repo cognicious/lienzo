@@ -1,3 +1,4 @@
+$lnz-background-color: hsla(214, 61%, 25%, 0.05);
 $lnz-primary-color: hsl(214, 90%, 52%);
 $lnz-font-family: "Roboto", Helvetica, Arial, sans-serif;
 $lnz-font-size-m: 1rem;
@@ -7,7 +8,7 @@ $lnz-border-radius: 0.25em;
 $lnz-space-xs: 0.25rem;
 
 button.lnz {
-    background-color: hsla(214, 61%, 25%, 0.05);
+    background-color: $lnz-background-color;
     border-radius: 0.25em;
     border-width: 0px;
     box-sizing: border-box;
@@ -51,28 +52,28 @@ button.lnz {
 }
 
 @-webkit-keyframes pulse {
-  0% {
-    -webkit-box-shadow: 0 0 0 0  hsla(217, 42%, 94%, 0.85);
-  }
-  70% {
-      -webkit-box-shadow: 0 0 0 10px  hsla(217, 42%, 94%, 0.0);
-  }
-  100% {
-      -webkit-box-shadow: 0 0 0 0  hsla(217, 42%, 94%, 0.0);
-  }
+    0% {
+        -webkit-box-shadow: 0 0 0 0 hsla(217, 42%, 94%, 0.85);
+    }
+    70% {
+        -webkit-box-shadow: 0 0 0 10px hsla(217, 42%, 94%, 0.0);
+    }
+    100% {
+        -webkit-box-shadow: 0 0 0 0 hsla(217, 42%, 94%, 0.0);
+    }
 }
 @keyframes pulse {
-  0% {
-    -moz-box-shadow: 0 0 0 0  hsla(217, 42%, 94%, 0.85);
-    box-shadow: 0 0 0 0  hsla(217, 42%, 94%, 0.85);
-  }
-  70% {
-      -moz-box-shadow: 0 0 0 10px  hsla(217, 42%, 94%, 0.0);
-      box-shadow: 0 0 0 10px  hsla(217, 42%, 94%, 0.0);
-  }
-  100% {
-      -moz-box-shadow: 0 0 0 0 rgba(204,169,44, 0);
-      box-shadow: 0 0 0 0  hsla(217, 42%, 94%, 0.0);
-  }
+    0% {
+        -moz-box-shadow: 0 0 0 0 hsla(217, 42%, 94%, 0.85);
+        box-shadow: 0 0 0 0 hsla(217, 42%, 94%, 0.85);
+    }
+    70% {
+        -moz-box-shadow: 0 0 0 10px hsla(217, 42%, 94%, 0.0);
+        box-shadow: 0 0 0 10px hsla(217, 42%, 94%, 0.0);
+    }
+    100% {
+        -moz-box-shadow: 0 0 0 0 hsla(217, 42%, 94%, 0.0);
+        box-shadow: 0 0 0 0 hsla(217, 42%, 94%, 0.0);
+    }
 }
 
