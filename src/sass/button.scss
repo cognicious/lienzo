@@ -51,11 +51,6 @@ button.lnz {
         color: hsla(214, 50%, 22%, 0.26);
         cursor: not-allowed;
     }
-    span {
-        span {
-            margin-left: $lnz-space-xs;
-        }
-    }
 }
 
 @-webkit-keyframes pulse {

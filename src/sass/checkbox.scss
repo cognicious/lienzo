@@ -82,11 +82,15 @@ label.lnz {
     }
 
     span {
-        span {            
+        span {
             margin-left: $lnz-space-xs;
         }
+        div {
+            color: black;
+            font-weight: 300;
+            margin-left: calc( #{$lnz-space-xs} * 8 );
+        }
     }
-
 }
 
 @-webkit-keyframes pulse-checkbox {
@@ -121,4 +125,3 @@ label.lnz {
         transform: scale(0.95);
     }
 }
-

@@ -153,7 +153,7 @@
     (testing "`<input>` are disabled?"
       (is (-> input .-disabled)))))
 
-(defcard-rg card-checkbox-icon-with-text
+(defcard-rg card-checkbox-icon-without-text
   "
   ## Icon special attribute to add an icon (FontAwesome5)
   ```
@@ -168,7 +168,7 @@
   "
   [checkbox {:icon :i.fas.fa-cloud}])
 
-(deftest test-checkbox-icon-with-text
+(deftest test-checkbox-icon-without-text
   (let [label (-> js/document
                   (.getElementsByClassName "lnz")
                   (aget 10))
@@ -192,7 +192,7 @@
       (is (= (-> label .-textContent) "")))))
 
 
-(defcard-rg card-checkbox-icon-without-text
+(defcard-rg card-checkbox-icon-with-text
   "
   ## And with text
   ```
@@ -201,7 +201,7 @@
   "
   [checkbox {:icon :i.fab.fa-react} "React!"])
 
-(deftest test-checkbox-icon-without-text
+(deftest test-checkbox-icon-with-text
   (let [label (-> js/document
                   (.getElementsByClassName "lnz")
                   (aget 12))
@@ -223,3 +223,48 @@
       (is (= (-> icon .-tagName) "I")))
     (testing "`<label>` contains 'cloud' as textContent?"
       (is (= (-> label .-textContent) "React!")))))
+
+(defcard-rg card-checkbox-icon-with-text-and-description
+  "
+  ## With icon, text and description
+  ```
+  [:div
+   [:div 
+    [checkbox {:icon :i.fab.fa-react} 
+     [:span \"React\" [:div [:small \"In computing, React is a JavaScript library for building user interfaces. It is maintained by Facebook, Instagram and a community of individual developers and corporations.\"]]]]]
+   [:div
+    [checkbox {:icon :i.fab.fa-angular}
+     [:span \"Angular\" [:div [:small \"Angular is a TypeScript-based open-source front-end web application platform led by the Angular Team at Google and by a community of individuals and corporations.\"]]]]]]
+  ```
+  "
+  [:div
+   [:div 
+    [checkbox {:icon :i.fab.fa-react} 
+     [:span "React" [:div [:small "In computing, React is a JavaScript library for building user interfaces. It is maintained by Facebook, Instagram and a community of individual developers and corporations."]]]]]
+   [:div
+    [checkbox {:icon :i.fab.fa-angular}
+     [:span "Angular" [:div [:small "Angular is a TypeScript-based open-source front-end web application platform led by the Angular Team at Google and by a community of individuals and corporations. Angular is a complete rewrite from the same team that built AngularJS."]]]]]])
+
+(deftest test-checkbox-icon-with-text-and-description
+  (let [label (-> js/document
+                  (.getElementsByClassName "lnz")
+                  (aget 12))
+        pseudo-input (-> label .-firstChild)
+        input (-> pseudo-input .-nextSibling)
+        span  (-> input .-nextSibling)
+        icon  (-> span .-firstChild)]
+    (testing "Wrapper is a `<label>`?"
+      (is (= (-> label .-tagName) "LABEL")))
+    (testing "First child of label is an `<i>`?"
+      (is (= (-> pseudo-input .-tagName) "I")))
+    (testing "Real input is an `<input>`?" 
+      (is (= (-> input .-tagName) "INPUT")))
+    (testing "And input is of type `checkbox`" 
+      (is (= (-> input .-type) "checkbox")))
+    (testing "`<label>` contains `<span>` as last child"
+      (is (= (-> span .-tagName) "SPAN")))
+    (testing "`<span>` contains an `<i>`"
+      (is (= (-> icon .-tagName) "I")))
+    (testing "`<label>` contains 'cloud' as textContent?"
+      (is (= (-> label .-textContent) "React!")))))
+
