@@ -6,7 +6,7 @@
 (defn render
   [args text]
   (if-let [icon (:icon args)]
-    [:button.lnz args [:span [icon (if-not text {:class "demargin"})] text]]
+    [:button.lnz args [:span [icon (if-not text {:class "wo-margin"})] text]]
     [:button.lnz args text]))
 
 (defn mount
