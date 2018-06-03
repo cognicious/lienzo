@@ -13,6 +13,9 @@ button.lnz {
         &.fa:before,&.fab:before,&.fal:before,&.far:before,&.fas:before {
             margin: $lnz-border-radius calc( #{$lnz-border-radius} * 1 ) 0 0;
         }
+        &.demargin:before {
+            margin: $lnz-border-radius 0 0 0 !important;
+        }
     }
 
     background-color: $lnz-background-color;
