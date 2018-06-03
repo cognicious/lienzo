@@ -13,7 +13,7 @@ button.lnz {
         &.fa:before,&.fab:before,&.fal:before,&.far:before,&.fas:before {
             margin: $lnz-border-radius calc( #{$lnz-border-radius} * 1 ) 0 0;
         }
-        &.demargin:before {
+        &.wo-margin:before {
             margin: $lnz-border-radius 0 0 0 !important;
         }
     }
@@ -46,7 +46,7 @@ button.lnz {
         background-color: hsla(217, 42%, 94%, 0.85);
     }
     &.lnz-active {
-        animation: pulse 0.4s;
+        animation: pulse-button 0.4s;
         animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     }
     &[disabled] {
@@ -56,7 +56,7 @@ button.lnz {
     }
 }
 
-@-webkit-keyframes pulse {
+@-webkit-keyframes pulse-button {
     0% {
         -webkit-box-shadow: 0 0 0 0 hsla(217, 42%, 94%, 0.85);
     }
@@ -67,7 +67,7 @@ button.lnz {
         -webkit-box-shadow: 0 0 0 0 hsla(217, 42%, 94%, 0.0);
     }
 }
-@keyframes pulse {
+@keyframes pulse-button {
     0% {
         -moz-box-shadow: 0 0 0 0 hsla(217, 42%, 94%, 0.85);
         box-shadow: 0 0 0 0 hsla(217, 42%, 94%, 0.85);
