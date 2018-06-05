@@ -3,4 +3,5 @@
             [lienzo.select-test]
             [lienzo.button-test]
             [lienzo.checkbox-test]
-            [lienzo.radio-test]))
+            [lienzo.radio-test]
+            [lienzo.textfield-test]))

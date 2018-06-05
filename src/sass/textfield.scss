@@ -1,0 +1,142 @@
+$lnz-background-color: hsla(214, 61%, 25%, 0.15);
+$lnz-primary-color: hsla(214, 90%, 52%, 0.95);
+$lnz-font-family: "Roboto", Helvetica, Arial, sans-serif;
+$lnz-font-size-s: 0.75rem;
+$lnz-font-size-m: 1rem;
+$lnz-icon-size-m: 1.25rem;
+$lnz-size-m: 2.25rem;
+$lnz-button-size: $lnz-size-m;
+$lnz-border-radius: 0.25em;
+$lnz-space-xs: 0.25rem;
+
+label.lnz {
+
+    color: $lnz-primary-color;
+    font-family: $lnz-font-family;
+    font-size: $lnz-font-size-s;
+    font-weight: 400;
+    letter-spacing: .025em;
+    line-height: 1em;
+    // background-color: red;
+   
+    input[type="text"] {
+        border: none;
+        font-family: $lnz-font-family;
+        font-size: $lnz-font-size-m;
+        background-color: transparent;
+    } 
+   
+    i.radio { 
+        &.fa:before,&.fab:before,&.fal:before,&.far:before,&.fas:before {
+            margin: $lnz-border-radius calc( #{$lnz-border-radius} * 1 ) 0 0;
+        }
+        &.lnz:focus {
+            outline: none;
+            caret-color: transparent;            
+        }
+        &.lnz:before {
+            border-radius: 50%;
+            box-sizing: border-box;
+            color: $lnz-primary-color;
+            content: '\f111';            
+            cursor: pointer;
+            display: inline-block;
+            font-family:Font Awesome\ 5 Free;            
+            font-size: $lnz-icon-size-m;
+            font-style: normal;
+            font-variant: normal;
+            font-weight: 500;
+            letter-spacing: .025em;
+            line-height: 1em;
+            margin: $lnz-border-radius calc( #{$lnz-border-radius} * 2 ) 0 0;
+            outline: none;
+            position: relative;
+            text-rendering: auto;            
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            white-space: nowrap;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;   
+        }
+        &.lnz-over:before {
+            font-weight: 900;
+            transform: scale(1.1);
+        }
+        &.lnz-checked:before {
+            content: '\f192'; 
+            font-weight: 900;
+        }
+        &.lnz-active:before {
+            animation: pulse-radio 0.4s;
+            animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        &.lnz-disabled:before {
+            color: hsla(217, 42%, 94%, 0.85); //$lnz-background-color;
+            animation: none !important;
+            cursor: not-allowed;
+        }
+
+    }
+    &.lnz-disabled {
+        animation: none !important;
+        color: hsla(214, 50%, 22%, 0.26);
+        cursor: not-allowed;
+    }
+
+    span {
+        &.name {
+            display: block;
+        }
+        &.field {
+            display: inline-block;
+            background-color: $lnz-background-color;
+            padding: calc(#{$lnz-button-size} / 6 + #{$lnz-border-radius} / 2) calc(#{$lnz-button-size} / 6 + #{$lnz-border-radius} / 2);
+            border-radius: $lnz-border-radius;
+            margin: $lnz-space-xs 0;
+        }
+
+        span {
+            margin-left: $lnz-space-xs;
+        }
+        div {
+            color: black;
+            font-weight: 300;
+            margin-left: calc( #{$lnz-space-xs} * 8 );
+        }
+    }
+}
+
+@-webkit-keyframes pulse-radio {
+    0% {
+        -webkit-box-shadow: 0 0 0 0 hsla(217, 42%, 94%, 0.85);
+        transform: scale(0.85);
+    }
+    70% {
+        -webkit-box-shadow: 0 0 0 10px hsla(217, 42%, 94%, 0.0);
+        transform: scale(0.90);
+    }
+    100% {
+        -webkit-box-shadow: 0 0 0 0 hsla(217, 42%, 94%, 0.0);
+        transform: scale(0.95);
+    }
+}
+@keyframes pulse-radio {
+    0% {
+        -moz-box-shadow: 0 0 0 0 hsla(217, 42%, 94%, 0.85);
+        box-shadow: 0 0 0 0 hsla(217, 42%, 94%, 0.85);
+        transform: scale(0.85);
+    }
+    
+    70% {
+        -moz-box-shadow: 0 0 0 10px hsla(217, 42%, 94%, 0.0);
+        box-shadow: 0 0 0 10px hsla(217, 42%, 94%, 0.0);
+        transform: scale(0.90);
+    }
+    100% {
+        -moz-box-shadow: 0 0 0 0 hsla(217, 42%, 94%, 0.0);
+        box-shadow: 0 0 0 0 hsla(217, 42%, 94%, 0.0);
+        transform: scale(0.95);
+    }
+}
