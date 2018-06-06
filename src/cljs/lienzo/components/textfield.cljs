@@ -8,8 +8,24 @@
 (defn mount
   [component]
   (let [element (r/dom-node component)
-        input (-> element .-lastChild .-lastChild)]
+        input (-> element .-lastChild .-lastChild)
+        active-fn (fn [e]
+                    (if-not (gclasses/contains element (util-js/type->class "focus"))
+                      (if (gclasses/contains element (util-js/type->class "active"))
+                        (gclasses/remove element (util-js/type->class "active"))
+                        (gclasses/add element (util-js/type->class "active")))))
+        focusin-fn (fn [e]
+                     (gclasses/add element (util-js/type->class "focus")))
+        focusout-fn (fn [e]
+                     (gclasses/remove element (util-js/type->class "focus")))]
     (.log js/console input)
+    (-> input 
+        (util-js/add-event-listener "focusin" active-fn)
+        (util-js/add-event-listener "focusin" focusin-fn)
+        (util-js/add-event-listener "focusout" active-fn)
+        (util-js/add-event-listener "focusout" focusout-fn))
+
+    
     (-> element
         (util-js/add-event-listener "keydown" (fn [e]
                                                 (let [key-code (-> e .-keyCode)]
@@ -21,7 +37,6 @@
                                                   (gclasses/remove element (util-js/type->class "active"))))))
         (util-js/event-add-remove "active" "mousedown" "mouseup")
         (util-js/event-add-remove "active" "touchstart" "touchend")
-        (util-js/event-add-remove "over" "mouseover" "mouseout")
         (util-js/event-add-remove "over" "focusin" "focusout"))))
 
 (defn textfield
@@ -36,6 +51,6 @@
    (r/create-class {:reagent-render (fn [args text]
                                       (let [id (get args :id (random-uuid))]
                                         [:label.lnz  {:for id}
-                                         [:span.name text]
+                                         [:span.name (if (or (nil? text) (empty? text)) {:class "empty"} {}) text]
                                          [:span.field [:input (merge args {:type "text" :id id})]]]))
                     :component-did-mount mount})))

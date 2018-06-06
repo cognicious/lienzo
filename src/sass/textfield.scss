@@ -23,10 +23,17 @@ label.lnz {
     &.lnz-over {        
         span {
             &.field {
-                animation: pulse-textfield 0.4s;
+                animation: pulse-textfield 0.6s;
                 animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
             }
         }        
+    }
+    &.lnz-focus {
+         span {
+            &.field {
+                background-position:100% 0%;
+            }
+         }
     }
 
     input[type="text"] {
@@ -54,10 +61,13 @@ label.lnz {
     span {
         &.name {
             display: block;
+            &.empty {
+                display: none;
+            }
         }
         &.field {
             display: inline-block;
-            background: linear-gradient(90deg, $lnz-background-color-2, $lnz-background-color);
+            background: linear-gradient(90deg, $lnz-background-color, $lnz-background-color-2);
             background-size: 400% 400%;
             padding: calc(#{$lnz-button-size} / 6 + #{$lnz-border-radius} / 2) calc(#{$lnz-button-size} / 6 + #{$lnz-border-radius} / 2);
             border-radius: $lnz-border-radius;
