@@ -5,6 +5,25 @@
             [reagent.core :as r]))
 
 
+(defn mount
+  [component]
+  (let [element (r/dom-node component)
+        input (-> element .-lastChild .-lastChild)]
+    (.log js/console input)
+    (-> element
+        (util-js/add-event-listener "keydown" (fn [e]
+                                                (let [key-code (-> e .-keyCode)]
+                                                  (if (or (= key-code 32))
+                                                    (gclasses/add element (util-js/type->class "active"))))))
+        (util-js/add-event-listener "keyup" (fn [e]
+                                              (let [key-code (-> e .-keyCode)]
+                                                (if (or  (= key-code 32))
+                                                  (gclasses/remove element (util-js/type->class "active"))))))
+        (util-js/event-add-remove "active" "mousedown" "mouseup")
+        (util-js/event-add-remove "active" "touchstart" "touchend")
+        (util-js/event-add-remove "over" "mouseover" "mouseout")
+        (util-js/event-add-remove "over" "focusin" "focusout"))))
+
 (defn textfield
   "Textfield"
   ([]
@@ -19,5 +38,4 @@
                                         [:label.lnz  {:for id}
                                          [:span.name text]
                                          [:span.field [:input (merge args {:type "text" :id id})]]]))
-                    :component-did-mount (fn [comp]
-                                           )})))
+                    :component-did-mount mount})))
