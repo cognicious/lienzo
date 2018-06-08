@@ -49,8 +49,15 @@
      [textfield {} text]))
   ([args text]
    (r/create-class {:reagent-render (fn [args text]
-                                      (let [id (get args :id (random-uuid))]
-                                        [:label.lnz  {:for id}
+                                      (let [id (get args :id (random-uuid))
+                                            disabled (get args :disabled)
+                                            read-only (get args :read-only)
+                                            label-key (keyword (cond-> "label.lnz"
+                                                                 disabled (str ".lnz-disabled")
+                                                                 read-only (str ".lnz-read-only")))]
+                                        [label-key  {:for id}
                                          [:span.name (if (or (nil? text) (empty? text)) {:class "empty"} {}) text]
-                                         [:span.field [:input (merge args {:type "text" :id id})]]]))
+                                         [:span.field [:input (merge args {:type "text" :id id})]                                           
+                                          (if-let [icon (:icon args)]
+                                            [icon])]]))
                     :component-did-mount mount})))

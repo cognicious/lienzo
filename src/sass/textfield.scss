@@ -1,4 +1,4 @@
-$lnz-background-color: hsla(214, 61%, 25%, 0.15);
+$lnz-background-color: hsla(214, 61%, 25%, 0.10);
 $lnz-background-color-2: hsla(214, 61%, 25%, 0.05);
 $lnz-primary-color: hsla(214, 90%, 52%, 0.95);
 $lnz-font-family: "Roboto", Helvetica, Arial, sans-serif;
@@ -11,7 +11,7 @@ $lnz-border-radius: 0.25em;
 $lnz-space-xs: 0.25rem;
 
 label.lnz {
-
+    display: inline-block;
     color: $lnz-primary-color;
     font-family: $lnz-font-family;
     font-size: $lnz-font-size-s;
@@ -23,19 +23,20 @@ label.lnz {
     &.lnz-over {        
         span {
             &.field {
-                animation: pulse-textfield 0.6s;
+                animation: pulse-textfield 0.2s;
                 animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+                animation-fill-mode: both;
             }
         }        
     }
     &.lnz-focus {
          span {
             &.field {
-                background-position:100% 0%;
+                //background-position:-100% 0%;
             }
          }
     }
-
+    
     input[type="text"] {
         outline: none;
         border: none;
@@ -56,6 +57,49 @@ label.lnz {
         animation: none !important;
         color: hsla(214, 50%, 22%, 0.26);
         cursor: not-allowed;
+        
+        span {
+            &.name {
+                color: $lnz-background-color;
+                &.empty {
+                    display: none;
+                }
+            }
+            &.field {
+                border: 1px solid $lnz-background-color;
+            }
+        }
+    }
+    &.lnz-disabled {
+        animation: none !important;
+        cursor: not-allowed;
+        
+        span {
+            &.name {
+                color: $lnz-background-color;
+                &.empty {
+                    display: none;
+                }
+            }
+            &.field {
+                border: 1px solid $lnz-background-color;
+            }
+        }
+     }     
+     &.lnz-read-only {
+        animation: none !important;
+        cursor: not-allowed;        
+        span {
+            &.name {
+                &.empty {
+                    display: none;
+                }
+            }
+            &.field {
+                background: white;
+                border: 1px dashed $lnz-background-color;
+            }
+        }
     }
 
     span {
@@ -68,7 +112,7 @@ label.lnz {
         &.field {
             display: inline-block;
             background: linear-gradient(90deg, $lnz-background-color, $lnz-background-color-2);
-            background-size: 400% 400%;
+            background-size: 200% 200%;
             padding: calc(#{$lnz-button-size} / 6 + #{$lnz-border-radius} / 2) calc(#{$lnz-button-size} / 6 + #{$lnz-border-radius} / 2);
             border-radius: $lnz-border-radius;
             margin: $lnz-space-xs 0;
@@ -82,32 +126,25 @@ label.lnz {
             font-weight: 300;
             margin-left: calc( #{$lnz-space-xs} * 8 );
         }
+        i {
+            font-size: $lnz-font-size-m;
+        }
     }
 }
 
 @-webkit-keyframes pulse-textfield {
     0% {
-        -webkit-box-shadow: 0 0 0 0 hsla(217, 42%, 94%, 0.85);
-        transform: scale(0.85);
-    }
-    70% {
-        -webkit-box-shadow: 0 0 0 10px hsla(217, 42%, 94%, 0.0);
-        transform: scale(0.90);
+        background-position:0% 0%;
     }
     100% {
-        -webkit-box-shadow: 0 0 0 0 hsla(217, 42%, 94%, 0.0);
-        transform: scale(0.95);
+        background-position:-100% 0%;
     }
 }
 @keyframes pulse-textfield {
     0% {
         background-position:0% 0%;
     }
-    
-    70% {
-        background-position:70% 0%;
-    }
     100% {
-        background-position:100% 0%;
+        background-position:-100% 0%;
     }
 }

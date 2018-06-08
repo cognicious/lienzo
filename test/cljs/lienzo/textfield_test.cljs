@@ -75,10 +75,10 @@
   "
   ## Or attributes
   ```
-  [textfield {:defaultChecked true}}]
+  [textfield {:placeholder \"John Doe\"}}]
   ```
   "
-  [textfield {:defaultChecked true}])
+  [textfield {:placeholder "John Doe"}])
 
 (deftest test-textfield-arity-one-attrs
   (let [label (-> js/document
@@ -133,7 +133,9 @@
   [textfield {:disabled \"disabled\"} \"Textfield Disabled\"]
   ```
   "
-  [textfield {:disabled "disabled"} "Textfield Disabled"])
+  [:div
+   [textfield {:disabled "disabled" :value "Foo"} "Textfield Disabled"]
+   [textfield {:read-only true :value "Bar"} "Textfield ReadOnly"]])
 
 (deftest test-textfield-disabled
   (let [label (-> js/document
