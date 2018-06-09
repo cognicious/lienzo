@@ -4,6 +4,18 @@
             [lienzo.utils.js :as util-js] 
             [reagent.core :as r]))
 
+(defn render [args text]
+  (let [id (get args :id (random-uuid))
+        disabled (get args :disabled)
+        read-only (get args :read-only)
+        label-key (keyword (cond-> "label.lnz"
+                             disabled (str ".lnz-disabled")
+                             read-only (str ".lnz-read-only")))]
+    [label-key  {:for id}
+     [:span.name (if (or (nil? text) (empty? text)) {:class "empty"} {}) text]
+     [:span.field [:input (merge args {:type "text" :id id})]
+      (if-let [icon (:icon args)]
+        [icon])]]))
 
 (defn mount
   [component]
@@ -48,16 +60,5 @@
      [textfield text nil]
      [textfield {} text]))
   ([args text]
-   (r/create-class {:reagent-render (fn [args text]
-                                      (let [id (get args :id (random-uuid))
-                                            disabled (get args :disabled)
-                                            read-only (get args :read-only)
-                                            label-key (keyword (cond-> "label.lnz"
-                                                                 disabled (str ".lnz-disabled")
-                                                                 read-only (str ".lnz-read-only")))]
-                                        [label-key  {:for id}
-                                         [:span.name (if (or (nil? text) (empty? text)) {:class "empty"} {}) text]
-                                         [:span.field [:input (merge args {:type "text" :id id})]                                           
-                                          (if-let [icon (:icon args)]
-                                            [icon])]]))
+   (r/create-class {:reagent-render render
                     :component-did-mount mount})))
