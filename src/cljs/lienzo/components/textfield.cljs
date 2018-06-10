@@ -20,7 +20,8 @@
 (defn mount
   [component]
   (let [element (r/dom-node component)
-        input (-> element .-lastChild .-lastChild)
+        input (-> element .-lastChild .-firstChild)
+        icon (-> element .-lastChild .-firstChild .-nextSibling)
         active-fn (fn [e]
                     (if-not (gclasses/contains element (util-js/type->class "focus"))
                       (if (gclasses/contains element (util-js/type->class "active"))
@@ -29,8 +30,13 @@
         focusin-fn (fn [e]
                      (gclasses/add element (util-js/type->class "focus")))
         focusout-fn (fn [e]
-                     (gclasses/remove element (util-js/type->class "focus")))]
-    (.log js/console input)
+                     (gclasses/remove element (util-js/type->class "focus")))
+        prevent-fn (fn [e]
+                     (.log js/console "click")
+                     (.preventDefault e))]
+    (if icon
+      (util-js/add-event-listener icon "click" prevent-fn))
+
     (-> input 
         (util-js/add-event-listener "focusin" active-fn)
         (util-js/add-event-listener "focusin" focusin-fn)
@@ -49,7 +55,8 @@
                                                   (gclasses/remove element (util-js/type->class "active"))))))
         (util-js/event-add-remove "active" "mousedown" "mouseup")
         (util-js/event-add-remove "active" "touchstart" "touchend")
-        (util-js/event-add-remove "over" "focusin" "focusout"))))
+        (util-js/event-add-remove "over" "focusin" "focusout")
+        )))
 
 (defn textfield
   "Textfield"
