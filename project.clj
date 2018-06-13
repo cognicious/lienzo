@@ -11,12 +11,15 @@
                  
                  
                  [lein-doo "0.1.10"]
-                 [devcards "0.2.4"]]
+                 [devcards "0.2.4"]
+                 
+                 [garden "1.3.5"]]
   
   :plugins [[lein-cljsbuild "1.1.7"]
             [lein-figwheel "0.5.15"]
             [lein-doo "0.1.10"]
-            [lein-sass "0.5.0"]]
+            [lein-sass "0.5.0"]
+            [lein-garden "0.3.0"]]
   
   :profiles {:dev {:dependencies [[prismatic/dommy "1.1.0"]
                                   [cljs-react-test "0.1.4-SNAPSHOT"
@@ -34,6 +37,18 @@
   
   :sass {:src "src/sass"
          :output-directory "resources/public/css"}
+
+  :garden {:builds [{;; Optional name of the build:
+                     :id "screen"
+                     ;; Source paths where the stylesheet source code is
+                     :source-paths ["src/styles"]
+                     ;; The var containing your stylesheet:
+                     :stylesheet lienzo.css/screen
+                     ;; Compiler flags passed to `garden.core/css`:
+                     :compiler {;; Where to save the file:
+                                :output-to "resources/public/css/screen.css"
+                                ;; Compress the output?
+                                :pretty-print? true}}]}
 
   :cljsbuild {
               :builds [{:id "dev"
