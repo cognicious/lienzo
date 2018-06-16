@@ -1,44 +1,49 @@
-.getmdl-select {
-  outline: none;
-  .mdl-textfield__input {
+$lnz-background-color: hsla(214, 61%, 25%, 0.10);
+$lnz-background-color-2: hsla(214, 61%, 25%, 0.05);
+$lnz-primary-color: hsla(214, 90%, 52%, 0.95);
+$lnz-font-family: "Roboto", Helvetica, Arial, sans-serif;
+$lnz-font-size-s: 0.75rem;
+$lnz-font-size-m: 1rem;
+$lnz-icon-size-m: 1.25rem;
+$lnz-size-m: 2.25rem;
+$lnz-button-size: $lnz-size-m;
+$lnz-border-radius: 0.25em;
+$lnz-space-xs: 0.5rem;
+
+.lnz-popup {
+    list-style-type: none;
+    background-color: $lnz-background-color;
+    border-radius: 0 0 0.25em 0.25em;
+    border-width: 0px;
+    box-sizing: border-box;
+    color: $lnz-primary-color;
     cursor: pointer;
-  }
-  .selected {
-    background-color: #ddd;
-  }
-  .mdl-icon-toggle__label {
-    float: right;
-    margin-top: -30px;
-    color: rgba(0, 0, 0, 0.4);
-    transform: rotate(0);
-    transition: transform 0.3s;
-  }
-  &.is-focused {
-    .mdl-icon-toggle__label {
-      color: #3f51b5;
-      transform: rotate(180deg);
+    display: inline-block;
+    font-family: $lnz-font-family;
+    font-size: $lnz-font-size-m;
+    //font-weight: 500;
+    //height: $lnz-button-size;
+    letter-spacing: .025em;
+    line-height: 1.25em;
+    margin: $lnz-space-xs -0.5em;
+    //min-width: calc(#{$lnz-button-size} * 2);
+    padding: 0 calc(#{$lnz-button-size} / 3 + #{$lnz-border-radius} / 2);
+    width: 265px;
+    outline: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    white-space: nowrap;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;    
+    &.lnz-off {
+        display: none;
+        position: absolute;
     }
-  }
-
-  .mdl-menu__container {
-    width: 100% !important;
-    margin-top: 2px;
-    .mdl-menu {
-      width: 100%;
-      .mdl-menu__item {
-        font-size: 16px;
-      }
+    &.lnz-on {
+        display: block;
+        position: absolute;
     }
-  }
-}
-
-.getmdl-select__fix-height {
-  .mdl-menu__container .mdl-menu {
-    overflow-y: auto;
-    max-height: 288px !important;
-  }
-  .mdl-menu.mdl-menu--top-left {
-    bottom: auto;
-    top: 0;
-  }
+    
 }
