@@ -11,6 +11,9 @@ $lnz-border-radius: 0.25em;
 $lnz-space-xs: 0.5rem;
 
 .lnz-popup {
+    max-height: 10em;
+    overflow: auto;
+
     list-style-type: none;
     background-color: $lnz-background-color;
     border-radius: 0 0 0.25em 0.25em;
@@ -44,6 +47,9 @@ $lnz-space-xs: 0.5rem;
     &.lnz-on {
         display: block;
         position: absolute;
+    }
+    li.lnz {
+        padding: .75rem 0;
     }
     
 }
