@@ -18,6 +18,7 @@ label.lnz {
     font-weight: 400;
     letter-spacing: .025em;
     line-height: 1em;
+    min-height: 2em;
     // background-color: red;
    
     &.lnz-over {        
@@ -116,6 +117,7 @@ label.lnz {
             padding: calc(#{$lnz-button-size} / 6 + #{$lnz-border-radius} / 2) calc(#{$lnz-button-size} / 6 + #{$lnz-border-radius} / 2);
             border-radius: $lnz-border-radius;
             margin: $lnz-space-xs 0;
+            min-height: 2.2em;
         }
 
         span {

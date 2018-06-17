@@ -28,10 +28,11 @@ $lnz-space-xs: 0.5rem;
     //height: $lnz-button-size;
     letter-spacing: .025em;
     line-height: 1.25em;
-    margin: $lnz-space-xs -0.5em;
+    margin: $lnz-space-xs -0.45em;
     //min-width: calc(#{$lnz-button-size} * 2);
-    padding: 0 calc(#{$lnz-button-size} / 3 + #{$lnz-border-radius} / 2);
-    width: 265px;
+    //padding: 0 calc(#{$lnz-button-size} / 3 + #{$lnz-border-radius} / 2);
+    padding: 0px;
+    width: 234px;
     outline: none;
     user-select: none;
     -webkit-user-select: none;
@@ -49,7 +50,15 @@ $lnz-space-xs: 0.5rem;
         position: absolute;
     }
     li.lnz {
-        padding: .75rem 0;
+        padding: .75rem .75rem;
+        i {
+            min-width: 22px;
+            padding-right: 6px;
+            font-size: $lnz-font-size-m;
+        }
+        &:hover {
+            background-color: $lnz-background-color-2;
+        }
     }
     
 }

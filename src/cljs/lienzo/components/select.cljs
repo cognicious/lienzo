@@ -17,7 +17,7 @@
                                              popup-id (str "popup-" id)]
                                          [:label.lnz {:style {:display "block"}}
                                           [:span.field 
-                                           [:span {:style {:font-size "1rem" :display "inline-block" :width "200px" :height "18px" :padding "4px 0px 2px 0px" :margin "1px 0px -2px 0px"}} "1"]
+                                           [:span {:style {:font-size "1rem" :display "inline-block" :width "200px" :height "18px" :padding "6px 0px 2px 0px" :margin "1px 0px -2px 0px"}} "1"]
                                         ;[:input {:type "text" :style {:display "inline-block" :width "200px" }}]
                                            [:i.fas.fa-chevron-down {:on-click (fn [e]
                                                                                 (let [element (.getElementById js/document popup-id)]
@@ -26,9 +26,13 @@
                                                                                         (gclasses/add element "lnz-on"))
                                                                                     (do (gclasses/remove element "lnz-on")
                                                                                         (gclasses/add element "lnz-off")))))}]
-                                           [popup {:id popup-id} [1 2 3 4 5]]
+                                           [popup {:id popup-id} [[:span [:i.fas.fa-desktop] 1] 
+                                                                  [:span [:i.fas.fa-mobile-alt] 2]
+                                                                  [:span [:i.fas.fa-tablet-alt] 3] 
+                                                                  [:span 4]
+                                                                  [:span 5]]]
                                            ]])
-                                       (let [id (random-uuid)
+                                       #_(let [id (random-uuid)
                                              popup-id (str "popup-" id)]
                                          [:label.lnz {:style {:display "block"}}
                                           [:span.field 
