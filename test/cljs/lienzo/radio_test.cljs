@@ -1,6 +1,6 @@
 (ns lienzo.radio-test
   (:require [cljs.test :refer-macros [is testing async use-fixtures]]
-            [cljs-react-test.utils :as tu]
+            ;[cljs-react-test.utils :as tu]
             [devcards.core :refer-macros [deftest defcard defcard-rg reagent]]
             [reagent.core :as r]
             [lienzo.components.button :refer [button]]

@@ -4,33 +4,35 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   
-  :dependencies [[cljsjs/material "1.3.0-0"]
-                 [cljsjs/dialog-polyfill "0.4.3-0"]
-                 [reagent "0.6.0-rc" :exclusions [cljsjs/react]]
-                 [cljsjs/react-with-addons "15.2.1-1"]
+  :dependencies [#_[cljsjs/material "1.3.0-0"]
+                 #_[cljsjs/dialog-polyfill "0.4.3-0"]
+                 [reagent "0.8.1" :exclusions [cljsjs/react]]
+                 #_[cljsjs/react-with-addons "15.2.1-1"]
                  
                  
                  [lein-doo "0.1.10"]
-                 [devcards "0.2.4"]
+                 [devcards "0.2.5"]
                  
                  [garden "1.3.5"]]
   
   :plugins [[lein-cljsbuild "1.1.7"]
-            [lein-figwheel "0.5.15"]
+            [lein-figwheel "0.5.16"]
             [lein-doo "0.1.10"]
             [lein-sass "0.5.0"]
             [lein-garden "0.3.0"]]
   
   :profiles {:dev {:dependencies [[prismatic/dommy "1.1.0"]
-                                  [cljs-react-test "0.1.4-SNAPSHOT"
+                                  #_[cljs-react-test "0.1.4-SNAPSHOT"
                                    :exclusions [cljsjs/react-with-addons
                                                 org.clojure/core.async
                                                 org.clojure/tools.analyzer.jvm
                                                 ]]
-                                  [cljsjs/react-dom "15.2.1-1" :exclusions [cljsjs/react]]
-                                  [org.clojure/clojure "1.8.0"]
-                                  [org.clojure/clojurescript "1.9.93"]
-                                  [figwheel-sidecar "0.5.4-7"]]}}
+                                  [cljsjs/react "16.4.0-0"]
+                                  [cljsjs/react-dom "16.4.0-0"]
+                                  [cljsjs/react-dom-server "16.4.0-0"]
+                                  [org.clojure/clojure "1.9.0"]
+                                  [org.clojure/clojurescript "1.10.312"]
+                                  [figwheel-sidecar "0.5.16"]]}}
   :source-paths ["src/cljs"]
   
   :clean-targets ^{:protect false} ["resources/public/js/compiled" "target" "out"]
