@@ -13,7 +13,7 @@ $lnz-space-xs: 0.5rem;
 .lnz-popup {
     max-height: 10em;
     overflow: auto;
-
+    display: block;
     list-style-type: none;
     background-color: $lnz-background-color;
     border-radius: 0 0 0.25em 0.25em;
@@ -21,7 +21,7 @@ $lnz-space-xs: 0.5rem;
     box-sizing: border-box;
     color: $lnz-primary-color;
     cursor: pointer;
-    display: inline-block;
+    //display: inline-block;
     font-family: $lnz-font-family;
     font-size: $lnz-font-size-m;
     //font-weight: 500;
@@ -35,6 +35,8 @@ $lnz-space-xs: 0.5rem;
     width: 234px;
     outline: none;
     user-select: none;
+    transition: .2s ease;
+    position: absolute;
     -webkit-user-select: none;
     -moz-user-select: none;
     white-space: nowrap;
@@ -42,12 +44,15 @@ $lnz-space-xs: 0.5rem;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;    
     &.lnz-off {
-        display: none;
-        position: absolute;
+        // display: none;
+        height: 0;
+        //position: absolute;
+        
     }
     &.lnz-on {
-        display: block;
-        position: absolute;
+        // display: block;
+        height: 100%;
+        // position: absolute;
     }
     li.lnz {
         padding: .75rem .75rem;
