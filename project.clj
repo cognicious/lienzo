@@ -45,10 +45,10 @@
                      ;; Source paths where the stylesheet source code is
                      :source-paths ["src/styles"]
                      ;; The var containing your stylesheet:
-                     :stylesheet lienzo.css/screen
+                     :stylesheet lienzo.theme.default/css
                      ;; Compiler flags passed to `garden.core/css`:
                      :compiler {;; Where to save the file:
-                                :output-to "resources/public/css/screen.css"
+                                :output-to "resources/public/css/default.css"
                                 ;; Compress the output?
                                 :pretty-print? true}}]}
 
