@@ -55,7 +55,8 @@
   [button {:style {:background-color \"red\"}}]
   ```
   "
-  [button {:style {:background "red"}}])
+  [:div.lnz
+   [button {:style {:background "red"}}]])
 
 (deftest test-button-arity-one-attrs
   (let [element (-> js/document
@@ -74,7 +75,8 @@
   [button {:on-click #(js/alert \"oh!\")} \"Button Arity Two\"]
   ```
   "
-  [button {:on-click #(js/alert "oh!")} "Button Arity Two"])
+  [:div.lnz
+   [button {:on-click #(js/alert "oh!")} "Button Arity Two"]])
 
 (deftest test-button-arity-two
   (let [element (-> js/document
@@ -92,7 +94,8 @@
   [button {:disabled \"disabled\"} \"Button Disabled\"]
   ```
   "
-  [button {:disabled "disabled"} "Button Disabled"])
+  [:div.lnz
+   [button {:disabled "disabled"} "Button Disabled"]])
 
 (deftest test-button-disabled
   (let [element (-> js/document
@@ -110,7 +113,8 @@
   [button {:icon :i.fas.fa-cloud} \"cloud\"]
   ```
   "
-  [button {:icon :i.fas.fa-cloud} "cloud"])
+  [:div.lnz
+   [button {:icon :i.fas.fa-cloud} "cloud"]])
 
 (deftest test-button-icon-with-text
   (let [element (-> js/document
@@ -135,7 +139,8 @@
   [button {:icon :i.fab.fa-react}]
   ```
   "
-  [button {:icon :i.fas.fa-cloud}])
+  [:div.lnz
+   [button {:icon :i.fas.fa-cloud}]])
 
 (deftest test-button-icon-without-text
   (let [element (-> js/document
