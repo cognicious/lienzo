@@ -16,7 +16,8 @@
   [button]
   ```
   "
-  [button])
+  [:div.lnz
+   [button]])
 
 (deftest test-button-arity-zero
   (let [element (-> js/document
@@ -34,7 +35,8 @@
   [button \"Button Arity One\"]
   ```
   "
-  [button "Button Arity One"])
+  [:div.lnz
+   [button "Button Arity One"]])
 
 (deftest test-button-arity-one-text
   (let [element (-> js/document
