@@ -16,10 +16,11 @@
                  [garden "1.3.5"]]
   
   :plugins [[lein-cljsbuild "1.1.7"]
-            [lein-figwheel "0.5.16"]
             [lein-doo "0.1.10"]
-            [lein-sass "0.5.0"]
-            [lein-garden "0.3.0"]]
+            [lein-figwheel "0.5.16"]
+            [lein-garden "0.3.0"]
+            [lein-kibit "0.1.6"]
+            [lein-sass "0.5.0"]]
   
   :profiles {:dev {:dependencies [[prismatic/dommy "1.1.0"]
                                   #_[cljs-react-test "0.1.4-SNAPSHOT"
@@ -53,7 +54,7 @@
                                 :pretty-print? true}}]}
 
   :cljsbuild {
-              :builds [{:id "dev"
+              :builds [#_{:id "dev"
                         :source-paths ["src/cljs" "demo/src/cljs"]
                         :figwheel { :on-jsload "lienzo.demo/on-js-reload" }
                         :compiler {:main lienzo.demo
@@ -87,11 +88,12 @@
                                    :optimizations :advanced
                                    :pretty-print false}}
                        
-                       #_{:id "test"
-                        :source-paths ["src/cljc" "src-dev" "test/cljs"]
-                          :compiler {:output-to "resources/public/js/compiled/test.js"
-                                     :main re-mdl.runner
-                                     :optimizations :none}}]} 
+                       {:id "test"
+                        :source-paths ["src/cljs" "test/cljs"]
+                        :compiler {:output-to "resources/public/js/compiled/test.js"
+                                   :main lienzo.doo
+                                   :output-dir "resources/public/js/tests/test-out"
+                                   :optimizations :none}}]}
 
   :figwheel {
              ;; :http-server-root "public" ;; default and assumes "resources"

@@ -6,19 +6,19 @@
 (defn render
   [args text]
   (if-let [icon (:icon args)]
-    [:button.lnz args [:span [icon (if-not text {:class "wo-margin"})] text]]
-    [:button.lnz args text]))
+    [:button args [:span [icon (if-not text {:class "wo-margin"})] text]]
+    [:button args text]))
 
 (defn mount
   [component]
   (let [element (r/dom-node component)]
     (-> element
         (util-js/add-event-listener "keydown" (fn [e]
-                                                (let [key-code (-> e .-keyCode)]
+                                                (let [key-code (.-keyCode e)]
                                                   (if (or (= key-code 13) (= key-code 32))
                                                     (gclasses/add element (util-js/type->class "active"))))))
         (util-js/add-event-listener "keyup" (fn [e]
-                                              (let [key-code (-> e .-keyCode)]
+                                              (let [key-code (.-keyCode e)]
                                                 (if (or (= key-code 13) (= key-code 32))
                                                   (gclasses/remove element (util-js/type->class "active"))))))
         (util-js/event-add-remove "active" "mousedown" "mouseup")
