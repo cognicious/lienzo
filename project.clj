@@ -54,7 +54,7 @@
                                 ;; Compress the output?
                                 :pretty-print? true}}]}
 
-  :cljsbuild {
+  :cljsbuild {:test-commands {"test" ["lein" "doo" "slimer" "test" "once"]}
               :builds [#_{:id "dev"
                         :source-paths ["src/cljs" "demo/src/cljs"]
                         :figwheel { :on-jsload "lienzo.demo/on-js-reload" }
