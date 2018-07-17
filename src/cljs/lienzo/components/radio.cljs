@@ -13,8 +13,8 @@
         disabled (get args :disabled)
         checked (get args :defaultChecked)
         
-        label-key (if disabled :label.lnz.lnz-disabled :label.lnz)
-        pseudo-key (keyword (cond-> "i.lnz.radio"
+        label-key (if disabled :label.lnz-disabled :label)
+        pseudo-key (keyword (cond-> "i.radio"
                              disabled (str ".lnz-disabled")
                              checked (str ".lnz-checked")))]
     (if-let [icon (:icon args)]

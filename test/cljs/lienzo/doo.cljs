@@ -3,4 +3,5 @@
                                       [lienzo.tests]))
 
 (doo-tests 'lienzo.button-test
-           'lienzo.checkbox-test)
+           'lienzo.checkbox-test
+           'lienzo.radio-test)

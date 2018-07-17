@@ -10,10 +10,8 @@
 (def primary-color (hsl 214 (percent 90) (percent 52)))
 (def disable-color (hsla 217 (percent 50) (percent 22) 0.25))
 
-
 (def font-family ["\"Roboto\"" 'Helvetica 'Arial 'sans-serif])
-(def font-icon   [['Font "Awesome\\" '5 'Free]] ;"Font Awesome 5 Free"
-  )
+(def font-icon   [['Font "Awesome\\" '5 'Free]])
 (def font-size-m 0.9)
 
 (def button-size 2.25)
@@ -49,8 +47,28 @@
        :position 'relative
        :text-rendering 'auto
        :user-select 'none}]
-     [:&.lnz-over:before {:font-weight 900 :transform "scale(1.1)"}]
-     [:&.lnz-checked:before {:content "\"\\f14a\"" :font-weight 900}]
+     [:&.radio:before ^:prefix
+      {:border-radius (percent 50)
+       :box-sizing 'border-box
+       :color primary-color
+       :content "\"\\f111\""
+       :cursor 'pointer
+       :display 'inline-block
+       :font-family font-icon
+       :font-size (rem (* font-size-m 1.15))
+       :font-style 'normal
+       :font-variant 'normal
+       :font-weight 500
+       :letter-spacing (rem letter-spacing)
+       :line-height (em 1.0)
+       :margin [[(rem border-radius) (rem (* border-radius 2)) 0 0]]
+       :outline 'none
+       :position 'relative
+       :text-rendering 'auto
+       :user-select 'none}]
+     [:&.checkbox.lnz-checked:before {:content "\"\\f14a\"" :font-weight 900}]
+     [:&.radio.lnz-checked:before {:content "\"\\f192\"" :font-weight 900}]     
+     [:&.lnz-over:before {:font-weight 900 :transform "scale(1.1)"}]     
      [:&.lnz-active:before {:animation [['pulse-checkbox (ms 300)]]
                             :animation-timing-function "cubic-bezier(0.4, 0, 0.2, 1)"}]
      [:&.lnz-disabled:before {:animation [['none '!important]]
@@ -110,8 +128,20 @@
   [(gs/input (gs/attr= :type :checkbox))
    {:display 'none}])
 
+(defn gen-radio []
+  [(gs/input (gs/attr= :type :radio))
+   {:display 'none}])
+
 (defn gen-checkbox-keyframe []
   (at-keyframes 'pulse-checkbox
+                [:0% ^:prefix {:box-shadow [[0 0 0 0 default-bg-color]] 
+                               :transform "scale(0.85)"}]
+                [:70% ^:prefix {:box-shadow [[0 0 0 (rem (/ button-size 4)) (hsla 0 (percent 0) (percent 94) 0.1)]]
+                                :transform "scale(0.90)"}]
+                [:100% ^:prefix {:box-shadow [[0 0 0 0 (hsla 217 (percent 0) (percent 94) 0.0)]]
+                                 :transform "scale(0.95)"}]))
+(defn gen-radio-keyframe []
+  (at-keyframes 'pulse-radio
                 [:0% ^:prefix {:box-shadow [[0 0 0 0 default-bg-color]] 
                                :transform "scale(0.85)"}]
                 [:70% ^:prefix {:box-shadow [[0 0 0 (rem (/ button-size 4)) (hsla 0 (percent 0) (percent 94) 0.1)]]
@@ -131,6 +161,8 @@
    (gen-checkbox)
    (gen-icons)
    (gen-label)
+   (gen-radio)
    (gen-span-div)]
   (gen-button-keyframe)
-  (gen-checkbox-keyframe))
+  (gen-checkbox-keyframe)
+  (gen-radio-keyframe))
