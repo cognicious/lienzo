@@ -4,8 +4,6 @@
             [lienzo.utils.js :as util-js] 
             [reagent.core :as r]))
 
-
-
 (defn render 
   "Render checkbox with args and text"
   [args text]
@@ -13,8 +11,8 @@
         disabled (get args :disabled)
         checked (get args :defaultChecked)
         
-        label-key (if disabled :label.lnz.lnz-disabled :label.lnz)
-        pseudo-key (keyword (cond-> "i.lnz"
+        label-key (if disabled :label.lnz-disabled :label)
+        pseudo-key (keyword (cond-> "i.checkbox"
                              disabled (str ".lnz-disabled")
                              checked (str ".lnz-checked")))]
     (if-let [icon (:icon args)]
@@ -32,7 +30,7 @@
   "Adds Listeners for CSS FX"
   [component]
   (let [element (r/dom-node component)
-        pseudo (-> element .-firstChild)
+        pseudo (.-firstChild element)
         input  (-> element .-firstChild .-nextSibling)
         check-fn  (fn [e]
                     (let [checked (util-js/type->class "checked")]
@@ -44,11 +42,10 @@
                       (gclasses/remove pseudo (util-js/type->class "active"))
                       (gclasses/add pseudo (util-js/type->class "active"))))]
     
-    (-> input
-        (util-js/add-event-listener "change" check-fn))
+    (util-js/add-event-listener input "change" check-fn)
     (-> pseudo
         (util-js/add-event-listener "keydown" (fn [e]
-                                                (let [key-code (-> e .-keyCode)]
+                                                (let [key-code (.-keyCode e)]
                                                   (.log js/console (gclasses/contains pseudo (util-js/type->class "active")))
                                                   (if (or (= key-code 13) (= key-code 32))
                                                     (if (gclasses/contains pseudo (util-js/type->class "active"))
@@ -58,7 +55,7 @@
                                                           (check-fn e)
                                                           (.preventDefault e)))))))
         (util-js/add-event-listener "keyup" (fn [e]
-                                              (let [key-code (-> e .-keyCode)]
+                                              (let [key-code (.-keyCode e)]
                                                 (.log js/console (gclasses/contains pseudo (util-js/type->class "active")))
                                                 (if (or (= key-code 13) (= key-code 32))
                                                   (if (gclasses/contains pseudo (util-js/type->class "active"))
