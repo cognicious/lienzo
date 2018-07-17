@@ -12,12 +12,15 @@
 
 
 (def font-family ["\"Roboto\"" 'Helvetica 'Arial 'sans-serif])
+(def font-icon   [['Font "Awesome\\" '5 'Free]] ;"Font Awesome 5 Free"
+  )
 (def font-size-m 0.9)
 
 (def button-size 2.25)
 (def border-radius 0.25)
+(def letter-spacing 0.025)
 
-(defn icons []
+(defn gen-icons []
   (let [style {:margin [[(rem border-radius) (rem border-radius) 0 0]]}]
     [:i
      [:&.fa:before style]
@@ -25,7 +28,34 @@
      [:&.fal:before style]
      [:&.far:before style]
      [:&.fas:before style]
-     [:&.wo-margin:before {:margin [[(rem border-radius) 0 0 0 '!important]]}]]))
+     [:&.wo-margin:before {:margin [[(rem border-radius) 0 0 0 '!important]]}]
+     [:&:focus {:outline 'none :caret-color 'transparent}]
+     [:&.checkbox:before ^:prefix
+      {;:border-radius (percent 50)
+       :box-sizing 'border-box
+       :color primary-color
+       :content "\"\\f0c8\""
+       :cursor 'pointer
+       :display 'inline-block
+       :font-family font-icon
+       :font-size (rem (* font-size-m 1.15))
+       :font-style 'normal
+       :font-variant 'normal
+       :font-weight 500
+       :letter-spacing (rem letter-spacing)
+       :line-height (em 1.0)
+       :margin [[(rem border-radius) (rem (* border-radius 2)) 0 0]]
+       :outline 'none
+       :position 'relative
+       :text-rendering 'auto
+       :user-select 'none}]
+     [:&.lnz-over:before {:font-weight 900 :transform "scale(1.1)"}]
+     [:&.lnz-checked:before {:content "\"\\f14a\"" :font-weight 900}]
+     [:&.lnz-active:before {:animation [['pulse-checkbox (ms 300)]]
+                            :animation-timing-function "cubic-bezier(0.4, 0, 0.2, 1)"}]
+     [:&.lnz-disabled:before {:animation [['none '!important]]
+                              :color disable-color
+                              :cursor 'not-allowed}]]))
 
 (defn gen-button []
   [:button
@@ -41,7 +71,7 @@
     :font-size        (rem font-size-m)
     :font-weight      300
     :height           (rem 2.25)
-    :letter-spacing   (em 0.025)   
+    :letter-spacing   (rem letter-spacing)
     :margin           [[(rem 0.25) 0]]
     :min-width        (rem (* button-size 2))
     :padding          [[0 (rem (+ (/ button-size 3) (/ border-radius 2)))]]
@@ -63,11 +93,44 @@
                 [:70% ^:prefix {:box-shadow [[0 0 0 (rem (/ button-size 4)) (hsla 0 (percent 0) (percent 94) 0.1)]]}]
                 [:100% ^:prefix {:box-shadow [[0 0 0 0 (hsla 217 (percent 0) (percent 94) 0.0)]]}]))
 
+(defn gen-label []
+  [:label
+   {:color       primary-color
+    :font-family font-family
+    :font-size   (rem font-size-m)
+    :font-weight 300
+    :letter-spacing (rem letter-spacing)
+    :line-height    (em 1.0)
+    :margin         [[0 (rem (* border-radius 6)) 0 0]]}
+   [:&.lnz-disabled {:animation [['none '!important]]
+                     :color disable-color
+                     :cursor 'not-allowed}]])
 
+(defn gen-checkbox []
+  [(gs/input (gs/attr= :type :checkbox))
+   {:display 'none}])
 
-(defstyles garden-css 
+(defn gen-checkbox-keyframe []
+  (at-keyframes 'pulse-checkbox
+                [:0% ^:prefix {:box-shadow [[0 0 0 0 default-bg-color]] 
+                               :transform "scale(0.85)"}]
+                [:70% ^:prefix {:box-shadow [[0 0 0 (rem (/ button-size 4)) (hsla 0 (percent 0) (percent 94) 0.1)]]
+                                :transform "scale(0.90)"}]
+                [:100% ^:prefix {:box-shadow [[0 0 0 0 (hsla 217 (percent 0) (percent 94) 0.0)]]
+                                 :transform "scale(0.95)"}]))
+
+(defn gen-span-div []
+  [:span
+   [:div {:color 'black
+          :margin-left (rem (* border-radius 6))}]])
+
+(defstyles garden-css
   [:.lnz 
-   (icons)
    (gen-button)
-   (gen-button-disabled)]
-  (gen-button-keyframe))
+   (gen-button-disabled)
+   (gen-checkbox)
+   (gen-icons)
+   (gen-label)
+   (gen-span-div)]
+  (gen-button-keyframe)
+  (gen-checkbox-keyframe))
