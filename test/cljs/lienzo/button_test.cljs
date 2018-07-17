@@ -4,8 +4,7 @@
             [devcards.core :refer-macros [deftest defcard defcard-rg reagent]]
             [reagent.core :as r]
             [lienzo.containers :refer [bind-synthetic-container synthetic-container]]
-            [lienzo.components.button :refer [button]])
-  #_(:require-macros []))
+            [lienzo.components.button :refer [button]]))
 
 (use-fixtures :each bind-synthetic-container)
 
