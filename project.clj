@@ -46,9 +46,10 @@
                      ;; Source paths where the stylesheet source code is
                      :source-paths ["src/styles"]
                      ;; The var containing your stylesheet:
-                     :stylesheet lienzo.theme.default/css
+                     :stylesheet lienzo.theme.default/garden-css
                      ;; Compiler flags passed to `garden.core/css`:
-                     :compiler {;; Where to save the file:
+                     :compiler {:vendors ["webkit" "moz"]
+                                ;; Where to save the file:
                                 :output-to "resources/public/css/default.css"
                                 ;; Compress the output?
                                 :pretty-print? true}}]}
