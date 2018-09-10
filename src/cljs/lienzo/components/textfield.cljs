@@ -8,7 +8,7 @@
   (let [id (get args :id (random-uuid))
         disabled (get args :disabled)
         read-only (get args :read-only)
-        label-key (keyword (cond-> "label.lnz"
+        label-key (keyword (cond-> "label.textfield"
                              disabled (str ".lnz-disabled")
                              read-only (str ".lnz-read-only")))]
     [label-key  {:for id}
