@@ -24,12 +24,13 @@
     [:span.name \"\"]                                          ;; Field name
     [:span.field [:input {:type \"text\" :id \"random-uuid\"}]]] ;; Real INPUT wrapped by SPAN    
   "
-  [textfield])
+  [:div.lnz [textfield]])
 
 (deftest test-textfield-arity-zero
   (let [label (-> js/document
                   (.getElementsByClassName "lnz")
-                  (aget 0))
+                  (aget 0)
+                  .-firstChild)
         name  (-> label .-firstChild)
         field (-> name .-nextSibling)
         input (-> field .-firstChild)]
@@ -51,12 +52,13 @@
   [textfield \"Textfield Arity One\"]
   ```
   "
-  [textfield "Textfield Arity One"])
+  [:div.lnz [textfield "Textfield Arity One"]])
 
 (deftest test-textfield-arity-one-text
   (let [label (-> js/document
                   (.getElementsByClassName "lnz")
-                  (aget 1))
+                  (aget 1)
+                  .-firstChild)
         name  (-> label .-firstChild)
         field (-> name .-nextSibling)
         input (-> field .-firstChild)]
@@ -78,12 +80,13 @@
   [textfield {:placeholder \"John Doe\"}}]
   ```
   "
-  [textfield {:placeholder "John Doe"}])
+  [:div.lnz [textfield {:placeholder "John Doe"}]])
 
 (deftest test-textfield-arity-one-attrs
   (let [label (-> js/document
                   (.getElementsByClassName "lnz")
-                  (aget 2))
+                  (aget 2)
+                  .-firstChild)
         name  (-> label .-firstChild)
         field (-> name .-nextSibling)
         input (-> field .-firstChild)]
@@ -106,12 +109,13 @@
   [textfield {:on-click #(js/alert \"oh!\")} \"Textfield Arity Two\"]
   ```
   "
-  [textfield {:on-click #(js/alert "oh!")} "Textfield Arity Two"])
+  [:div.lnz [textfield {:on-click #(js/alert "oh!")} "Textfield Arity Two"]])
 
 (deftest test-textfield-arity-two
   (let [label (-> js/document
                   (.getElementsByClassName "lnz")
-                  (aget 3))
+                  (aget 3)
+                  .-firstChild)
         name  (-> label .-firstChild)
         field (-> name .-nextSibling)
         input (-> field .-firstChild)]
@@ -133,12 +137,13 @@
   [textfield {:disabled true :value \"Foo\"} \"Textfield Disabled\"]
   ```
   "
-  [textfield {:disabled true :value "Foo"} "Textfield Disabled"])
+  [:div.lnz [textfield {:disabled true :value "Foo"} "Textfield Disabled"]])
 
 (deftest test-textfield-disabled
   (let [label (-> js/document
                   (.getElementsByClassName "lnz")
-                  (aget 4))
+                  (aget 4)
+                  .-firstChild)
         name  (-> label .-firstChild)
         field (-> name .-nextSibling)
         input (-> field .-firstChild)]
@@ -162,12 +167,13 @@
   [textfield {:read-only true :value \"Bar\"} \"Textfield ReadOnly\"]
   ```
   "
-  [textfield {:read-only true :value "Bar"} "Textfield ReadOnly"])
+  [:div.lnz [textfield {:read-only true :value "Bar"} "Textfield ReadOnly"]])
 
 (deftest test-textfield-readonly
   (let [label (-> js/document
                   (.getElementsByClassName "lnz")
-                  (aget 5))
+                  (aget 5)
+                  .-firstChild)
         name  (-> label .-firstChild)
         field (-> name .-nextSibling)
         input (-> field .-firstChild)]
@@ -197,12 +203,13 @@
     [:span.field [:input {:type \"text\" :id \"random-uuid\"}]] ;; Real INPUT wrapped by SPAN 
                  [:i.fas.fa-cloud]]                         ;; Icon
   "
-  [textfield {:icon :i.fas.fa-cloud}])
+  [:div.lnz [textfield {:icon :i.fas.fa-cloud}]])
 
 (deftest test-textfield-icon-without-text
   (let [label (-> js/document
                   (.getElementsByClassName "lnz")
-                  (aget 6))
+                  (aget 6)
+                  .-firstChild)
         name  (-> label .-firstChild)
         field (-> name .-nextSibling)
         input (-> field .-firstChild)
@@ -225,15 +232,16 @@
   "
   ## And with text
   ```
-  [textfield {:icon :i.fab.fa-react}]
+  [textfield {:icon :i.fab.fa-react} \"React!\"]
   ```
   "
-  [textfield {:icon :i.fab.fa-react} "React!"])
+  [:div.lnz [textfield {:icon :i.fab.fa-react} "React!"]])
 
 (deftest test-textfield-icon-with-text
   (let [label (-> js/document
                   (.getElementsByClassName "lnz")
-                  (aget 7))
+                  (aget 7)
+                  .-firstChild)
         name  (-> label .-firstChild)
         field (-> name .-nextSibling)
         input (-> field .-firstChild)
