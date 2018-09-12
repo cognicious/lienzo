@@ -6,6 +6,7 @@
             [garden.units :refer [percent em rem px ms]]))
 
 (def default-bg-color (hsla 217 (percent 5) (percent 94) 0.55))
+(def bg-color (hsla 217 (percent 5) (percent 94) 0.85))
 (def hover-bg-color (hsla 217 (percent 5) (percent 94) 0.75))
 (def primary-color (hsl 214 (percent 90) (percent 52)))
 (def disable-color (hsla 217 (percent 50) (percent 22) 0.25))
@@ -13,6 +14,7 @@
 (def font-family ["\"Roboto\"" 'Helvetica 'Arial 'sans-serif])
 (def font-icon   [['Font "Awesome\\" '5 'Free]])
 (def font-size-m 0.9)
+(def font-size-s 0.7)                 ;
 
 (def button-size 2.25)
 (def border-radius 0.25)
@@ -122,7 +124,61 @@
     :margin         [[0 (rem (* border-radius 6)) 0 0]]}
    [:&.lnz-disabled {:animation [['none '!important]]
                      :color disable-color
-                     :cursor 'not-allowed}]])
+                     :cursor 'not-allowed}]
+   [:&.textfield
+    {:display 'inline-block
+     :color primary-color
+     :font-size (rem font-size-s)
+     :font-weight 300
+     :letter-spacing (rem letter-spacing)
+     :line-height    (em 1.0)
+     :min-height     (em 2.0)}
+    [:&.lnz-over 
+     [:span
+      [:&.field {:animation [['pulse-textfield (ms 300)]]
+                 :animation-timing-function "cubic-bezier(0.4, 0, 0.2, 1)"
+                 :animation-fill-mode 'both}]]]
+    [:&.lnz-focus
+     [:span
+      [:&.field {}]]]
+    [(gs/input (gs/attr= :type :text)) {:outline 'none
+                                        :border 'none
+                                        :font-family font-family
+                                        :font-size font-size-m
+                                        :background-color 'transparent}]
+    [:&.lnz-disabled:before {:animation [['none '!important]]
+                             :color disable-color
+                             :cursor 'not-allowed}]
+    [:&.lnz-disabled {:animation [['none '!important]]
+                      :color disable-color
+                      :cursor 'not-allowed}
+     [:span 
+      [:&.name {:color disable-color}
+       [:&.empty {:display 'none}]]
+      [:&.field {:border [[(px 1) "solid" disable-color]]}]]]
+    [:&.lnz-read-only {:animation [['none '!important]]
+                       :cursor 'not-allowed}
+     [:span
+      [:&.name 
+       [:&.empty {:display 'none}]]
+      [:&.field {:background 'white
+                 :border [[(px 1) "dashed" disable-color]]}]]]
+    [:span 
+     [:&.name {:display 'block}
+      [:&.empty {:display 'none}]]
+     [:&.field {:display 'inline-block
+                :background (str "linear-gradient(90deg , hsla(214, 61%, 25%, 0.10), hsla(214, 61%, 25%, 0.05));")
+                :background-size [[(percent 200) (percent 200)]]
+                :padding [[(em (+ (/ button-size 6) (/ border-radius 2))) (em (+ (/ button-size 6) (/ border-radius 2)))]]
+                :border-radius (em border-radius)
+                :margin [[(rem border-radius) 0]]
+                ;:min-height (em 2.2)
+                }]
+     [:span {:margin-left (rem border-radius)}]
+     [:div {:color 'black
+            :font-weight 300
+            :margin-left (rem (* border-radius 8))}]
+     [:i {:font-size font-size-m}]]]])
 
 (defn gen-checkbox []
   [(gs/input (gs/attr= :type :checkbox))
@@ -148,6 +204,10 @@
                                 :transform "scale(0.90)"}]
                 [:100% ^:prefix {:box-shadow [[0 0 0 0 (hsla 217 (percent 0) (percent 94) 0.0)]]
                                  :transform "scale(0.95)"}]))
+(defn gen-textfield-keyframe []
+  (at-keyframes 'pulse-textfield
+                [:0% ^:prefix {:background-position [[(percent 0) (percent 0)]]}]
+                [:100% ^:prefix {:background-position [[(percent -100) (percent 0)]]}]))
 
 (defn gen-span-div []
   [:span
@@ -165,4 +225,5 @@
    (gen-span-div)]
   (gen-button-keyframe)
   (gen-checkbox-keyframe)
-  (gen-radio-keyframe))
+  (gen-radio-keyframe)
+  (gen-textfield-keyframe))
