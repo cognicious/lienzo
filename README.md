@@ -10,7 +10,8 @@ Run this project using lein:
 ```
 git clone https://github.com/cognicious/lienzo.git
 cd lienzo
-lein figwheel dev
+lein garden once
+lein figwheel
 ```
 
-And open in your browser http://localhost:3449
+And open in your browser http://localhost:3449/tests.html
