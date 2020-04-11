@@ -19,6 +19,13 @@
   (gevents/listen element stimulus fn)
   element)
 
+(defn class-toggle [element class-one class-two]
+  (if (gclasses/contains element class-one)
+    (do (gclasses/remove element class-one)
+        (gclasses/add element class-two))
+    (do (gclasses/remove element class-two)
+        (gclasses/add element class-one))))
+
 (defn event-add-remove
   ([element map]
    (let [[type-add vals-add] (first map)
