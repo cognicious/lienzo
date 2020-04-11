@@ -214,9 +214,22 @@
    [:div {:color 'black
           :margin-left (rem (* border-radius 6))}]])
 
+(defn gen-dropdown []
+  [:.lnz-dropdown {:display "none"
+                   :position "absolute"
+                   :background-color "#f9f9f9"
+                   :min-width "160px"
+                   :box-shadow "0px 8px 16px 0px rgba(0,0,0,0.2)"
+                   :z-index 1
+                   }
+   [:&.lnz-on {:display "block"}]
+   [:&.lnz-off {:display "none"}]])
+
 (defn gen-popup []
   [:.lnz-popup
-   [:&.lnz-off {:display "none"}]])
+   ;[:&.lnz-on {:display "block"}]
+   ;[:&.lnz-off {:display "none"}]
+   ])
 
 (defstyles garden-css
   [:.lnz 
@@ -231,4 +244,5 @@
   (gen-checkbox-keyframe)
   (gen-radio-keyframe)
   (gen-textfield-keyframe)
+  (gen-dropdown)
   (gen-popup))
