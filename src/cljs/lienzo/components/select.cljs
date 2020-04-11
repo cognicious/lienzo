@@ -18,7 +18,7 @@
                                          [:label.lnz {:style {:display "block"}}
                                           [:span.field 
                                            [:span {:style {:font-size "1rem" :display "inline-block" :width "200px" :height "18px" :padding "6px 0px 2px 0px" :margin "1px 0px -2px 0px"}} [:span [:i.fas.fa-desktop] 1] ]
-                                        ;[:input {:type "text" :style {:display "inline-block" :width "200px" }}]
+                                        [:input {:type "text" :style {:display "inline-block" :width "200px" }}]
                                            [:i.fas.fa-chevron-down {:on-click (fn [e]
                                                                                 (let [element (.getElementById js/document popup-id)]
                                                                                   (if (gclasses/contains element "lnz-off")
@@ -28,9 +28,7 @@
                                                                                         (gclasses/add element "lnz-off")))))}]
                                            [popup {:id popup-id} [[:span [:i.fas.fa-desktop] 1] 
                                                                   [:span [:i.fas.fa-mobile-alt] 2]
-                                                                  [:span [:i.fas.fa-tablet-alt] 3] 
-                                                                  [:span 4]
-                                                                  [:span 5]]]
+                                                                  [:span [:i.fas.fa-tablet-alt] 3]]]
                                            ]])
                                        #_(let [id (random-uuid)
                                              popup-id (str "popup-" id)]
