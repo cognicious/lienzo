@@ -5,8 +5,10 @@
             [reagent.core :as r]))
 
 
-(defn popup [args options]
-  (into [:ul.lnz-popup.lnz-off args] (map (fn [i] [:li.lnz i]) options)))
+(defn dropdown-popup [args options]
+  [:div.lnz-dropdown args
+   (into [:ul.lnz-popup.lnz-off]
+         (map (fn [i] [:li.lnz i]) options))])
 
 (defn select 
   ([] [select nil nil])
@@ -23,9 +25,9 @@
                                            [:i.fas.fa-chevron-down {:on-click (fn [e]
                                                                                 (let [element (.getElementById js/document popup-id)]
                                                                                   (util-js/class-toggle element "lnz-off" "lnz-on")))}]
-                                           [popup {:id popup-id} [[:span [:i.fas.fa-desktop] 1] 
-                                                                  [:span [:i.fas.fa-mobile-alt] 2]
-                                                                  [:span [:i.fas.fa-tablet-alt] 3]]]
+                                           [dropdown-popup {:id popup-id} [[:span [:i.fas.fa-desktop] 1]
+                                                                           [:span [:i.fas.fa-mobile-alt] 2]
+                                                                           [:span [:i.fas.fa-tablet-alt] 3]]]
                                            ]])
                                        #_(let [id (random-uuid)
                                              popup-id (str "popup-" id)]
