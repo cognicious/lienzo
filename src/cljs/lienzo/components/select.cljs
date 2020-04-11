@@ -14,11 +14,12 @@
    (r/create-class {:reagent-render (fn [args options]
                                       [:div 
                                        (let [id (random-uuid)
-                                             popup-id (str "popup-" id)]
+                                             popup-id (str "popup-" id)
+                                             debug-style {:font-size "1rem" :display "inline-block" :width "200px" :height "18px" :padding "6px 0px 2px 0px" :margin "1px 0px -2px 0px"}]
                                          [:label.lnz {:style {:display "block"}}
                                           [:span.field 
-                                           [:span {:style {:font-size "1rem" :display "inline-block" :width "200px" :height "18px" :padding "6px 0px 2px 0px" :margin "1px 0px -2px 0px"}} [:span [:i.fas.fa-desktop] 1] ]
-                                        [:input {:type "text" :style {:display "inline-block" :width "200px" }}]
+                                           [:span {:style debug-style} [:span [:i.fas.fa-desktop] 1] ]
+                                           [:input {:type "text" :style {:display "inline-block" :width "200px" }}]
                                            [:i.fas.fa-chevron-down {:on-click (fn [e]
                                                                                 (let [element (.getElementById js/document popup-id)]
                                                                                   (util-js/class-toggle element "lnz-off" "lnz-on")))}]
