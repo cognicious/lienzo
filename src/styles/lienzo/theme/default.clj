@@ -214,6 +214,10 @@
    [:div {:color 'black
           :margin-left (rem (* border-radius 6))}]])
 
+(defn gen-popup []
+  [:.lnz-popup
+   [:&.lnz-off {:display "none"}]])
+
 (defstyles garden-css
   [:.lnz 
    (gen-button)
@@ -226,4 +230,5 @@
   (gen-button-keyframe)
   (gen-checkbox-keyframe)
   (gen-radio-keyframe)
-  (gen-textfield-keyframe))
+  (gen-textfield-keyframe)
+  (gen-popup))
