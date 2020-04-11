@@ -21,11 +21,7 @@
                                         [:input {:type "text" :style {:display "inline-block" :width "200px" }}]
                                            [:i.fas.fa-chevron-down {:on-click (fn [e]
                                                                                 (let [element (.getElementById js/document popup-id)]
-                                                                                  (if (gclasses/contains element "lnz-off")
-                                                                                    (do (gclasses/remove element "lnz-off")
-                                                                                        (gclasses/add element "lnz-on"))
-                                                                                    (do (gclasses/remove element "lnz-on")
-                                                                                        (gclasses/add element "lnz-off")))))}]
+                                                                                  (util-js/class-toggle element "lnz-off" "lnz-on")))}]
                                            [popup {:id popup-id} [[:span [:i.fas.fa-desktop] 1] 
                                                                   [:span [:i.fas.fa-mobile-alt] 2]
                                                                   [:span [:i.fas.fa-tablet-alt] 3]]]
