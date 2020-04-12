@@ -222,8 +222,14 @@
                    :box-shadow "0px 8px 16px 0px rgba(0,0,0,0.2)"
                    :z-index 1
                    }
-   [:&.lnz-on {:display "block"}]
+   [:&.lnz-on {:display "block"
+               :animation [['pulse-dropdown (ms 300)]]}]
    [:&.lnz-off {:display "none"}]])
+
+(defn gen-dropdown-keyframe []
+  (at-keyframes 'pulse-dropdown
+                [:0% ^:prefix {:opacity "0"}]
+                [:100% ^:prefix {:opacity "1"}]))
 
 (defn gen-popup []
   [:.lnz-popup
@@ -245,4 +251,5 @@
   (gen-radio-keyframe)
   (gen-textfield-keyframe)
   (gen-dropdown)
+  (gen-dropdown-keyframe)
   (gen-popup))
