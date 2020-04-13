@@ -3,6 +3,7 @@
             [goog.dom.classlist :as gclasses]
             [goog.style :as gstyle]
             [lienzo.utils.js :as util-js] 
+            [lienzo.components.textfield :as tf]
             [reagent.core :as r]))
 
 
@@ -25,10 +26,11 @@
                                            [:label.lnz {:style {:display "block"}}
                                             [:span.field
                                              ;[:span {:style debug-style} [:span [:i.fas.fa-desktop] 1] ]
-                                             [:input {:id input-id :type "text" :style {:display "inline-block" :width "200px"}}]
-                                             [:i.fas.fa-chevron-down {:on-click (fn [e]
-                                                                                  (let [element (.getElementById js/document popup-id)]
-                                                                                    (util-js/class-toggle element "lnz-off" "lnz-on")))}]
+                                             [tf/textfield {:id input-id :style {:width 200} :on-click (fn [e]
+                                                                                                         (let [element (.getElementById js/document popup-id)]
+                                                                                                           (util-js/class-toggle element "lnz-off" "lnz-on")))}]
+                                             ;[:input {:id input-id :type "text" :style {:display "inline-block" :width "200px"}}]
+                                             ;[:i.fas.fa-chevron-down]
                                              [dropdown-popup {:id popup-id} [[:span [:i.fas.fa-desktop] 1]
                                                                              [:span [:i.fas.fa-mobile-alt] 2]
                                                                              [:span [:i.fas.fa-tablet-alt] 3]]]
@@ -50,7 +52,10 @@
                       :component-did-mount (fn [component]
                                              (let [input-width (->> input-id
                                                                     (.getElementById js/document)
+                                                                    (.-parentElement)
+                                                                    (.-parentElement)
                                                                     (gstyle/getSize)
                                                                     .-width)
-                                                   element (.getElementById js/document popup-id)]
+                                                   element (->> popup-id 
+                                                                (.getElementById js/document))]
                                                (gstyle/setWidth element input-width)))}))))
