@@ -26,7 +26,7 @@
                                            [:label.lnz {:style {:display "block"}}
                                             [:span.field
                                              ;[:span {:style debug-style} [:span [:i.fas.fa-desktop] 1] ]
-                                             [tf/textfield {:id input-id :style {:width 200} :on-click (fn [e]
+                                             [tf/textfield {:icon :i.fas.fa-angle-down :id input-id :style {:width 200} :on-click (fn [e]
                                                                                                          (let [element (.getElementById js/document popup-id)]
                                                                                                            (util-js/class-toggle element "lnz-off" "lnz-on")))}]
                                              ;[:input {:id input-id :type "text" :style {:display "inline-block" :width "200px"}}]
