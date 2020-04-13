@@ -15,7 +15,8 @@
      [:span.name (if (or (nil? text) (empty? text)) {:class "empty"} {}) text]
      [:span.field [:input (merge args {:type "text" :id id})]
       (if-let [icon (:icon args)]
-        [icon])]]))
+        (let [on-click (:on-click args)]
+          [icon {:on-click on-click}]))]]))
 
 (defn mount
   [component]
