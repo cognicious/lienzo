@@ -217,9 +217,10 @@
 (defn gen-dropdown []
   [:.lnz-dropdown {:display "none"
                    :position "absolute"
-                   :background-color "#f9f9f9"
+                   :background (str "linear-gradient(90deg , hsla(214, 61%, 25%, 0.10), hsla(214, 61%, 25%, 0.05));")
+                   ;:background-color "#f9f9f9"
                    :min-width "160px"
-                   :box-shadow "0px 8px 16px 0px rgba(0,0,0,0.2)"
+                   :box-shadow "0px 2px 4px 0px rgba(0,0,0,0.2)"
                    :z-index 1
                    :margin [[0 '!important]]
                    }
