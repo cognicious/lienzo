@@ -233,7 +233,9 @@
                :animation [['pulse-dropdown (ms 300)]]}]
    [:&.lnz-off {:display "none"}]
    [:ul {:margin 0 
-         }]])
+         :list-style-type "none"
+         :padding 0}]
+   [:li {:padding [[(em (+ (/ button-size 6) (/ border-radius 2))) (em (+ (/ button-size 6) (/ border-radius 2)))]]}]])
 
 (defn gen-dropdown-keyframe []
   (at-keyframes 'pulse-dropdown
