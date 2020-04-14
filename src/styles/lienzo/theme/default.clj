@@ -222,12 +222,18 @@
                    :min-width "160px"
                    :box-shadow "0px 2px 4px 0px rgba(0,0,0,0.2)"
                    :z-index 1
+                   :color primary-color
+                   :font-family font-family
+                   :font-size (rem font-size-s)
+                   :font-weight 300
+                   :letter-spacing (rem letter-spacing)
                    :margin [[0 '!important]]
                    }
    [:&.lnz-on {:display "block"
                :animation [['pulse-dropdown (ms 300)]]}]
    [:&.lnz-off {:display "none"}]
-   [:ul {:margin 0}]])
+   [:ul {:margin 0 
+         }]])
 
 (defn gen-dropdown-keyframe []
   (at-keyframes 'pulse-dropdown
