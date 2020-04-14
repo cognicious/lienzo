@@ -226,7 +226,8 @@
                    }
    [:&.lnz-on {:display "block"
                :animation [['pulse-dropdown (ms 300)]]}]
-   [:&.lnz-off {:display "none"}]])
+   [:&.lnz-off {:display "none"}]
+   [:ul {:margin 0}]])
 
 (defn gen-dropdown-keyframe []
   (at-keyframes 'pulse-dropdown
@@ -235,7 +236,7 @@
 
 (defn gen-popup []
   [:.lnz-popup
-   ;[:&.lnz-on {:display "block"}]
+   ;[:ul {}]
    ;[:&.lnz-off {:display "none"}]
    ])
 
