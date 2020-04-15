@@ -7,10 +7,13 @@
             [reagent.core :as r]))
 
 
-(defn dropdown-popup [args options]
+(defn dropdown-popup [args options input-id]
   [:div.lnz-dropdown args
    (into [:ul.lnz-popup.lnz-off]
-         (map (fn [i] [:li.lnz i]) options))])
+         (map (fn [i] (let [text (last (clj->js i))] 
+                        [:li.lnz {:on-click (fn [_] (-> (.getElementById js/document input-id)
+                                                        .-value
+                                                        (set! text)))} i])) options))])
 
 (defn select 
   ([] [select nil nil])
@@ -26,14 +29,19 @@
                                            [:label.lnz {:style {:display "block"}}
                                             [:span.field
                                              ;[:span {:style debug-style} [:span [:i.fas.fa-desktop] 1] ]
-                                             [tf/textfield {:icon :i.fas.fa-angle-down :id input-id :style {:width 200} :on-click (fn [e]
-                                                                                                         (let [element (.getElementById js/document popup-id)]
-                                                                                                           (util-js/class-toggle element "lnz-off" "lnz-on")))}]
-                                             ;[:input {:id input-id :type "text" :style {:display "inline-block" :width "200px"}}]
+                                             [tf/textfield {:icon :i.fas.fa-angle-down 
+                                                            :id input-id 
+                                                            :style {:width 200} 
+                                                            :on-click (fn [e]
+                                                                        (let [element (.getElementById js/document popup-id)]
+                                                                          (.log js/console element)
+                                                                          (util-js/class-toggle element "lnz-off" "lnz-on")))}]
+                                        ;[:input {:id input-id :type "text" :style {:display "inline-block" :width "200px"}}]
                                              ;[:i.fas.fa-chevron-down]
-                                             [dropdown-popup {:id popup-id} [[:span [:i.fas.fa-desktop] 1]
-                                                                             [:span [:i.fas.fa-mobile-alt] 2]
-                                                                             [:span [:i.fas.fa-tablet-alt] 3]]]
+                                             [dropdown-popup {:id popup-id} [[:span [:i.fas.fa-desktop] "desktop"]
+                                                                             [:span [:i.fas.fa-laptop] "laptop"]
+                                                                             [:span [:i.fas.fa-tablet-alt] "tablet"]
+                                                                             [:span [:i.fas.fa-mobile-alt] "mobile"]] input-id]
                                              ]])
                                          #_(let [id (random-uuid)
                                                  popup-id (str "popup-" id)]
