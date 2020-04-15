@@ -218,7 +218,6 @@
   [:.lnz-dropdown {:display "none"
                    :position "absolute"
                    :background (str "linear-gradient(90deg , hsla(214, 61%, 25%, 0.10), hsla(214, 61%, 25%, 0.05));")
-                   ;:background-color "#f9f9f9"
                    :min-width "160px"
                    :box-shadow "0px 2px 4px 0px rgba(0,0,0,0.2)"
                    :z-index 1
@@ -227,8 +226,7 @@
                    :font-size (rem font-size-s)
                    :font-weight 300
                    :letter-spacing (rem letter-spacing)
-                   :margin [[0 '!important]]
-                   }
+                   :margin [[0 '!important]]}
    [:&.lnz-on {:display "block"
                :animation [['pulse-dropdown (ms 300)]]}]
    [:&.lnz-off {:display "none"}]
@@ -244,10 +242,7 @@
                 [:100% ^:prefix {:opacity "1"}]))
 
 (defn gen-popup []
-  [:.lnz-popup
-   ;[:ul {}]
-   ;[:&.lnz-off {:display "none"}]
-   ])
+  [:.lnz-popup])
 
 (defstyles garden-css
   [:.lnz 
