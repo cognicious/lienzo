@@ -38,10 +38,10 @@
                                                                           (util-js/class-toggle element "lnz-off" "lnz-on")))}]
                                         ;[:input {:id input-id :type "text" :style {:display "inline-block" :width "200px"}}]
                                              ;[:i.fas.fa-chevron-down]
-                                             [dropdown-popup {:id popup-id} [[:span [:i.fas.fa-desktop {:style {:width "20px"}}] "desktop"]
-                                                                             [:span [:i.fas.fa-laptop {:style {:width "20px"}}] "laptop"]
-                                                                             [:span [:i.fas.fa-tablet-alt {:style {:width "20px"}}] "tablet"]
-                                                                             [:span [:i.fas.fa-mobile-alt {:style {:width "20px"}}] "mobile"]] input-id]
+                                             [dropdown-popup {:id popup-id} [[:span [:i.fas.fa-desktop {:style {:width "20px" :float "right"}}] "desktop"]
+                                                                             [:span [:i.fas.fa-laptop {:style {:width "20px" :float "right"}}] "laptop"]
+                                                                             [:span [:i.fas.fa-tablet-alt {:style {:width "20px" :float "right"}}] "tablet"]
+                                                                             [:span [:i.fas.fa-mobile-alt {:style {:width "20px" :float "right"}}] "mobile"]] input-id]
                                              ]])
                                          #_(let [id (random-uuid)
                                                  popup-id (str "popup-" id)]
