@@ -30,6 +30,7 @@
                                             [:span.field
                                              ;[:span {:style debug-style} [:span [:i.fas.fa-desktop] 1] ]
                                              [tf/textfield {:icon :i.fas.fa-angle-down 
+                                                            :placeholder "Select an option"
                                                             :id input-id 
                                                             :style {:width 200} 
                                                             :on-click (fn [e]
