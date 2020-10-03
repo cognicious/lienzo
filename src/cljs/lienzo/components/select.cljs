@@ -18,25 +18,24 @@
 (defn select 
   ([] [select nil {:placeholder "Select an option"}])
   ([args options]
-   (let [id (random-uuid)
+   (let [options (or options {})
+         id (random-uuid)
          input-id (str "input-" id)
          popup-id (str "popup-" id)]
      (r/create-class {:reagent-render (fn []
                                         [:div
-                                         (let [{:keys [placeholder]} options
-                                               debug-style {}; {:font-size "1rem" :display "inline-block" :width "200px" :height "18px" :padding "6px 0px 2px 0px" :margin "1px 0px -2px 0px"}
-                                               ]
+                                         (let [{:keys [on-click]} options]
                                            [:label.lnz {:style {:display "block"}}
                                             [:span.field
                                              ;[:span {:style debug-style} [:span [:i.fas.fa-desktop] 1] ]
-                                             [tf/textfield {:icon :i.fas.fa-angle-down 
-                                                            :placeholder placeholder
-                                                            :id input-id 
-                                                            :style {:width 200} 
-                                                            :on-click (fn [e]
-                                                                        (let [element (.getElementById js/document popup-id)]
-                                                                          (.log js/console element)
-                                                                          (util-js/class-toggle element "lnz-off" "lnz-on")))}]
+                                             [tf/textfield (merge  {:icon :i.fas.fa-angle-down
+                                                                    :id input-id
+                                                                    :on-click (fn [e]
+                                                                                (let [element (.getElementById js/document popup-id)]
+                                                                                  (.log js/console element)
+                                                                                  (util-js/class-toggle element "lnz-off" "lnz-on")
+                                                                                  (on-click e)))}
+                                                                   (dissoc options :icon :id :on-click))]
                                         ;[:input {:id input-id :type "text" :style {:display "inline-block" :width "200px"}}]
                                              ;[:i.fas.fa-chevron-down]
                                              [dropdown-popup {:id popup-id} [[:span "other"]
