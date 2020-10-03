@@ -16,21 +16,21 @@
                                                         (set! text)))} i])) options))])
 
 (defn select 
-  ([] [select nil nil])
+  ([] [select nil {:placeholder "Select an option"}])
   ([args options]
    (let [id (random-uuid)
          input-id (str "input-" id)
          popup-id (str "popup-" id)]
      (r/create-class {:reagent-render (fn []
                                         [:div
-                                         (let [
+                                         (let [{:keys [placeholder]} options
                                                debug-style {}; {:font-size "1rem" :display "inline-block" :width "200px" :height "18px" :padding "6px 0px 2px 0px" :margin "1px 0px -2px 0px"}
                                                ]
                                            [:label.lnz {:style {:display "block"}}
                                             [:span.field
                                              ;[:span {:style debug-style} [:span [:i.fas.fa-desktop] 1] ]
                                              [tf/textfield {:icon :i.fas.fa-angle-down 
-                                                            :placeholder "Select an option"
+                                                            :placeholder placeholder
                                                             :id input-id 
                                                             :style {:width 200} 
                                                             :on-click (fn [e]
@@ -39,7 +39,8 @@
                                                                           (util-js/class-toggle element "lnz-off" "lnz-on")))}]
                                         ;[:input {:id input-id :type "text" :style {:display "inline-block" :width "200px"}}]
                                              ;[:i.fas.fa-chevron-down]
-                                             [dropdown-popup {:id popup-id} [[:span [:i.fas.fa-desktop {:style {:width "20px" :float "right"}}] "desktop"]
+                                             [dropdown-popup {:id popup-id} [[:span "other"]
+                                                                             [:span [:i.fas.fa-desktop {:style {:width "20px" :float "right"}}] "desktop"]
                                                                              [:span [:i.fas.fa-laptop {:style {:width "20px" :float "right"}}] "laptop"]
                                                                              [:span [:i.fas.fa-tablet-alt {:style {:width "20px" :float "right"}}] "tablet"]
                                                                              [:span [:i.fas.fa-mobile-alt {:style {:width "20px" :float "right"}}] "mobile"]] input-id]
