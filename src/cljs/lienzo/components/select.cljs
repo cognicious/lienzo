@@ -21,7 +21,7 @@
    (let [id (random-uuid)
          input-id (str "input-" id)
          popup-id (str "popup-" id)]
-     (r/create-class {:reagent-render (fn [args options]
+     (r/create-class {:reagent-render (fn []
                                         [:div
                                          (let [
                                                debug-style {}; {:font-size "1rem" :display "inline-block" :width "200px" :height "18px" :padding "6px 0px 2px 0px" :margin "1px 0px -2px 0px"}
