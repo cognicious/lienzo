@@ -27,7 +27,6 @@
                                          (let [{:keys [on-click]} options]
                                            [:label.lnz {:style {:display "block"}}
                                             [:span.field
-                                             ;[:span {:style debug-style} [:span [:i.fas.fa-desktop] 1] ]
                                              [tf/textfield (merge  {:icon :i.fas.fa-angle-down
                                                                     :id input-id
                                                                     :on-click (fn [e]
@@ -36,28 +35,12 @@
                                                                                   (util-js/class-toggle element "lnz-off" "lnz-on")
                                                                                   (on-click e)))}
                                                                    (dissoc options :icon :id :on-click))]
-                                        ;[:input {:id input-id :type "text" :style {:display "inline-block" :width "200px"}}]
-                                             ;[:i.fas.fa-chevron-down]
                                              [dropdown-popup {:id popup-id} [[:span "other"]
                                                                              [:span [:i.fas.fa-desktop {:style {:width "20px" :float "right"}}] "desktop"]
                                                                              [:span [:i.fas.fa-laptop {:style {:width "20px" :float "right"}}] "laptop"]
                                                                              [:span [:i.fas.fa-tablet-alt {:style {:width "20px" :float "right"}}] "tablet"]
                                                                              [:span [:i.fas.fa-mobile-alt {:style {:width "20px" :float "right"}}] "mobile"]] input-id]
-                                             ]])
-                                         #_(let [id (random-uuid)
-                                                 popup-id (str "popup-" id)]
-                                             [:label.lnz {:style {:display "block"}}
-                                              [:span.field
-                                               [:input {:type "text" :style {:display "inline-block" :width "200px"}}]
-                                               [:i.fas.fa-chevron-down {:on-click (fn [e]
-                                                                                    (let [element (.getElementById js/document popup-id)]
-                                                                                      (if (gclasses/contains element "lnz-off")
-                                                                                        (do (gclasses/remove element "lnz-off")
-                                                                                            (gclasses/add element "lnz-on"))
-                                                                                        (do (gclasses/remove element "lnz-on")
-                                                                                            (gclasses/add element "lnz-off")))))}]
-                                               [popup {:id popup-id} [1 2 3 4 5]]
-                                               ]])])
+                                             ]])])
                       :component-did-mount (fn [component]
                                              (let [input-width (->> input-id
                                                                     (.getElementById js/document)
