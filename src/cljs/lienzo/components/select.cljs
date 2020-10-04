@@ -12,7 +12,7 @@
    (into [:ul.lnz-popup.lnz-off]
          (map (fn [i] 
                 (let [_ (.log js/console i)
-                      text (last (clj->js i))] 
+                      text (if (string? i) i (last (clj->js i)))] 
                   [:li.lnz {:on-click (fn [_] (-> (.getElementById js/document input-id)
                                                   .-value
                                                   (set! text)))} i])) options))])
