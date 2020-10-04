@@ -10,21 +10,24 @@
 (defn dropdown-popup [args options input-id]
   [:div.lnz-dropdown args
    (into [:ul.lnz-popup.lnz-off]
-         (map (fn [i] (let [text (last (clj->js i))] 
-                        [:li.lnz {:on-click (fn [_] (-> (.getElementById js/document input-id)
-                                                        .-value
-                                                        (set! text)))} i])) options))])
+         (map (fn [i] 
+                (let [_ (.log js/console i)
+                      text (last (clj->js i))] 
+                  [:li.lnz {:on-click (fn [_] (-> (.getElementById js/document input-id)
+                                                  .-value
+                                                  (set! text)))} i])) options))])
 
 (defn select 
-  ([] [select {:placeholder "Select an option"}])
-  ([options]
-   (let [options (or options {})
+  ([] [select {:placeholder "Select an option"} []])
+  ([options] [select {:placeholder "Select an option"} options])
+  ([args options]
+   (let [args (or args {})
          id (random-uuid)
          input-id (str "input-" id)
          popup-id (str "popup-" id)]
      (r/create-class {:reagent-render (fn []
                                         [:div
-                                         (let [{:keys [on-click]} options]
+                                         (let [{:keys [on-click]} args]
                                            [:label.lnz {:style {:display "block"}}
                                             [:span.field
                                              [tf/textfield (merge  {:icon :i.fas.fa-angle-down
@@ -34,12 +37,13 @@
                                                                                   (.log js/console element)
                                                                                   (util-js/class-toggle element "lnz-off" "lnz-on")
                                                                                   (on-click e)))}
-                                                                   (dissoc options :icon :id :on-click))]
-                                             [dropdown-popup {:id popup-id} [[:span "other"]
-                                                                             [:span [:i.fas.fa-desktop {:style {:width "20px" :float "right"}}] "desktop"]
-                                                                             [:span [:i.fas.fa-laptop {:style {:width "20px" :float "right"}}] "laptop"]
-                                                                             [:span [:i.fas.fa-tablet-alt {:style {:width "20px" :float "right"}}] "tablet"]
-                                                                             [:span [:i.fas.fa-mobile-alt {:style {:width "20px" :float "right"}}] "mobile"]] input-id]
+                                                                   (dissoc args :icon :id :on-click))]
+                                             #_[[:span "other"]
+                                                [:span [:i.fas.fa-desktop {:style {:width "20px" :float "right"}}] "desktop"]
+                                                [:span [:i.fas.fa-laptop {:style {:width "20px" :float "right"}}] "laptop"]
+                                                [:span [:i.fas.fa-tablet-alt {:style {:width "20px" :float "right"}}] "tablet"]
+                                                [:span [:i.fas.fa-mobile-alt {:style {:width "20px" :float "right"}}] "mobile"]]
+                                             [dropdown-popup {:id popup-id} options input-id]
                                              ]])])
                       :component-did-mount (fn [component]
                                              (let [input-width (->> input-id
