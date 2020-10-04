@@ -19,7 +19,7 @@
 
 (defn select 
   ([] [select {:placeholder "Select an option"} []])
-  ([options] [select {:placeholder "Select an option"} options])
+  ([options] [select {} options])
   ([args options]
    (let [args (or args {})
          id (random-uuid)
@@ -36,7 +36,7 @@
                                                                                 (let [element (.getElementById js/document popup-id)]
                                                                                   (.log js/console element)
                                                                                   (util-js/class-toggle element "lnz-off" "lnz-on")
-                                                                                  (on-click e)))}
+                                                                                  (if (fn? on-click) (on-click e))))}
                                                                    (dissoc args :icon :id :on-click))]
                                              #_[[:span "other"]
                                                 [:span [:i.fas.fa-desktop {:style {:width "20px" :float "right"}}] "desktop"]
