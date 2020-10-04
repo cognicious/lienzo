@@ -9,6 +9,8 @@
   (str "# Select \n"
        "This namespace defines some functions about select component"))
 
-(defcard-rg test-input-box
+(defcard-rg test-select-box
   [select])
 
+(defcard-rg test-select-box-arity-1
+  [select ["foo" "bar"]])
