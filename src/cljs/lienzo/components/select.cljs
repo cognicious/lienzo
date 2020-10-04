@@ -16,8 +16,8 @@
                                                         (set! text)))} i])) options))])
 
 (defn select 
-  ([] [select nil {:placeholder "Select an option"}])
-  ([args options]
+  ([] [select {:placeholder "Select an option"}])
+  ([options]
    (let [options (or options {})
          id (random-uuid)
          input-id (str "input-" id)
