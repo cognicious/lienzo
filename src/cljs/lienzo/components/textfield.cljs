@@ -33,7 +33,6 @@
         focusout-fn (fn [e]
                      (gclasses/remove element (util-js/type->class "focus")))
         prevent-fn (fn [e]
-                     (.log js/console "click")
                      (.preventDefault e))]
     (if icon
       (util-js/add-event-listener icon "click" prevent-fn))
