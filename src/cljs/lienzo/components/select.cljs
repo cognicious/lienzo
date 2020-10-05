@@ -8,11 +8,10 @@
 
 
 (defn dropdown-popup [args options input-id]
-  [:div.lnz-dropdown args
+  [:div.lnz-dropdown.lnz-off args
    (into [:ul.lnz-popup.lnz-off]
          (map (fn [i] 
-                (let [_ (.log js/console i)
-                      text (if (string? i) i (last (clj->js i)))] 
+                (let [text (if (string? i) i (last (clj->js i)))]
                   [:li.lnz {:on-click (fn [_] (-> (.getElementById js/document input-id)
                                                   .-value
                                                   (set! text)))} i])) options))])
@@ -34,7 +33,6 @@
                                                                     :id input-id
                                                                     :on-click (fn [e]
                                                                                 (let [element (.getElementById js/document popup-id)]
-                                                                                  (.log js/console element)
                                                                                   (util-js/class-toggle element "lnz-off" "lnz-on")
                                                                                   (if (fn? on-click) (on-click e))))}
                                                                    (dissoc args :icon :id :on-click))]
