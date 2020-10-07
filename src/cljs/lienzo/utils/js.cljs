@@ -21,7 +21,11 @@
 
 (defn class-push [element class-one]
   (if (not (gclasses/contains element class-one))
-    (gclasses/add element class-two)))
+    (gclasses/add element class-one)))
+
+(defn class-pop [element class-one]
+  (if (gclasses/contains element class-one)
+    (gclasses/remove element class-one)))
 
 (defn class-toggle [element class-one class-two]
   (if (gclasses/contains element class-one)
