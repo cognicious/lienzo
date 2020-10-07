@@ -19,6 +19,10 @@
   (gevents/listen element stimulus fn)
   element)
 
+(defn class-push [element class-one]
+  (if (not (gclasses/contains element class-one))
+    (gclasses/add element class-two)))
+
 (defn class-toggle [element class-one class-two]
   (if (gclasses/contains element class-one)
     (do (gclasses/remove element class-one)
