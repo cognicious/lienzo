@@ -16,4 +16,4 @@
   [select ["foo" "bar" "baz"]])
 
 (defcard-rg test-select-box-arity-1-hiccup
-  [select [[:div {:tab-index 0 :style {:color "green"}} "foo"] [:div {:tab-index 1 :style {:color "purple"}} "bar"]]])
+  [select [[:div {:style {:color "green"}} "foo"] [:div {:style {:color "purple"}} "bar"]]])
