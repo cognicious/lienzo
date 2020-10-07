@@ -48,34 +48,43 @@
                                                                                 (let [element (.getElementById js/document popup-id)]
                                                                                   (util-js/class-toggle element "lnz-off" "lnz-on")
                                                                                   (if (fn? on-click) (on-click e))))
-                                                                    :on-change (fn [e]
-                                                                                 (.log js/console e)
-                                                                                 (let [element (.getElementById js/document popup-id)
-                                                                                       current (.-value (.getElementById js/document input-id))]
-                                                                                   (.log js/console "change!")
-                                                                                   (util-js/class-push element "lnz-on")
-                                                                                   (if (= 0 (count current))
-                                                                                     (reset! options-atm options)
-                                                                                     (swap! options-atm (partial filter (fn [i] (let [text (if (string? i) i (last (clj->js i)))]
-                                                                                                                                  (clojure.string/starts-with? text current)
-                                                                                                                                  )))))))
+                                                                    
+                                                                    ;:on-change
+                                                                    #_(fn [e]
+                                                                      (.log js/console e)
+                                                                      (let [element (.getElementById js/document popup-id)
+                                                                            current (.-value (.getElementById js/document input-id))]
+                                                                        (.log js/console "change!")
+                                                                        (util-js/class-push element "lnz-on")
+                                                                        (if (= 0 (count current))
+                                                                          (reset! options-atm options)
+                                                                          (swap! options-atm (partial filter (fn [i] (let [text (if (string? i) i (last (clj->js i)))]
+                                                                                                                       (clojure.string/starts-with? text current)
+                                                                                                                       )))))))
                                                                     :keyup (fn [e]
-                                                                             (let [_ (swap! selected-atm inc)
+                                                                             (let [
                                                                                    element (.getElementById js/document popup-id)
                                                                                    current (.getElementById js/document input-id)
-                                                                                   key-code (-> e .-keyCode)
-                                                                                   first (-> element .-lastChild .-childNodes (aget @selected-atm))]
-                                                                               (when (= key-code 40)
-                                                                                 (util-js/class-push element "lnz-on")
-                                                                                 (.focus first)
-                                                                                 (.focus current)
-                                                                                 (let [_ (.log js/console first)
-                                                                                      ]
+                                                                                   opt-nodes (-> element .-lastChild .-childNodes)                                                                                   
+                                                                                   key-code (-> e .-keyCode)]
+                                                                               (.log js/console key-code)
+                                                                               (util-js/class-pop element "lnz-off")
+                                                                               (util-js/class-push element "lnz-on")
+                                                                               (if-let [trigger-fn  (cond (= key-code 40) inc
+                                                                                                       (= key-code 39) inc
+                                                                                                       (= key-code 38) dec
+                                                                                                       (= key-code 37) dec
+                                                                                                       :default nil)
+                                                                                        ]
+                                                                                 (let [_ (swap! selected-atm (fn [l] (if (< -1 (trigger-fn l) (.-length opt-nodes)) (trigger-fn l) l)))
+                                                                                       selected (aget opt-nodes @selected-atm)]
+                                                                                   
+                                                                                   #_(.focus selected)
+                                                                                   #_(.focus current)
                                                                                    (-> current
                                                                                        .-value
-                                                                                       (set! (.-textContent (.-lastChild first))))
-                                                                                   ()))
-                                                                               (.log js/console key-code)))}
+                                                                                       (set! (.-textContent (.-lastChild selected))))))
+                                                                               ))}
                                                                    (dissoc args :icon :id :on-click))]
                                              #_[[:span "other"]
                                                 [:span [:i.fas.fa-desktop {:style {:width "20px" :float "right"}}] "desktop"]
