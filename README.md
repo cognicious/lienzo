@@ -10,7 +10,7 @@ Run this project using lein:
 ```
 git clone https://github.com/cognicious/lienzo.git
 cd lienzo
-lein garden once
+lein garden once # update css
 lein figwheel
 ```
 
