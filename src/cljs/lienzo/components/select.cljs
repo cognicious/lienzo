@@ -65,21 +65,22 @@
                                                                              (let [
                                                                                    element (.getElementById js/document popup-id)
                                                                                    current (.getElementById js/document input-id)
-                                                                                   opt-nodes (-> element .-lastChild .-childNodes)                                                                                   
+                                                                                   opt-nodes (-> element .-lastChild .-childNodes)
                                                                                    key-code (-> e .-keyCode)]
                                                                                (.log js/console key-code)
                                                                                (util-js/class-pop element "lnz-off")
                                                                                (util-js/class-push element "lnz-on")
+                                                                               (if (< -1 @selected-atm)
+                                                                                 (util-js/class-pop (aget opt-nodes @selected-atm) "lnz-selected"))
                                                                                (if-let [trigger-fn  (cond (= key-code 40) inc
                                                                                                        (= key-code 39) inc
                                                                                                        (= key-code 38) dec
                                                                                                        (= key-code 37) dec
-                                                                                                       :default nil)
-                                                                                        ]
+                                                                                                       :default nil)]
                                                                                  (let [_ (swap! selected-atm (fn [l] (if (< -1 (trigger-fn l) (.-length opt-nodes)) (trigger-fn l) l)))
                                                                                        selected (aget opt-nodes @selected-atm)]
                                                                                    
-                                                                                   #_(.focus selected)
+                                                                                   (util-js/class-push selected "lnz-selected")
                                                                                    #_(.focus current)
                                                                                    (-> current
                                                                                        .-value
