@@ -234,6 +234,7 @@
          :list-style-type "none"
          :padding 0}]
    [:li {:padding [[(em (+ (/ button-size 6) (/ border-radius 2))) (em (+ (/ button-size 6) (/ border-radius 2)))]]}
+    [:&.lnz-selected {:color primary-color}]
     [:&:hover {:color primary-color}]
     [:&:focus {:color primary-color}]]])
 
