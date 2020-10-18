@@ -85,11 +85,15 @@
                                                                                    (-> current
                                                                                        .-value
                                                                                        (set! (.-textContent (.-lastChild selected)))))
-                                                                                 (let [] ;(= 0 (count (.-value current)))
-                                                                                   (reset! options-atm options)
-                                                                                   (swap! options-atm (partial filter (fn [i] (let [text (if (string? i) i (last (clj->js i)))]
-                                                                                                                                  (clojure.string/starts-with? text (.-value current))
-                                                                                                                                  )))))
+                                                                                 (if (= key-code 13)
+                                                                                   (-> element
+                                                                                       (util-js/class-pop "lnz-on")
+                                                                                       (util-js/class-push "lnz-off"))
+                                                                                   (let [] ;(= 0 (count (.-value current)))
+                                                                                     (reset! options-atm options)
+                                                                                     (swap! options-atm (partial filter (fn [i] (let [text (if (string? i) i (last (clj->js i)))]
+                                                                                                                                                   (clojure.string/starts-with? text (.-value current))
+                                                                                                                                                   ))))))
                                                                                  )))}
                                                                    (dissoc args :icon :id :on-click))]
                                              #_[[:span "other"]
