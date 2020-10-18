@@ -70,7 +70,8 @@
                                                                                (.log js/console key-code)
                                                                                (util-js/class-pop element "lnz-off")
                                                                                (util-js/class-push element "lnz-on")
-                                                                               (if (< -1 @selected-atm)
+                                                                               (if (and (< -1 @selected-atm)
+                                                                                        (< 0 (.-length opt-nodes)))
                                                                                  (util-js/class-pop (aget opt-nodes @selected-atm) "lnz-selected"))
                                                                                (if-let [trigger-fn  (cond (= key-code 40) inc
                                                                                                           (= key-code 39) inc
@@ -87,8 +88,8 @@
                                                                                  (if (= 0 (count (.-value current)))
                                                                                    (reset! options-atm options)
                                                                                    (swap! options-atm (partial filter (fn [i] (let [text (if (string? i) i (last (clj->js i)))]
-                                                                                                                                (clojure.string/starts-with? text (.-value current))
-                                                                                                                                )))))
+                                                                                                                                  (clojure.string/starts-with? text (.-value current))
+                                                                                                                                  )))))
                                                                                  )))}
                                                                    (dissoc args :icon :id :on-click))]
                                              #_[[:span "other"]
