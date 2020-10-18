@@ -20,8 +20,8 @@
 
 (defn select 
   ([] [select []])
-  ([options] [select {} options])
-  ([args options]
+  ([options] [select {} options nil])
+  ([args options label]
    (let [args (or args {})
          id (random-uuid)
          input-id (str "input-" id)
@@ -96,7 +96,7 @@
                                                                                                                                                    ))))))
                                                                                  )))}
                                                                    (dissoc args :icon :id :on-click))
-                                              nil
+                                              label
                                               ]
                                              #_[[:span "other"]
                                                 [:span [:i.fas.fa-desktop {:style {:width "20px" :float "right"}}] "desktop"]
