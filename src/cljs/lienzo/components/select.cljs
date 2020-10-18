@@ -95,7 +95,9 @@
                                                                                                                                                    (clojure.string/starts-with? text (.-value current))
                                                                                                                                                    ))))))
                                                                                  )))}
-                                                                   (dissoc args :icon :id :on-click))]
+                                                                   (dissoc args :icon :id :on-click))
+                                              nil
+                                              ]
                                              #_[[:span "other"]
                                                 [:span [:i.fas.fa-desktop {:style {:width "20px" :float "right"}}] "desktop"]
                                                 [:span [:i.fas.fa-laptop {:style {:width "20px" :float "right"}}] "laptop"]
