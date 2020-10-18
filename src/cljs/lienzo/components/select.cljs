@@ -85,7 +85,7 @@
                                                                                    (-> current
                                                                                        .-value
                                                                                        (set! (.-textContent (.-lastChild selected)))))
-                                                                                 (if (= 0 (count (.-value current)))
+                                                                                 (let [] ;(= 0 (count (.-value current)))
                                                                                    (reset! options-atm options)
                                                                                    (swap! options-atm (partial filter (fn [i] (let [text (if (string? i) i (last (clj->js i)))]
                                                                                                                                   (clojure.string/starts-with? text (.-value current))
