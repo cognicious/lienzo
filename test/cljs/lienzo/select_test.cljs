@@ -12,7 +12,13 @@
 (defcard-rg test-select-box
   [select])
 
-(defcard-rg test-select-box-arity-1-text
+(defcard-rg test-select-box-arity-1-string
+  [select "Select:"])
+
+(defcard-rg test-select-box-arity-1-map
+  [select {:placeholder "Enter your choose"}])
+
+(defcard-rg test-select-box-arity-1-coll
   [select ["foo" "bar" "baz"]])
 
 (defcard-rg test-selected-box-arity-1-large
