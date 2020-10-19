@@ -19,8 +19,19 @@
                 @options-atm))]))
 
 (defn select 
-  ([] [select []])
-  ([options] [select {} options nil])
+  ([] [select {} [] nil])
+  ([options-or-args-or-label]
+   (cond (coll? options-or-args-or-label)
+         [select {} options-or-args-or-label nil]
+
+         (map? options-or-args-or-label)
+         [select options-or-args-or-label [] nil]
+
+         (string? options-or-args-or-label)
+         [select {} [] options-or-args-or-label]
+
+         :default
+         [select {} [] nil]))
   ([args options label]
    (let [args (or args {})
          id (random-uuid)
