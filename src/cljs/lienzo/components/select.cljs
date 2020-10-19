@@ -21,7 +21,8 @@
 (defn select 
   ([] [select {} [] nil])
   ([options-or-args-or-label]
-   (cond (list? options-or-args-or-label)
+   
+   (cond (vector? options-or-args-or-label)
          [select {} options-or-args-or-label nil]
 
          (map? options-or-args-or-label)
