@@ -5,24 +5,7 @@
             [reagent.core :as r]
             [lienzo.components.select :refer [select]]))
 
-(defcard
-  (str "# Select \n"
-       "This namespace defines some functions about select component"))
-
-(defcard-rg test-select-box
-  [select])
-
-(defcard-rg test-select-box-arity-1-string
-  [select "Select:"])
-
-(defcard-rg test-select-box-arity-1-map
-  [select {:placeholder "Enter your choose"}])
-
-(defcard-rg test-select-box-arity-1-coll
-  [select ["foo" "bar" "baz"]])
-
-(defcard-rg test-selected-box-arity-1-large
-  [select [[:span [:span {:style {:width "20px" :font-size "16px" :margin-top "-3px" :float "right"}} "🇦🇫"] "Afghanistan"]
+(def flags [[:span [:span {:style {:width "20px" :font-size "16px" :margin-top "-3px" :float "right"}} "🇦🇫"] "Afghanistan"]
            [:span [:span {:style {:width "20px" :font-size "16px" :margin-top "-3px" :float "right"}} "🇦🇽"] "Aland Islands"]
            [:span [:span {:style {:width "20px" :font-size "16px" :margin-top "-3px" :float "right"}} "🇦🇱"] "Albania"]
            [:span [:span {:style {:width "20px" :font-size "16px" :margin-top "-3px" :float "right"}} "🇩🇿"] "Algeria"]
@@ -273,7 +256,30 @@
            [:span [:span {:style {:width "20px" :font-size "16px" :margin-top "-3px" :float "right"}} "🇪🇭"] "Western Sahara"]
            [:span [:span {:style {:width "20px" :font-size "16px" :margin-top "-3px" :float "right"}} "🇾🇪"] "Yemen"]
            [:span [:span {:style {:width "20px" :font-size "16px" :margin-top "-3px" :float "right"}} "🇿🇲"] "Zambia"]
-           [:span [:span {:style {:width "20px" :font-size "16px" :margin-top "-3px" :float "right"}} "🇿🇼"] "Zimbabwe"]]])
+           [:span [:span {:style {:width "20px" :font-size "16px" :margin-top "-3px" :float "right"}} "🇿🇼"] "Zimbabwe"]])
+
+(defcard
+  (str "# Select \n"
+       "This namespace defines some functions about select component"))
+
+(defcard-rg test-select-box
+  [select])
+
+(defcard-rg test-select-box-arity-1-string
+  [select "Select:"])
+
+(defcard-rg test-select-box-arity-1-map
+  [select {:placeholder "Enter your choose"}])
+
+(defcard-rg test-select-box-arity-1-coll
+  [select ["foo" "bar" "baz"]])
+
+(defcard-rg test-select-box-arity-1-large
+  [select flags])
 
 (defcard-rg test-select-box-arity-1-hiccup
   [select [[:div {:style {:color "green"}} "foo"] [:div {:style {:color "purple"}} "bar"]]])
+
+
+(defcard-rg test-select-box-arity-3 
+  [select {} flags "Your favorite flag:"])
