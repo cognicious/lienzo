@@ -14,8 +14,8 @@
            (map (fn [i] 
                   (let [text (if (string? i) i (last (clj->js i)))]
                     [:li.lnz {:tab-index -1 :on-click (fn [_] (-> (.getElementById js/document input-id)
-                                                    .-value
-                                                    (set! text)))} i])) 
+                                                                  .-value
+                                                                  (set! text)))} i]))
                 @options-atm))]))
 
 (defn select 
@@ -79,11 +79,10 @@
                                                                                   current (.getElementById js/document input-id)
                                                                                   opt-nodes (-> element .-lastChild .-childNodes)
                                                                                   key-code (-> e .-keyCode)]
-                                                                               (.log js/console key-code)
                                                                                (util-js/class-pop element "lnz-off")
                                                                                (util-js/class-push element "lnz-on")
-                                                                               (if (and (< -1 @selected-atm)
-                                                                                        (< 0 (.-length opt-nodes)))
+                                                                               (if (and (< -1 @selected-atm (.-length opt-nodes))
+                                                                                        )
                                                                                  (util-js/class-pop (aget opt-nodes @selected-atm) "lnz-selected"))
                                                                                (if-let [trigger-fn  (cond (= key-code 40) inc
                                                                                                           (= key-code 39) inc
@@ -92,20 +91,18 @@
                                                                                                           :default nil)]
                                                                                  (let [_ (swap! selected-atm (fn [l] (if (< -1 (trigger-fn l) (.-length opt-nodes)) (trigger-fn l) l)))
                                                                                        selected (aget opt-nodes @selected-atm)]
-                                                                                   
                                                                                    (util-js/class-push selected "lnz-selected")
                                                                                    (-> current
                                                                                        .-value
-                                                                                       (set! (.-textContent (.-lastChild selected)))))
+                                                                                       (set! (util-js/elem->data selected))))
                                                                                  (if (= key-code 13)
-                                                                                   (-> element
-                                                                                       (util-js/class-pop "lnz-on")
-                                                                                       (util-js/class-push "lnz-off"))
+                                                                                   (do (util-js/class-pop element "lnz-on")
+                                                                                       (util-js/class-push element "lnz-off"))
                                                                                    (let [] ;(= 0 (count (.-value current)))
                                                                                      (reset! options-atm options)
                                                                                      (swap! options-atm (partial filter (fn [i] (let [text (if (string? i) i (last (clj->js i)))]
-                                                                                                                                                   (clojure.string/starts-with? text (.-value current))
-                                                                                                                                                   ))))))
+                                                                                                                                  (clojure.string/starts-with? text (.-value current))
+                                                                                                                                  ))))))
                                                                                  )))}
                                                                    (dissoc args :icon :id :on-click))
                                               label
