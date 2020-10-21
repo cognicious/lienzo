@@ -94,7 +94,7 @@
                                                                                    (util-js/class-push selected "lnz-selected")
                                                                                    (-> current
                                                                                        .-value
-                                                                                       (set! (util-js/elem->data selected))))
+                                                                                       (set! (util-js/element->data selected))))
                                                                                  (if (= key-code 13)
                                                                                    (do (util-js/class-pop element "lnz-on")
                                                                                        (util-js/class-push element "lnz-off"))

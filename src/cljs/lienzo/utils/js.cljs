@@ -57,10 +57,11 @@
    (event-add-remove element {(keyword type-add) [class]
                               (keyword type-rem) [class]})))
 
-(defn elem->data [element]
+(defn element->data [element]
   (let [child-nodes (.-childNodes element)
         child-nodes-length (.-length child-nodes)
         child-data (.-data (aget child-nodes (dec child-nodes-length)))]
     (if (undefined? child-data)
       (elem->data (aget child-nodes (dec child-nodes-length)))
       child-data)))
+
