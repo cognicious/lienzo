@@ -1,5 +1,6 @@
 (ns lienzo.utils.js
   (:require [goog.events :as gevents]
+            [goog.dom :as gdom]
             [goog.dom.classlist :as gclasses]))
 
 (def prefix "lnz-")
@@ -62,6 +63,12 @@
         child-nodes-length (.-length child-nodes)
         child-data (.-data (aget child-nodes (dec child-nodes-length)))]
     (if (undefined? child-data)
-      (elem->data (aget child-nodes (dec child-nodes-length)))
+      (element->data (aget child-nodes (dec child-nodes-length)))
       child-data)))
+
+(defn insert-sibling-before [id [tag opts inner]]
+  (.log js/console (pr-str {:id id}))
+  (let [anchor (gdom/getElement id)
+        selection (gdom/createDom (name tag) (clj->js opts) inner)]
+    (gdom/insertSiblingBefore selection anchor)))
 
