@@ -26,7 +26,8 @@
     
     (let [foo-node (-> js/document
                        (.getElementById \"foo\")
-                       (lienzo.utils.js/add-event-listener \"click\" (fn [] (js/alert \"ok\"))))]
+                       (lienzo.utils.js/add-event-listener \"click\" (fn [] (js/alert \"ok\")))
+                       (lienzo.utils.js/add-event-listener \"mouseover\" (fn [] (.log js/console \"mouseover\"))))]
      ; code
      )
     ```
@@ -36,7 +37,8 @@
   (deftest test-add-event-listener
     (let [foo-node (-> js/document
                        (.getElementById "foo")
-                  (utils-js/add-event-listener "click" #(js/alert "ok")))]
+                       (utils-js/add-event-listener "click" #(js/alert "ok"))
+                       (utils-js/add-event-listener "mouseover" #(.log js/console "mouseover")))]
       
       (testing "returned event is same as passed as param"
         (is (= foo-node (.getElementById js/document "foo")))))))
