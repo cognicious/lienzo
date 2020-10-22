@@ -49,6 +49,18 @@
     "## Adds a class to a given element.
 
     ```
+    [:div {:id \"bar\" :style {:border \"1px solid green\" :width \"100px\"}} \"bar\"]
+
+    ; some code
+
+    (let [foo-node (-> js/document
+                       (.getElementById \"bar\")
+                       (lienzo.utils.js/class-push \"foo\")
+                       (lienzo.utils.js/class-push \"foo\")
+                       (lienzo.utils.js/class-push \"bar\")
+                       (lienzo.utils.js/class-push \"foo\"))]
+     ; code
+     )
     ```"
     bar)
   (deftest test-class-push
