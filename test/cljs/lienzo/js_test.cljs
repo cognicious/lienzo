@@ -17,7 +17,7 @@
 
 (let [foo [:div {:id "foo" :style {:border "1px solid red" :width "100px"}} "foo"]] 
   (defcard-rg card-add-event-listener
-    " ##Adds an event listener for a specific event on a native event target.
+    "##Adds an event listener for a specific event on a native event target.
 
     ```
     [:div {:id \"foo\" :style {:border \"1px solid red\" :width \"100px\"}} \"foo\"]
@@ -44,3 +44,20 @@
         (is (= foo-node (.getElementById js/document "foo")))))))
 
 
+(let [bar [:div {:id "bar" :style  {:border "1px solid green" :width "100px"}} "bar"]]
+  (defcard-rg card-class-push
+    "## Adds a class to a given element.
+
+    ```
+    ```"
+    bar)
+  (deftest test-class-push
+    (let [bar-node (-> js/document
+                       (.getElementById "bar")
+                       (utils-js/class-push "foo")
+                       (utils-js/class-push "foo")
+                       (utils-js/class-push "bar")
+                       (utils-js/class-push "foo"))
+          _ (.log js/console bar-node)]
+      (testing "classes attached"
+        (is (= (.-className bar-node)  "foo bar")))))) 
