@@ -22,18 +22,21 @@
 
 (defn class-push [element class-one]
   (if (not (gclasses/contains element class-one))
-    (gclasses/add element class-one)))
+    (gclasses/add element class-one))
+  element)
 
 (defn class-pop [element class-one]
   (if (gclasses/contains element class-one)
-    (gclasses/remove element class-one)))
+    (gclasses/remove element class-one))
+  element)
 
 (defn class-toggle [element class-one class-two]
   (if (gclasses/contains element class-one)
     (do (gclasses/remove element class-one)
         (gclasses/add element class-two))
     (do (gclasses/remove element class-two)
-        (gclasses/add element class-one))))
+        (gclasses/add element class-one)))
+  )
 
 (defn event-add-remove
   ([element map]
@@ -66,9 +69,11 @@
       (element->data (aget child-nodes (dec child-nodes-length)))
       child-data)))
 
-(defn insert-sibling-before [id [tag opts inner]]
-  (.log js/console (pr-str {:id id}))
+(defn insert-sibling-before [id [tag {:keys [on-click] :as opts} inner]]
+  (.log js/console (pr-str {:id id :on-click on-click}))
   (let [anchor (gdom/getElement id)
-        selection (gdom/createDom (name tag) (clj->js opts) inner)]
+        selection (gdom/createDom (name tag) (clj->js opts) inner)
+        _ (add-event-listener selection "click" on-click)]
     (gdom/insertSiblingBefore selection anchor)))
 
+(defn create [])
