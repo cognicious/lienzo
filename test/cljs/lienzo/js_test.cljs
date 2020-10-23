@@ -109,14 +109,30 @@
 
 
 (let [state (r/atom "pressed")
-      qux (fn []  [:button.pressed {:id "qux" :on-click (fn [] (utils-js/class-toggle (.getElementById js/document "qux") "pressed" "unpressed")
-                                                         (reset! state (-> js/document (.getElementById "qux") (.-className)))
-                                                         (.log js/console @state))}])]
+      click-fn (fn []  (reset! state  (-> js/document
+                                          (.getElementById "qux")
+                                          (utils-js/class-toggle "pressed" "unpressed")
+                                          (.-className)
+                                          ))
+                 ;(reset! state (-> js/document (.getElementById "qux") (.-className)))
+                                       )
+      qux (fn []  [:button.pressed {:id "qux" :on-click click-fn} @state])]
   (defcard-rg card-class-toggle
+    "
+    ## Toggles a pair of classNames
+    ```
+    (let [state (reagent/atom \"pressed\")  ; initial state
+          click-fn (fn [] (reset! state (-> js/document  
+                                            (.getElementById \"qux\")
+                                            (lienzo.utils.js/class-toggle \"pressed\" \"unpressed\")
+                                            (.-className)))]
+      [:button.pressed  {:id \"qux\" :on-click click-fn} @state])
+    ```
+    "
     [qux]
     state
     {:inspect-data true})
   (deftest test-class-toggle
     (let [qux-node (.getElementById js/document "qux")]
       (testing "toogled class"
-        (is (= @state "pressed"))))))
+        (is (=  (.-className qux-node)  "pressed"))))))
