@@ -36,7 +36,7 @@
         (gclasses/add element class-two))
     (do (gclasses/remove element class-two)
         (gclasses/add element class-one)))
-  )
+  element)
 
 (defn event-add-remove
   ([element map]
