@@ -73,3 +73,48 @@
           _ (.log js/console bar-node)]
       (testing "classes attached"
         (is (= (.-className bar-node)  "foo bar")))))) 
+
+
+(let [baz [:div {:id "baz" :style  {:border "1px solid green" :width "100px"}} "baz"]]
+  (defcard-rg card-class-pop
+    "## Adds a class to a given element.
+
+    ```
+    [:div {:id \"baz\" :style {:border \"1px solid green\" :width \"100px\"}} \"baz\"]
+
+    ; some code
+
+    (let [foo-node (-> js/document
+                       (.getElementById \"baz\")
+                       (lienzo.utils.js/class-push \"foo\")
+                       (lienzo.utils.js/class-push \"bar\")
+                       (lienzo.utils.js/class-push \"baz\")
+                       (lienzo.utils.js/class-pop \"foo\")
+                       (lienzo.utils.js/class-pop \"foo\"))]
+     ; code
+     )
+    ```"
+    baz)
+  (deftest test-class-pop
+    (let [baz-node (-> js/document
+                       (.getElementById "baz")
+                       (utils-js/class-push "foo")
+                       (utils-js/class-push "baz")
+                       (utils-js/class-push "bar")
+                       (utils-js/class-pop "foo")
+                       (utils-js/class-pop "foo"))
+          _ (.log js/console baz-node)]
+      (testing "classes attached"
+        (is (= (.-className baz-node)  "baz bar"))))))
+
+
+(let [state (atom nil)
+      qux [:button.pressed {:id "qux" :on-click (fn [] (utils-js/class-toggle (.getElementById js/document "qux") "pressed" "unpressed")
+                                                  (reset! state (-> js/document (.getElementById "qux") (.-className))))}]]
+  (defcard-rg card-class-toggle
+    ""
+    qux)
+  (deftest test-class-toggle
+    (let [qux-node (.getElementById js/document "qux")]
+      (testing "toogled class"
+        (is (= @state "pressed"))))))
