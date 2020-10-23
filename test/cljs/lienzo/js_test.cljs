@@ -108,12 +108,14 @@
         (is (= (.-className baz-node)  "baz bar"))))))
 
 
-(let [state (atom nil)
-      qux [:button.pressed {:id "qux" :on-click (fn [] (utils-js/class-toggle (.getElementById js/document "qux") "pressed" "unpressed")
-                                                  (reset! state (-> js/document (.getElementById "qux") (.-className))))}]]
+(let [state (r/atom "pressed")
+      qux (fn []  [:button.pressed {:id "qux" :on-click (fn [] (utils-js/class-toggle (.getElementById js/document "qux") "pressed" "unpressed")
+                                                         (reset! state (-> js/document (.getElementById "qux") (.-className)))
+                                                         (.log js/console @state))}])]
   (defcard-rg card-class-toggle
-    ""
-    qux)
+    [qux]
+    state
+    {:inspect-data true})
   (deftest test-class-toggle
     (let [qux-node (.getElementById js/document "qux")]
       (testing "toogled class"
