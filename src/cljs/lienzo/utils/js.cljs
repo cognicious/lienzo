@@ -76,4 +76,3 @@
         _ (add-event-listener selection "click" on-click)]
     (gdom/insertSiblingBefore selection anchor)))
 
-(defn create [])
