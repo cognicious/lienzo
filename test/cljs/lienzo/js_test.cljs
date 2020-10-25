@@ -135,4 +135,5 @@
   (deftest test-class-toggle
     (let [qux-node (.getElementById js/document "qux")]
       (testing "toogled class"
-        (is (=  (.-className qux-node)  "pressed"))))))
+        (is (=  (.-className qux-node)  "pressed"))
+        (is (=  (let [_ (.click qux-node)](.-className qux-node)) "unpressed"))))))
