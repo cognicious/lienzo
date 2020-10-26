@@ -133,8 +133,6 @@
      :letter-spacing (rem letter-spacing)
      :line-height    (em 1.0)
      :min-height     (em 2.0)}
-    [:&.selection
-     {:font-size (rem font-size-m)}]
     [:&.lnz-over 
      [:span
       [:&.field {:animation [['pulse-textfield (ms 300)]]
@@ -166,7 +164,9 @@
        [:&.empty {:display 'none}]]
       [:&.field {:background 'white
                  :border [[(px 1) "dashed" disable-color]]}]]]
-    [:span 
+    [:span
+     [:&.selection
+      {:font-size (rem font-size-m)}]
      [:&.name {:display 'block}
       [:&.empty {:display 'none}]]
      [:&.field {:display 'inline-block
