@@ -133,6 +133,8 @@
      :letter-spacing (rem letter-spacing)
      :line-height    (em 1.0)
      :min-height     (em 2.0)}
+    [:&.selection
+     {:font-size (rem font-size-m)}]
     [:&.lnz-over 
      [:span
       [:&.field {:animation [['pulse-textfield (ms 300)]]
