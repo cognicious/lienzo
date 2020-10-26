@@ -166,7 +166,10 @@
                  :border [[(px 1) "dashed" disable-color]]}]]]
     [:span
      [:&.selection
-      {:font-size (rem font-size-m)}]
+      {:font-size (rem font-size-m)
+       :border [[(px 1) "solid" disable-color]]
+       :border-radius (rem border-radius)
+       :padding [[(em (+ (/ button-size 12) (/ border-radius 2))) (em (+ (/ button-size 6) (/ border-radius 2)))]]}]
      [:&.name {:display 'block}
       [:&.empty {:display 'none}]]
      [:&.field {:display 'inline-block
