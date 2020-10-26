@@ -144,7 +144,7 @@
     [(gs/input (gs/attr= :type :text)) {:outline 'none
                                         :border 'none
                                         :font-family font-family
-                                        :font-size font-size-m
+                                        :font-size (rem font-size-m)
                                         :background-color 'transparent}]
     [:&.lnz-disabled:before {:animation [['none '!important]]
                              :color disable-color
