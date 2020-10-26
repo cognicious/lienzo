@@ -145,6 +145,7 @@
                                         :border 'none
                                         :font-family font-family
                                         :font-size (rem font-size-m)
+                                        :font-weight 300
                                         :background-color 'transparent}]
     [:&.lnz-disabled:before {:animation [['none '!important]]
                              :color disable-color
@@ -178,7 +179,7 @@
      [:div {:color 'black
             :font-weight 300
             :margin-left (rem (* border-radius 8))}]
-     [:i {:font-size font-size-m}]]]])
+     [:i {:font-size (rem font-size-m)}]]]])
 
 (defn gen-checkbox []
   [(gs/input (gs/attr= :type :checkbox))
