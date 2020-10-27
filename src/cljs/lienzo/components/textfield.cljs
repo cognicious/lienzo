@@ -4,13 +4,16 @@
             [lienzo.utils.js :as util-js] 
             [reagent.core :as r]))
 
-(defn render [{:keys [id disabled read-only icon on-click] :or {id (random-uuid)} :as args} text]
+(defn render [{:keys [id disabled read-only icon on-click previous] :or {id (random-uuid)} :as args} text]
   (let [label-key (keyword (cond-> "label.textfield"
                              disabled (str ".lnz-disabled")
                              read-only (str ".lnz-read-only")))]
     [label-key  {:for id}
      [:span.name (if (or (nil? text) (empty? text)) {:class "empty"} {}) text]
-     [:span.field [:input (merge {:type "text"} (dissoc args :keyup :icon))]
+     [:span.field
+      [:span.previous
+       (into [:ul] (map (fn [s] [:li.lnz s]) previous))]
+      [:input (merge {:type "text"} (dissoc args :keyup :icon))]
       (if icon
         [icon (if on-click {:on-click on-click} {})])]]))
 
