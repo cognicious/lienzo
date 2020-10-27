@@ -250,7 +250,7 @@
                 [:100% ^:prefix {:opacity "1"}]))
 
 (defn gen-popup []
-  [:.lnz-popup])
+  [:.lnz-popup {:font-size (rem font-size-m)}])
 
 (defstyles garden-css
   [:.lnz 
