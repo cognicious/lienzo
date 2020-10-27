@@ -55,7 +55,7 @@
                                              [tf/textfield (merge  {:icon :i.fas.fa-angle-down
                                                                     :id input-id
                                                                     :auto-complete "off"
-                                                                    
+                                                                    :previous options
                                                                     :on-click (fn [e]
                                                                                 (let [element (.getElementById js/document popup-id)]
                                                                                   (util-js/class-toggle element "lnz-off" "lnz-on")
