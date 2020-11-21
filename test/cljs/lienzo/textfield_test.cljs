@@ -258,3 +258,13 @@
       (is (= (-> icon .-tagName) "I")))
     (testing "`<label>` contains 'React!' as textContent?"
       (is (= (-> label .-textContent) "React!")))))
+
+
+(defcard-rg card-textfield-password
+  "
+  ## A password entry
+  ```
+  [textfield {:icon :i.fab.fa-react :type \"password\"} \"Password\"]
+  ```
+  "
+  [:div.lnz [textfield {:icon :i.fas.fa-lock :type "password"} "Password"]])
