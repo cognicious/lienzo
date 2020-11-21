@@ -141,12 +141,14 @@
     [:&.lnz-focus
      [:span
       [:&.field {}]]]
-    [(gs/input (gs/attr= :type :text)) {:outline 'none
-                                        :border 'none
-                                        :font-family font-family
-                                        :font-size (rem font-size-m)
-                                        :font-weight 300
-                                        :background-color 'transparent}]
+    [(gs/input (gs/attr= :type :text)) 
+     (gs/input (gs/attr= :type :password)) {:outline 'none
+                                            :border 'none
+                                            :font-family font-family
+                                            :font-size (rem font-size-m)
+                                            :font-weight 300
+                                            :background-color 'transparent}]
+    
     [:&.lnz-disabled:before {:animation [['none '!important]]
                              :color disable-color
                              :cursor 'not-allowed}]
