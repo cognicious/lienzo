@@ -11,7 +11,7 @@
     [label-key  {:for id}
      [:span.name (if (or (nil? text) (empty? text)) {:class "empty"} {}) text]
      [:span.field
-      [:span.previous
+      #_[:span.previous
        (into [:ul] (map (fn [s] [:li.lnz s]) previous))]
       [:input (merge {:type "text"} (dissoc args :keyup :icon))]
       (if icon
