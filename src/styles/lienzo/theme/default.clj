@@ -141,7 +141,8 @@
     [:&.lnz-focus
      [:span
       [:&.field {}]]]
-    [(gs/input (gs/attr= :type :text)) 
+    [(gs/input (gs/attr= :type :text))
+     (gs/input (gs/attr= :type :number))
      (gs/input (gs/attr= :type :password)) {:outline 'none
                                             :border 'none
                                             :font-family font-family
