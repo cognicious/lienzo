@@ -273,7 +273,7 @@
   "
   ## A number entry
   ```
-  [textfield {:icon :i.fas.fa-plus :type \"number\"} \"Password\"]
+  [textfield {:icon :i.fas.fa-plus :type \"number\"} \"Add\"]
   ```
   "
   [:div.lnz [textfield {:icon :i.fas.fa-plus :type "number"} "Add"]])
