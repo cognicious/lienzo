@@ -264,7 +264,16 @@
   "
   ## A password entry
   ```
-  [textfield {:icon :i.fab.fa-react :type \"password\"} \"Password\"]
+  [textfield {:icon :i.fas.fa-lock :type \"password\"} \"Password\"]
   ```
   "
   [:div.lnz [textfield {:icon :i.fas.fa-lock :type "password"} "Password"]])
+
+(defcard-rg card-textfield-number
+  "
+  ## A number entry
+  ```
+  [textfield {:icon :i.fas.fa-plus :type \"number\"} \"Password\"]
+  ```
+  "
+  [:div.lnz [textfield {:icon :i.fas.fa-plus :type "number"} "Add"]])
