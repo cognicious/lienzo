@@ -273,7 +273,16 @@
   "
   ## A number entry
   ```
-  [textfield {:icon :i.fas.fa-plus :type \"number\"} \"Add\"]
+  [textfield {:icon :i.fas.fa-plus :type \"number\"} \"Token\"]
   ```
   "
-  [:div.lnz [textfield {:icon :i.fas.fa-plus :type "number"} "Add"]])
+  [:div.lnz [textfield {:icon :i.fas.fa-plus :type "text" :pattern "[0-9]*"} "Token"]])
+
+(defcard-rg card-textfield-datetime-local
+  "
+  ## A datetime-local entry
+  ```
+  [textfield {:icon :i.fas.fa-calendar-day :type \"datetime-local\"} \"Datetime\"]
+  ```
+  "
+  [:div.lnz [textfield {:icon :i.fas.fa-calendar-day :type "datetime-local"} "Datetime"]])
